@@ -1,6 +1,5 @@
 
 const useComponentLayout = component => () => import(`@/components/layout/${component}.vue`);
-
 const useLayout = component => () => import(`@/view/layout/${component}.vue`);
 const usePage = page => () => import(`@/view/page/${page}.vue`);
 
@@ -14,7 +13,7 @@ const publicRoutes = [
                 name: 'home',
                 meta: {
                     title: "Gizmo Shop",
-                    description: ""
+                    description: "Đồ công nghệ Giá rẻ   "
                 },
                 components: {
                     default: usePage('homePage'),

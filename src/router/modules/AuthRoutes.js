@@ -11,8 +11,8 @@ const guestRoutesAuth = [
                 path: 'login',
                 name: 'login',
                 meta: {
-                    title: "Quản Lý Cửa Hàng",
-                    description: "Đăng nhập"
+                    title: "Gizmo Shop",
+                    description: "Đồ công nghệ Giá rẻ"
                 },
                 components: {
                     default: usePage('login'),
