@@ -1,9 +1,9 @@
 <template>
-  <footer class="w-full bg-white border-t border-gray-300 shadow-md mt-5">
+  <footer class="w-full bg-white border-t border-gray-300 shadow-md">
     <div class="mx-auto max-w-7xl">
       <!--Grid-->
       <div
-        class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-8 py-14 max-w-xs mx-auto sm:max-w-2xl md:max-w-3xl lg:max-w-full"
+        class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-8 py-4  max-w-xs mx-auto sm:max-w-2xl md:max-w-3xl lg:max-w-full"
       >
         <div class="col-span-full lg:col-span-2 lg:mb-0">
           <a href="#" class="flex justify-center lg:justify-start"> </a>

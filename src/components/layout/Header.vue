@@ -50,14 +50,14 @@
                 href="#"
                 class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
               >
-                <i class="bx bx-notepad  mr-2  text-2xl "></i>
+                <i class="bx bx-notepad  mr-2   "></i>
                 <span class="hidden lg:inline">Danh muc</span>
               </a>
               <a
                 href="#"
                 class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
               >
-                <i class="bx bx-search-alt mr-2  text-2xl"></i>
+                <i class="bx bx-search-alt mr-2 "></i>
                 <span class="hidden lg:inline">Tra cứu</span>
               </a>
               <form class="flex items-center mx-auto">
@@ -77,14 +77,14 @@
                 href="#"
                 class="rounded-md px-1.5 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black pr-5"
               >
-                <i class="bx bx-notepad mr-2  text-2xl"></i>
+                <i class="bx bx-notepad mr-2"></i>
                 <span class="hidden lg:inline">Xây dựng cấu hình</span>
               </a>
               <a
                 href="#"
                 class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
               >
-                <i class="bx bx-cart mr-2  text-2xl"></i
+                <i class="bx bx-cart mr-2 "></i
                 ><span class="hidden lg:inline">Giỏ hàng</span>
               </a>
             </div>
