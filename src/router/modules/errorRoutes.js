@@ -3,8 +3,8 @@
 
 
 const useLayout = component => () => import(`@/view/layout/${component}.vue`);
-const usePage = page => () => import(`@/view/page/${page}.vue`);
-
+// const usePage = page => () => import(`@/view/page/${page}.vue`);
+const useErrorPage = page => () => import(`@/view/error/${page}.vue`);
 const errorRoutes = [
     {
         path: '/err',
@@ -19,7 +19,7 @@ const errorRoutes = [
                     description: "Gizmo"
                 },
                 components: {
-                    default: usePage('404'),
+                    default: useErrorPage('404'),
 
                 }
 
@@ -32,7 +32,7 @@ const errorRoutes = [
                     description: "Gizmo"
                 },
                 components: {
-                    default: usePage('403'),
+                    default: useErrorPage('403'),
 
                 }
 
@@ -45,7 +45,7 @@ const errorRoutes = [
                     description: "Gizmo"
                 },
                 components: {
-                    default: usePage('500'),
+                    default: useErrorPage('500'),
                 }
             },
             {

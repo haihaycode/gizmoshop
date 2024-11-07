@@ -1,0 +1,86 @@
+<template>
+    <div class="relative w-full mx-auto overflow-hidden" @touchstart="startSwipe" @touchmove="swiping"
+        @touchend="endSwipe">
+        <div class="flex transition-transform duration-500"
+            :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
+            <div v-for="(item, index) in itemsToDisplay" :key="index"
+                class="flex-shrink-0 w-full relative h-[150px] sm:h-80 md:h-[300px] lg:h-[300px] xl:h-[400px]">
+                <img :src="item.image" alt="Slide image" class="w-full h-full object-cover" />
+            </div>
+        </div>
+
+        <button @click="prevSlide"
+            class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-opacity-50 text-white p-2 rounded-full">
+            <i class='bx bx-chevron-left'></i>
+        </button>
+        <button @click="nextSlide"
+            class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-opacity-50 text-white p-2 rounded-full">
+            <i class='bx bx-chevron-right'></i>
+        </button>
+
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <span v-for="(item, index) in itemsToDisplay" :key="index"
+                :class="['w-3 h-3 rounded-full cursor-pointer', currentIndex === index ? 'bg-white' : 'bg-gray-300']"
+                @click="goToSlide(index)"></span>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'CarouselComponent',
+    props: {
+        items: {
+            type: Array,
+            default: () => [
+                { name: "Slide 1", description: "", image: "https://truonggiang.vn/wp-content/uploads/2023/01/banner-pc-tg.jpg" },
+                { name: "Slide 2", description: "Giảm giá sập sàn tháng 11", image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/may-choi-game-sony-playstation-5-slim-home.png" },
+                { name: "Slide 3", description: "Description for Slide 3", image: "https://via.placeholder.com/800x400" }
+            ]
+        }
+    },
+    data() {
+        return {
+            currentIndex: 0,
+            startX: 0,
+            deltaX: 0
+        };
+    },
+    computed: {
+        itemsToDisplay() {
+            return this.items.length ? this.items : this.$options.props.items.default();
+        }
+    },
+    methods: {
+        nextSlide() {
+            this.currentIndex = (this.currentIndex + 1) % this.itemsToDisplay.length;
+        },
+        prevSlide() {
+            this.currentIndex = (this.currentIndex - 1 + this.itemsToDisplay.length) % this.itemsToDisplay.length;
+        },
+        goToSlide(index) {
+            this.currentIndex = index;
+        },
+        startSwipe(event) {
+            this.startX = event.touches[0].clientX;
+            this.deltaX = 0;
+        },
+        swiping(event) {
+            const currentX = event.touches[0].clientX;
+            this.deltaX = currentX - this.startX;
+        },
+        endSwipe() {
+            const swipeThreshold = 50;
+            if (this.deltaX > swipeThreshold) {
+                this.prevSlide();
+            } else if (this.deltaX < -swipeThreshold) {
+                this.nextSlide();
+            }
+            this.startX = 0;
+            this.deltaX = 0;
+        }
+    }
+};
+</script>
+
+<style scoped></style>
