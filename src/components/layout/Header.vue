@@ -7,7 +7,7 @@
           <!-- Mobile menu button-->
           <button
             type="button"
-            class="relative inline-flex items-center justify-center rounded-md p-2 text-black hover:bg-gray-50 hover:text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-black hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
             aria-controls="mobile-menu"
             aria-expanded="false"
             @click="OpenMenu"
@@ -45,19 +45,20 @@
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
+           
               <a
                 href="#"
-                class="rounded-md px-1.5 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
               >
-                <i class="bx bx-notepad mr-2"></i>
-                <span class="hidden lg:inline">Doanh mục</span>
+                <i class="bx bx-notepad  mr-2  text-2xl "></i>
+                <span class="hidden lg:inline">Danh muc</span>
               </a>
               <a
                 href="#"
-                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
               >
-                <i class="bx bx-gift mr-2"></i>
-                <span class="hidden lg:inline">Ưu đãi</span>
+                <i class="bx bx-search-alt mr-2  text-2xl"></i>
+                <span class="hidden lg:inline">Tra cứu</span>
               </a>
               <form class="flex items-center mx-auto">
                 <div class="relative w-full">
@@ -71,25 +72,19 @@
                 </div>
               </form>
 
-              <a
+             
+                 <a
                 href="#"
-                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+                class="rounded-md px-1.5 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black pr-5"
               >
-                <i class="bx bx-phone mr-2"></i>
-                <span class="hidden lg:inline">Liên Hệ</span>
+                <i class="bx bx-notepad mr-2  text-2xl"></i>
+                <span class="hidden lg:inline">Xây dựng cấu hình</span>
               </a>
               <a
                 href="#"
-                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
               >
-                <i class="bx bx-search-alt mr-2"></i>
-                <span class="hidden lg:inline">Tra cứu</span>
-              </a>
-              <a
-                href="#"
-                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
-              >
-                <i class="bx bx-cart mr-2"></i
+                <i class="bx bx-cart mr-2  text-2xl"></i
                 ><span class="hidden lg:inline">Giỏ hàng</span>
               </a>
             </div>
@@ -171,27 +166,27 @@
       <div class="space-y-1 px-2 pb-3 pt-2">
         <a
           href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
           >Doanh mục</a
         >
         <a
           href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
           >Ưu đãi</a
         >
         <a
           href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
           >Liên hệ</a
         >
         <a
           href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
           >Tra cứu</a
         >
         <a
           href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-50 hover:text-black"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
           >Giỏ hàng</a
         >
       </div>
