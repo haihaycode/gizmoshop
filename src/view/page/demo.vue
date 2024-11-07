@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-200 bg-opacity-30 shadow-md shadow-black/5  md:m-0">
+    <div class="md:m-0 h-screen">
         <ImageCarouselComponent></ImageCarouselComponent>
     </div>
 </template>

@@ -17,7 +17,8 @@ const publicRoutes = [
                 },
                 components: {
                     default: usePage('demo'),
-                    header: useComponentLayout('Header')
+                    header: useComponentLayout('Header'),
+                    footer: useComponentLayout('Footer')
 
                 }
             },
@@ -32,7 +33,7 @@ const publicRoutes = [
                     default: usePage('homePage'),
                     header: useComponentLayout('Header'),
                     footer: useComponentLayout('Footer')
-                    
+
 
                 }
             },

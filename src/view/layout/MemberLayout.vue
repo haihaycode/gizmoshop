@@ -1,25 +1,27 @@
 <template>
   <div class="text-gray-800 font-inter">
-    <!-- <router-view name="sideBar"></router-view> -->
+    <!-- Header -->
+    <router-view name="header"></router-view>
 
-    <main class="w-full  bg-gray-50 min-h-screen transition-all main relative">
-      <!-- Navbar -->
-      <router-view name="header"></router-view>
-      <!-- End Navbar -->
+    <main class="w-full mx-auto container min-h-screen transition-all main relative mt-[80px]">
+      <!-- Nội dung chính -->
+      <section class="main xl:max-w-7xl mx-auto">
+        <!-- Loading Component -->
+        <LoadingComponent v-if="isLoading" :loading="isLoading" />
 
-      <!-- Content -->
-      <section class="main mt-7">
-        <!-- Use Vuex's isLoading state -->
-        <LoadingComponent v-if="isLoading" :loading="isLoading"></LoadingComponent>
+        <!-- Router View cho nội dung chính -->
         <router-view></router-view>
       </section>
-      <!-- End Content -->
-      <router-view name="footer" class="footer"></router-view>
+      <!-- Kết thúc nội dung chính -->
+
+      <!-- Scroll To Top Component -->
       <ScrollToTopComponent />
     </main>
+
+    <!-- Footer -->
+    <router-view name="footer" class="footer"></router-view>
   </div>
 </template>
-
 <script>
 import LoadingComponent from '@/components/containers/loading/LoadingComponent.vue';
 import ScrollToTopComponent from '@/components/containers/scroll/ScrollToTopComponent.vue';

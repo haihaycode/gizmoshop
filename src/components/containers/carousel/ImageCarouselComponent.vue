@@ -1,27 +1,29 @@
 <template>
-    <div class="relative w-full mx-auto overflow-hidden" @touchstart="startSwipe" @touchmove="swiping"
-        @touchend="endSwipe">
-        <div class="flex transition-transform duration-500"
-            :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-            <div v-for="(item, index) in itemsToDisplay" :key="index"
-                class="flex-shrink-0 w-full relative h-[150px] sm:h-80 md:h-[300px] lg:h-[300px] xl:h-[400px]">
-                <img :src="item.image" alt="Slide image" class="w-full h-full object-cover" />
+    <div>
+        <div class=" relative w-full mx-auto overflow-hidden rounded-none sm:rounded-md md:rounded-md lg:rounded-md"
+            @touchstart="startSwipe" @touchmove="swiping" @touchend="endSwipe">
+            <div class="flex transition-transform duration-500"
+                :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
+                <div v-for="(item, index) in itemsToDisplay" :key="index"
+                    class="flex-shrink-0 w-[100%] relative h-[150px] sm:h-80 md:h-[300px] lg:h-[300px] xl:h-[400px]">
+                    <img :src="item.image" alt="Slide image" class="w-full h-full" />
+                </div>
             </div>
-        </div>
 
-        <button @click="prevSlide"
-            class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-opacity-50 text-white p-2 rounded-full">
-            <i class='bx bx-chevron-left'></i>
-        </button>
-        <button @click="nextSlide"
-            class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-opacity-50 text-white p-2 rounded-full">
-            <i class='bx bx-chevron-right'></i>
-        </button>
+            <button @click="prevSlide"
+                class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-opacity-50 text-white p-2 rounded-full">
+                <i class='bx bx-chevron-left text-2xl'></i>
+            </button>
+            <button @click="nextSlide"
+                class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-opacity-50 text-white p-2 rounded-full">
+                <i class='bx bx-chevron-right text-2xl'></i>
+            </button>
 
-        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            <span v-for="(item, index) in itemsToDisplay" :key="index"
-                :class="['w-3 h-3 rounded-full cursor-pointer', currentIndex === index ? 'bg-white' : 'bg-gray-300']"
-                @click="goToSlide(index)"></span>
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                <span v-for="(item, index) in itemsToDisplay" :key="index"
+                    :class="['w-3 h-3 rounded-full cursor-pointer', currentIndex === index ? 'bg-white' : 'bg-gray-300']"
+                    @click="goToSlide(index)"></span>
+            </div>
         </div>
     </div>
 </template>
@@ -35,7 +37,8 @@ export default {
             default: () => [
                 { name: "Slide 1", description: "", image: "https://truonggiang.vn/wp-content/uploads/2023/01/banner-pc-tg.jpg" },
                 { name: "Slide 2", description: "Giảm giá sập sàn tháng 11", image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/may-choi-game-sony-playstation-5-slim-home.png" },
-                { name: "Slide 3", description: "Description for Slide 3", image: "https://via.placeholder.com/800x400" }
+                { name: "Slide 2", description: "Giảm giá sập sàn tháng 11", image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/may-choi-game-sony-playstation-5-slim-home.png" },
+                { name: "Slide 2", description: "Giảm giá sập sàn tháng 11", image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/may-choi-game-sony-playstation-5-slim-home.png" },
             ]
         }
     },
