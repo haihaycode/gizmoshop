@@ -17,7 +17,9 @@ const publicRoutes = [
                 },
                 components: {
                     default: usePage('homePage'),
-                    header: useComponentLayout('Header')
+                    header: useComponentLayout('Header'),
+                    footer: useComponentLayout('Footer')
+                    
 
                 }
             },

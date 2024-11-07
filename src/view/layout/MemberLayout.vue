@@ -1,19 +1,20 @@
 <template>
   <div class="text-gray-800 font-inter">
-    <router-view name="sideBar"></router-view>
+    <!-- <router-view name="sideBar"></router-view> -->
 
-    <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main relative">
+    <main class="w-full  bg-gray-50 min-h-screen transition-all main relative">
       <!-- Navbar -->
       <router-view name="header"></router-view>
       <!-- End Navbar -->
 
       <!-- Content -->
-      <section class="main">
+      <section class="main mt-7">
         <!-- Use Vuex's isLoading state -->
         <LoadingComponent v-if="isLoading" :loading="isLoading"></LoadingComponent>
         <router-view></router-view>
       </section>
       <!-- End Content -->
+      <router-view name="footer" class="footer"></router-view>
       <ScrollToTopComponent />
     </main>
   </div>
