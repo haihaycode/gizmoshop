@@ -1,45 +1,95 @@
 <template>
-  <div class="">
-    <div class="min-h-screen flex items-center justify-center bg-gray-100">
-      <div class="bg-white p-8 rounded-lg md:shadow-md sm:shadow-none md:w-full max-w-md">
-        <h2 class="text-2xl font-bold text-center mb-6">
-          Quản Trị Viên <span class="text-blue-500">GizmoShop</span>
-        </h2>
+  <div class="flex h-screen bg-gray-100" style="
+        background-image: url('https://i.pinimg.com/736x/41/60/7d/41607d7cc517513f13d335087de68d71.jpg');
+        background-size: cover;
+        background-position: center;
+      ">
+    <div class="w-5/6 h-5/6 flex items-center justify-center mx-auto my-auto rounded-lg">
+      <div class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg">
+        <h1 class="text-5xl font-extrabold mb-6 text-red-600">Gizmo</h1>
+        <p class="text-lg text-gray-700 mb-8">Chào mừng trở lại! Nhập thông tin để tiếp tục.</p>
 
-        <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }">
+        <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }" class="w-full max-w-sm">
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-              Email *
-            </label>
-            <Field name="email"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              :class="errors.email ? 'border-red-500' : ''" id="email" type="email" placeholder="" required />
-            <p class="lg:text-sm text-red-500">{{ errors.email }}</p>
+            <Field
+              name="email"
+              type="email"
+              placeholder="Email"
+              required
+              class="w-full p-4 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md"
+              :class="errors.email ? 'border-red-500' : ''"
+            />
+            <p class="text-sm text-red-500">{{ errors.email }}</p>
           </div>
-          <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-              Mật khẩu *
-            </label>
+          <div class="mb-4">
             <div class="relative">
-              <Field name="password"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                :type="passwordType" id="password" placeholder="**************" required
-                :class="errors.password ? 'border-red-500' : ''" />
-              <i class=" absolute right-3 top-3 cursor-pointer" @click="togglePassword"
-                :class="passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'"></i>
+              <Field
+                name="password"
+                :type="passwordType"
+                placeholder="Mật khẩu"
+                required
+                class="w-full p-4 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md"
+                :class="errors.password ? 'border-red-500' : ''"
+              />
+              <i
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                @click="togglePassword"
+                :class="passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'"
+              ></i>
             </div>
-            <p class="lg:text-sm text-red-500">{{ errors.password }}</p>
+            <p class="text-sm text-red-500">{{ errors.password }}</p>
           </div>
-          <div class="flex items-center justify-end">
-            <BUTTON :isLoading="isLoading" color="bg-gray-500" disabledColor="bg-gray-300" text="Đăng nhập"></BUTTON>
+
+          <div>
+            <BUTTON
+              :isLoading="isLoading"
+              color="bg-red-600"
+              disabledColor="bg-red-300"
+              text="Đăng nhập"
+              class="w-full p-4 font-bold rounded-lg hover:bg-red-700 transition duration-200 shadow-lg"
+            ></BUTTON>
           </div>
         </Form>
+
+        <a href="#" class="text-red-600 mt-4 hover:underline">Quên mật khẩu?</a>
+        <p class="mt-4 text-sm text-gray-600">
+          Chưa có tài khoản?
+          <a href="#" class="text-red-600 hover:underline">Đăng ký ngay</a>
+        </p>
+      </div>
+
+      <!-- Welcome Section -->
+      <div class="hidden md:flex md:w-1/3 lg:w-1/2 h-full flex-col justify-center items-center text-white text-center p-10 relative rounded-lg overflow-hidden" style="
+          background-image: url('https://i.pinimg.com/564x/53/91/15/539115966ea3c25b220d23ed23ee5848.jpg');
+          background-size: cover;
+          background-position: center;
+        ">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+
+        <!-- Welcome Content -->
+        <div class="relative z-10">
+          <h2 class="text-4xl font-extrabold mb-4">Chào mừng bạn!</h2>
+          <p class="mb-8 text-lg">
+            Hãy đăng ký và bắt đầu hành trình cùng chúng tôi.
+          </p>
+          <button
+            class="py-3 px-10 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-red-600 transition duration-200 shadow-lg"
+          >
+            Đăng ký
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Notification Modal -->
-    <NotificationModal :isOpen="isModalOpen" :title="'Thông báo'" :message="message" :type="messageType"
-      @close="isModalOpen = false" />
+    <NotificationModal
+      :isOpen="isModalOpen"
+      :title="'Thông báo'"
+      :message="message"
+      :type="messageType"
+      @close="isModalOpen = false"
+    />
   </div>
 </template>
 
@@ -60,7 +110,7 @@ export default {
         .required("Email là bắt buộc *")
         .email("Email không đúng định dạng *"),
       password: Yup.string()
-        .min(8, "Password tổi thiểu 8 ký tự *")
+        .min(8, "Password tối thiểu 8 ký tự *")
         .required("Password là bắt buộc *"),
     });
     return {
@@ -74,7 +124,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("loading", ["isLoading"]), // Lấy giá trị isLoading từ Vuex
+    ...mapGetters("loading", ["isLoading"]),
   },
   components: {
     Form,
@@ -83,14 +133,14 @@ export default {
     NotificationModal,
   },
   methods: {
-    ...mapActions("auth", ["setToken", "setRefreshToken"]), // Map actions để lưu token và refreshToken
+    ...mapActions("auth", ["setToken", "setRefreshToken"]),
     async handleLogin(values) {
       try {
         const loginData = {
           email: values.email,
           password: values.password,
         };
-        const response = await loginApi(loginData); //call api login
+        const response = await loginApi(loginData);
         const isAdmin = handleAuthentication(
           response.data.accessToken,
           response.data.refreshToken
@@ -115,4 +165,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Additional styling if needed */
+</style>

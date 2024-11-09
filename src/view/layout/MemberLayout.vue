@@ -10,15 +10,12 @@
         <!-- Loading Component -->
         <LoadingComponent v-if="isLoading" :loading="isLoading" />
 
-        <!-- Router View cho nội dung chính -->
         <router-view></router-view>
       </section>
-      <!-- Kết thúc nội dung chính -->
-
-      <!-- Scroll To Top Component -->
+     
       <ScrollToTopComponent />
     </main>
-
+    <router-view name="mobile" class="block md:hidden"></router-view>
     <!-- Footer -->
     <router-view name="footer" class="footer"></router-view>
   </div>

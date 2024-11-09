@@ -17,9 +17,22 @@ const guestRoutesAuth = [
                 components: {
                     default: usePage('login'),
                 }
+            },{
+                path: '/signin',
+                name: 'signin',
+                meta: {
+                    title: "Gizmo Shop",
+                    description: "Đồ công nghệ Giá rẻ   "
+                },
+                components: {
+                    default: usePage('signin'),
+                   
+        
+                }
             },
 
         ]
     },
+    
 ]
 export default guestRoutesAuth;

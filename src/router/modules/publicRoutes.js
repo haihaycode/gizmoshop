@@ -34,11 +34,12 @@ const publicRoutes = [
                     default: usePage('homePage'),
                     header: useComponentLayout('Header'),
                     footer: useComponentLayout('Footer'),
-                    sidebar:useComponentLayout('SidebarComponent')
+                    sidebar:useComponentLayout('SidebarComponent'),
+                    mobile:useComponentLayout('ResponsiveMobile')
 
                 }
             },
-
+            
         ]
     }
 ];
