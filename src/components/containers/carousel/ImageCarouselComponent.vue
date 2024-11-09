@@ -6,7 +6,7 @@
                 :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
                 <div v-for="(item, index) in itemsToDisplay" :key="index"
                     class="flex-shrink-0 w-[100%] relative h-[150px] sm:h-80 md:h-[300px] lg:h-[300px] xl:h-[400px]">
-                    <img :src="item.image" alt="Slide image" class="w-full h-full" />
+                    <img :src="loadImage(item.image, 'voucher')" alt="đang tải" class="w-full h-full" />
                 </div>
             </div>
 
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { loadImage } from '@/services/imageService';
+
 export default {
     name: 'CarouselComponent',
     props: {
@@ -55,6 +57,7 @@ export default {
         }
     },
     methods: {
+        loadImage,
         nextSlide() {
             this.currentIndex = (this.currentIndex + 1) % this.itemsToDisplay.length;
         },

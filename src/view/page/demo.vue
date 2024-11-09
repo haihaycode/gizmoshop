@@ -1,19 +1,15 @@
 <template>
     <div class="md:m-0 h-screen">
-        <ImageCarouselComponent></ImageCarouselComponent>
+        <carouselVoucherComponent></carouselVoucherComponent>
     </div>
 </template>
-
 <script>
-import ImageCarouselComponent from '@/components/containers/carousel/ImageCarouselComponent.vue';
 
-
-
+import carouselVoucherComponent from '@/components/carouselHome/carouselVoucherComponent.vue';
 export default {
     name: 'demoTestDev',
     components: {
-        ImageCarouselComponent,
-
+        carouselVoucherComponent,
     }
 };
 </script>
