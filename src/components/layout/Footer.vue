@@ -1,5 +1,5 @@
 <template>
-  <footer class="w-full bg-white border-t border-gray-300 shadow-md">
+  <footer class="w-full bg-white border-t border-gray-300 shadow-md mt-4 ">
     <div class="mx-auto max-w-7xl">
       <!--Grid-->
       <div

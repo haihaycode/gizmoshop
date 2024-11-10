@@ -1,6 +1,7 @@
 <template>
   <div
-    class="fixed bottom-0 left-0 w-full bg-white shadow-lg flex justify-between px-4 py-3 md:max-w-lg md:mx-auto items-center rounded-t-lg"
+    class="fixed bottom-0 left-0 w-full bg-white shadow-lg flex  justify-between px-4 py-3 md:max-w-lg md:mx-auto items-center rounded-t-lg"
+  style="z-index: 50;"
   >
     <!-- Home Icon -->
     <button class="icon w-12 h-12 flex items-center justify-center transition-all duration-200 hover:bg-gray-100">
