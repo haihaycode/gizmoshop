@@ -2,22 +2,23 @@
   <div class="text-gray-800 font-inter">
     <!-- Header -->
     <router-view name="header"></router-view>
-   
+
 
     <main class="w-full mx-auto container min-h-screen transition-all main relative mt-[80px]">
-       <router-view name="sidebar"></router-view>
+      <router-view name="sidebar"></router-view>
       <section class="main xl:max-w-7xl mx-auto">
         <!-- Loading Component -->
-        <LoadingComponent v-if="isLoading" :loading="isLoading" />
 
         <router-view></router-view>
       </section>
-     
+
       <ScrollToTopComponent />
     </main>
     <router-view name="mobile" class="block md:hidden"></router-view>
+
     <!-- Footer -->
     <router-view name="footer" class="footer"></router-view>
+    <LoadingComponent v-if="isLoading" :loading="isLoading" />
   </div>
 </template>
 <script>

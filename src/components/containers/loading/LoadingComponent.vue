@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-40 z-10">
+    <div v-if="loading" class="absolute inset-0 flex items-center justify-center  bg-opacity-40 z-10">
         <div class="loader">
             <div class="dot"></div>
             <div class="dot"></div>

@@ -6,41 +6,31 @@
             </div>
         </template>
         <template #body>
-            <form class="max-w-md mx-auto p-6">
+            <form class="max-w-md mx-auto p-6" @submit.prevent="verifyEmail">
 
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Nhập email mới</label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        type="text" v-model="email" @input="validateEmail" placeholder="example@gmail.com" />
-                    <span v-if="emailError" class="text-red-500 text-sm mt-2">{{ emailError }}</span>
-                </div>
 
+                <!-- OTP Send Button -->
                 <div class="mb-4 flex items-center justify-between">
-                    <Button :isLoading="isLoading" :text="isOtpSending ? `Gửi lại sau ${countdown}s` : 'Gửi OTP'"
-                        type="submit" @click="sendOtp" :disabled="!email || emailError || isOtpSending"
-                        class="bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 hover:bg-blue-600 disabled:opacity-50">
+                    <CustomInputComponent label="Nhập email mới" v-model="email" :error="!!emailError"
+                        :message="emailError" @input="validateEmail" placeholder="example@gmail.com" />
+
+                    <Button :text="isOtpSending ? `Gửi lại sau ${countdown}s` : 'Gửi'" type="button" @click="sendOtp"
+                        :disabled="!email || emailError || isOtpSending"
+                        class="bg-red-500 mb-2 text-white font-bold rounded-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 hover:bg-red-600 disabled:opacity-50">
                     </Button>
-
-                </div>
-
-                <div class="mb-4">
-                    <label for="otp" class="block text-gray-700 text-sm font-bold mb-2">Nhập OTP</label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        type="text" v-model="otp" @input="validateOtp" placeholder="Nhập mã OTP" />
-                    <span v-if="otpError" class="text-red-500 text-sm mt-2">{{ otpError }}</span>
                 </div>
 
 
+                <!-- OTP Verify Button -->
                 <div class="flex items-center justify-between">
-                    <Button :isLoading="isLoading" :text="'Xác nhận OTP'" type="submit" @click="verifyEmail"
-                        :disabled="otpError || !otp"
-                        class="bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 hover:bg-green-600 disabled:opacity-50">
+                    <CustomInputComponent label="Nhập OTP" v-model="otp" :error="!!otpError" :message="otpError"
+                        @input="validateOtp" placeholder="Nhập mã OTP" />
+
+                    <Button :text="'Xác nhận'" type="submit" :disabled="otpError || !otp"
+                        class="bg-green-500 mb-2 text-white font-bold text-base rounded-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 hover:bg-green-600 disabled:opacity-50">
                     </Button>
                 </div>
             </form>
-
         </template>
         <template #footer></template>
     </ModalBox>
@@ -49,14 +39,16 @@
 <script>
 import ModalBox from '@/components/containers/modal/ModalBox.vue';
 import Button from '../containers/buttons/button.vue';
-import { sendOtp, verifyEmail } from '@/api/auth/meApi'
+import CustomInputComponent from '@/components/containers/input/CustomInputComponent.vue';
+import { sendOtp, verifyEmail } from '@/api/auth/meApi';
 import { mapGetters } from 'vuex';
 
 export default {
     name: 'changeEmail',
     components: {
         ModalBox,
-        Button
+        Button,
+        CustomInputComponent,
     },
     props: {
         isOpen: {
@@ -76,7 +68,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('loading', ['isLoading'])
+        ...mapGetters('loading', ['isLoading']),
     },
     methods: {
         closeModal() {
@@ -101,14 +93,11 @@ export default {
         },
         async sendOtp() {
             try {
-                this.startCountdown()
-                const emailNew = {
-                    newEmail: this.email
-                }
-                await sendOtp(emailNew)
-
+                this.startCountdown();
+                const emailNew = { newEmail: this.email };
+                await sendOtp(emailNew);
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         },
         startCountdown() {
@@ -128,16 +117,11 @@ export default {
         },
         async verifyEmail() {
             try {
-                this.startCountdown()
-                const emailNewandOtp = {
-                    newEmail: this.email,
-                    otp: this.otp
-                }
-                await verifyEmail(emailNewandOtp)
-                this.closeModal()
-
+                const emailNewandOtp = { newEmail: this.email, otp: this.otp };
+                await verifyEmail(emailNewandOtp);
+                this.closeModal();
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         },
     },
