@@ -1,6 +1,7 @@
 <template>
     <div class="voucher-container my-1 mx-1 sm:mx-0 md:mx-0 lg:mx-0 xl:mx-auto">
         <!-- Carousel for Mobile View -->
+
         <div v-if="isMobile" class="carousel">
             <div class="voucher-ticket flex shadow-sm rounded-sm overflow-hidden bg-white relative border-1">
                 <!-- Left Section with Icon and Perforated Edge -->
@@ -32,7 +33,8 @@
                     </div>
                     <div class="text-xs text-gray-500 flex items-center mt-2">
                         <i class="far fa-clock mr-1"></i>
-                        Hiệu lực: {{ formatDay(currentVoucher.validFrom) }} - {{ formatDay(currentVoucher.validTo) }}
+                        Hiệu lực: {{ formatDay(currentVoucher.validFrom) }} - {{ formatDay(currentVoucher.validTo)
+                        }}
                         <a href="#" class="text-blue-500 ml-1">Điều Kiện</a>
                     </div>
                 </div>
@@ -62,10 +64,11 @@
                 </div>
 
                 <!-- Right Section with Text -->
-                <div class="flex flex-col justify-between w-3/4 p-3">
+                <div @click="OpenModal(voucher)" class="flex flex-col justify-between w-3/4 p-3">
                     <div>
                         <h3 v-if="voucher.discountPercent" class="text-sm font-semibold text-gray-800">
-                            Giảm {{ voucher.discountPercent }}% Tối đa {{ voucher.maxDiscountAmount?.toLocaleString() ||
+                            Giảm {{ voucher.discountPercent }}% Tối đa {{
+                                voucher.maxDiscountAmount?.toLocaleString() ||
                                 '0' }}
                             VND
                         </h3>
@@ -89,27 +92,35 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+
+
     <div class="flex justify-end px-3 ">
         <span class="  font-semibold cursor-pointer text-base text-red-500 transition">
             Xem tất cả
         </span>
     </div>
+    <voucherDetailComponentVue :isOpen="isOpen" @closeModal="isOpen = false" :voucherSelected="voucherSelected">
+    </voucherDetailComponentVue>
 </template>
 
 <script>
 import { getVoucherPage } from '@/api/voucherApi';
 import { formatDay } from '@/utils/currencyUtils';
+import voucherDetailComponentVue from '../voucher/voucherDetailComponent.vue';
 
 export default {
     data() {
         return {
+            voucherSelected: null,
+            isOpen: false,
             vouchers: [],
             currentIndex: 0,
             isMobile: window.innerWidth < 640,
         };
+    },
+    components: {
+        voucherDetailComponentVue,
     },
     computed: {
         limitedVouchers() {
@@ -129,8 +140,13 @@ export default {
             }, 1500);
         }
     },
+    emits: ['openModal'],
     methods: {
         formatDay,
+        OpenModal(data) {
+            this.voucherSelected = data;
+            this.isOpen = !this.isOpen
+        },
         async handleFetchVoucher() {
             try {
                 const response = await getVoucherPage();
