@@ -1,58 +1,50 @@
 <template>
-  <div>
-   
-    <div class="flex items-center mb-4 pt-5">
-      <div class="w-3 h-10 bg-orange-600 mr-1"></div>
-      <p class="text-2xl font-bold text-gray-800 uppercase">DANH MỤC</p>
+  <div class="flex items-center mb-4">
+    <div class="w-3 h-10 bg-orange-600 mr-1"></div>
+    <p class="text-2xl font-bold text-gray-800 uppercase">Danh mục</p>
+  </div>
+  <div class="flex flex-col md:flex-row items-start my-1 w-full">
+    <!-- Left Section: Image -->
+    <div
+      class="md:w-1/3 w-full flex justify-start items-center mb-4 md:mb-0 px-2"
+    >
+      <img
+        src="https://i.pinimg.com/564x/8f/19/2b/8f192bd414338e40404957e003800a39.jpg"
+        alt="Promotional Image"
+        class="rounded-lg object-cover w-full md:w-auto md:h-full h-[130px]"
+      />
     </div>
 
-    <!-- Main Section -->
-    <div class="flex flex-col md:flex-row items-start my-1 w-full lg:max-h-[350px]">
-      <!-- Left Section: Image -->
-      <div class="md:w-1/3 w-full mb-4 md:mb-0 px-4">
-        <div
-          class="relative w-full h-0 pb-[60%] md:pb-[100%] overflow-hidden rounded-lg"
+    <!-- Right Section: Categories with Swiper -->
+    <div class="md:w-2/3 w-full bg-white">
+      <!-- Swiper for Categories with Multiple Slides -->
+      <swiper :slides-per-view="1" :loop="false" class="categories-swiper">
+        <swiper-slide
+          v-for="(slideCategories, index) in paginatedCategories"
+          :key="index"
         >
-          <img
-            src="https://i.pinimg.com/564x/98/ae/b3/98aeb30cc1d4eda9eed6bfdf050006d3.jpg"
-            alt="Promotional Image"
-            class="absolute top-0 left-0 w-full h-full object-cover lg:max-h-[315px]"
-          />
-        </div>
-      </div>
-
-      <!-- Right Section: Categories Grid -->
-      <div class="md:w-2/3 w-full bg-white">
-        <swiper :slides-per-view="1" :loop="false" class="categories-swiper">
-          <swiper-slide
-            v-for="(slideCategories, index) in paginatedCategories"
-            :key="index"
-          >
-            <div class="grid grid-cols-3 md:grid-cols-4 gap-2">
-              <div
-                v-for="(category, idx) in slideCategories"
-                :key="idx"
-                class="flex flex-col items-center text-center p-2 border max-h-[100px] w-full justify-center border-gray-200 rounded-md aspect-square"
-              >
-                <img
-                  :src="
-                    require(`@/assets/image/Categories/${category.icon}.png`)
-                  "
-                  alt="Category Icon"
-                  class="w-12 h-12 object-contain bg-white rounded-full p-1 border border-gray-200"
-                />
-                <p class="text-xs text-gray-700 mt-1 truncate w-16">
-                  {{ category.name }}
-                </p>
-              </div>
+          <!-- Dynamic Grid Layout: 2x3 on mobile, 3x4 on desktop -->
+          <div :class="gridLayoutClass">
+            <div
+              v-for="(category, idx) in slideCategories"
+              :key="idx"
+              class="flex flex-col items-center text-center p-2 border border-gray-200 rounded-md"
+            >
+              <img
+                :src="require(`@/assets/image/Categories/${category.icon}.png`)"
+                alt="Category Icon"
+                class="w-12 h-12 object-contain bg-white rounded-full p-1 border border-gray-200"
+              />
+              <p class="text-xs text-gray-700 mt-1 truncate w-16">
+                {{ category.name }}
+              </p>
             </div>
-          </swiper-slide>
-        </swiper>
-      </div>
+          </div>
+        </swiper-slide>
+      </swiper>
     </div>
   </div>
 </template>
-
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper-bundle.css";
@@ -74,17 +66,44 @@ export default {
         { id: 10, icon: "memory-card", name: "Memory Card" },
         { id: 11, icon: "wifi-router", name: "Wifi Router" },
         { id: 12, icon: "fan", name: "FAN" },
+        { id: 13, icon: "ssd-card", name: "SSD" },
+        { id: 14, icon: "web-camera", name: "Web camera" },
+        { id: 15, icon: "memory-card", name: "Memory Card" },
+        { id: 16, icon: "wifi-router", name: "Wifi Router" },
+        { id: 17, icon: "fan", name: "FAN" },
       ],
-
-      get paginatedCategories() {
-        const itemsPerPage = 12;
-        const result = [];
-        for (let i = 0; i < this.categories.length; i += itemsPerPage) {
-          result.push(this.categories.slice(i, i + itemsPerPage));
-        }
-        return result;
-      },
     };
+  },
+  computed: {
+    // Dynamically determine grid layout based on screen size
+    gridLayoutClass() {
+      return window.innerWidth >= 768
+        ? "grid grid-cols-4 gap-2"
+        : "grid grid-cols-3 gap-2";
+    },
+    // Paginate categories based on screen size
+    paginatedCategories() {
+      const itemsPerPage = window.innerWidth >= 768 ? 12 : 6;
+      return Array.from(
+        { length: Math.ceil(this.categories.length / itemsPerPage) },
+        (_, i) =>
+          this.categories.slice(
+            i * itemsPerPage,
+            i * itemsPerPage + itemsPerPage
+          )
+      );
+    },
+  },
+  mounted() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+  methods: {
+    handleResize() {
+      this.$forceUpdate(); // Rerender component on resize to adjust grid layout and pagination
+    },
   },
 };
 </script>

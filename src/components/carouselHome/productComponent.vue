@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="flex items-center mb-4 ">
+    <div class="flex items-center mb-4 pt-3">
       <div class="w-3 h-10 bg-orange-600 mr-1"></div>
-      <p class="text-2xl font-bold text-gray-800 uppercase">Top bán chạy</p>
+      <p class="text-xl font-bold text-gray-800 uppercase">Sản phẩm nổi bật</p>
     </div>
     <div class="product pl-2 pr-2 mx-auto mt-5 md:container-flush">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -54,14 +54,18 @@
           </div>
         </div>
       </div>
-       <div class="text-center mt-4" v-if="visibleProducts.length <  products.length">
-        <button  @click="loadMore" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500">
+      <div
+        class="text-center mt-4"
+        v-if="visibleProducts.length < products.length"
+      >
+        <button
+          @click="loadMore"
+          class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500"
+        >
           Xem thêm
         </button>
       </div>
-   
     </div>
-   
   </div>
 </template>
 
