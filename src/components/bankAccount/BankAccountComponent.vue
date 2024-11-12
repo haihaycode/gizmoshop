@@ -1,6 +1,6 @@
 <template>
-    <div class="card p-4 sm:p-6 rounded-lg shadow-lg transition-shadow duration-200 relative mx-auto">
-        <!-- Bank Logo and Name -->
+    <div @click="$emit('edit', account)"
+        class="card p-4 sm:p-6 rounded-lg shadow-lg transition-shadow duration-200 relative mx-auto">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-white text-sm md:text-lg font-semibold flex items-center">
                 <span class="mr-2"><i class="bx bx-bank text-lg md:text-xl"></i></span>
@@ -12,14 +12,12 @@
             </button>
         </div>
 
-        <!-- Card Number -->
         <div class="text-white text-sm md:text-lg tracking-widest mb-4">
             <span v-for="(num, index) in formattedAccountNumber" :key="index" class="inline-block mr-2">
                 {{ num }}
             </span>
         </div>
 
-        <!-- Card Holder Name and Expiry Date -->
         <div class="flex justify-between items-center text-white text-xs sm:text-sm">
             <div>
                 <p class="uppercase tracking-wide text-xs opacity-75">TÊN CHỦ THẺ</p>
@@ -31,6 +29,7 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -72,7 +71,7 @@ export default {
 
 @media (min-width: 640px) {
     .card {
-        max-width: 380px;
+        max-width: 100%;
         padding: 2rem;
     }
 }

@@ -18,11 +18,11 @@
 
     <!-- Footer -->
     <router-view name="footer" class="footer"></router-view>
-    <LoadingComponent v-if="isLoading" :loading="isLoading" />
+    <!-- <LoadingComponent v-if="isLoading" :loading="isLoading" /> -->
   </div>
 </template>
 <script>
-import LoadingComponent from '@/components/containers/loading/LoadingComponent.vue';
+// import LoadingComponent from '@/components/containers/loading/LoadingComponent.vue';
 import ScrollToTopComponent from '@/components/containers/scroll/ScrollToTopComponent.vue';
 import { mapGetters } from 'vuex';
 
@@ -30,7 +30,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: "AdminLayout",
   components: {
-    LoadingComponent,
+    // LoadingComponent,
     ScrollToTopComponent
   },
   computed: {

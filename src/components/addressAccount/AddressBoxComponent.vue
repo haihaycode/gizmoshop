@@ -1,6 +1,6 @@
 <template>
-    <div
-        class="address-card p-4 sm:p-6 rounded-lg shadow-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:shadow-xl transition-shadow duration-200 transform hover:scale-105">
+    <div @click="$emit('edit', address)"
+        class="address-card p-4 sm:p-6 rounded-lg shadow-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:shadow-xl transition-shadow duration-200  ">
         <!-- Header with Name and Edit Button -->
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg md:text-xl font-semibold">{{ address.fullname }}</h3>
@@ -18,7 +18,7 @@
             </div>
             <div class="flex items-center gap-2 text-sm sm:text-base">
                 <i class="bx bx-map text-green-200 text-lg"></i>
-                <span>Địa chỉ: <span class="font-medium">{{ address.specific_address }}</span></span>
+                <span>Địa chỉ: <span class="font-medium">{{ address.specificAddress }}</span></span>
             </div>
             <div class="flex items-center gap-2 text-sm sm:text-base">
                 <i class="bx bx-location-plus text-yellow-200 text-lg"></i>
@@ -52,7 +52,7 @@ export default {
 }
 
 .address-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 </style>

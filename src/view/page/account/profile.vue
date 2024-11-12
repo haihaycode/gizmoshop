@@ -1,40 +1,27 @@
 <template>
-    <div class="p-5 sm:p-6 lg:p-8 rounded-sm w-full mx-auto ">
-        <!-- Breadcrumb Navigation -->
-        <BreadcrumbComponent :items="breadcrumbItems" />
-
-        <!-- Title and Description -->
-        <h2 class="text-lg md:text-2xl font-semibold text-gray-700 mb-1">Hồ Sơ Của Tôi</h2>
-        <p class="text-sm md:text-base text-gray-500 mb-6">Quản lý thông tin hồ sơ để bảo mật tài khoản của bạn.</p>
-
-        <!-- Profile Form -->
+    <div v-if="!isLoading" class="p-6 min-h-screen space-y-6">
         <form @submit.prevent="handleSubmit">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Profile Details Section -->
                 <div class="col-span-2 space-y-4">
-                    <!-- Name Field -->
-                    <CustomInputComponent v-model="user.fullname" label="Họ và tên (*)" :error="!!errors.fullname"
-                        :message="errors.fullname" />
+                    <CustomInputComponent v-model="user.fullname" label="   &nbsp; Họ và tên "
+                        :error="!!errors.fullname" :message="errors.fullname" />
 
-                    <!-- Email Field -->
                     <CustomInputComponent v-model="user.email" label="Email" :error="!!errors.email"
                         :message="errors.email" :disabled="true">
                         <template #label>
-                            Email <span @click="modalUpdateEmailIsOpen = true"
+                            &nbsp; Email <span @click="modalUpdateEmailIsOpen = true"
                                 class="text-blue-500 text-sm cursor-pointer hover:underline">
-                                Chỉnh sửa
+                                (Chỉnh sửa)
                             </span>
                         </template>
                     </CustomInputComponent>
 
-                    <!-- Phone Field -->
-                    <CustomInputComponent v-model="user.phone" label="Số điện thoại (*)" :error="!!errors.phone"
+                    <CustomInputComponent v-model="user.phone" label="   &nbsp; Số điện thoại " :error="!!errors.phone"
                         :message="errors.phone" type="tel" />
 
-                    <!-- Date of Birth Selectors -->
                     <div>
-                        <label class="block text-gray-600">Ngày sinh</label>
-                        <div class="flex flex-wrap md:flex-nowrap space-y-2 md:space-y-0 md:space-x-4 mt-1">
+                        <label class="block text-gray-600 "> &nbsp; Ngày sinh</label>
+                        <div class="flex flex-wrap md:flex-nowrap space-y-2 md:space-y-0 md:space-x-4 mt-1 sm:pl-2">
                             <select v-model="user.day" class="p-2 border border-gray-300 rounded-sm w-full md:w-auto"
                                 aria-label="Ngày">
                                 <option disabled selected>Ngày</option>
@@ -53,26 +40,25 @@
                         </div>
                     </div>
 
-                    <!-- Extra Info Field -->
-                    <CustomInputComponent v-model="user.extraInfo" label="Thông tin thêm" :error="!!errors.extraInfo"
-                        :message="errors.extraInfo" type="textarea" />
+                    <CustomInputComponent v-model="user.extraInfo" label="   &nbsp; Thông tin thêm"
+                        :error="!!errors.extraInfo" :message="errors.extraInfo" type="textarea" />
 
-                    <!-- Save Button -->
-                    <Button :text="'Cập nhật thông tin'" :isLoading="isLoading"
+
+                    <Button :text="'Lưu hồ sơ'" :isLoading="isLoading"
                         class="w-full md:w-auto mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-sm">
-                        Lưu
+
                     </Button>
                 </div>
 
-                <!-- Profile Picture Section -->
+
                 <div class="flex flex-col items-center">
                     <img :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/100'"
                         alt="User avatar" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4" />
                     <Button @click="modalUpdateImageIsOpen = true" type="button" :text="'Chọn Ảnh '"
-                        class="bg-red-300 font-semibold px-4 py-2 rounded-sm hover:bg-gray-300 focus:outline-none">
+                        class="bg-red-500 font-semibold px-4 py-2 rounded-sm hover:bg-gray-300 focus:outline-none">
                         Chọn Ảnh
                     </Button>
-                    <p class="text-xs text-gray-500 mt-2 text-center">
+                    <p class="text-xs font-thin text-gray-500 mt-2 text-center">
                         Dung lượng file tối đa 1 MB<br />
                         Định dạng: JPEG, PNG
                     </p>
@@ -95,7 +81,7 @@ import { loadImage } from '@/services/imageService';
 import updateAvatarForUserComponent from '@/components/yourAccount/updateAvatarForUserComponent.vue';
 import notificationService from '@/services/notificationService';
 import ChangeEmail from '@/components/yourAccount/changeEmail.vue';
-import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
+// import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
 import CustomInputComponent from '@/components/containers/input/CustomInputComponent.vue';
 import Button from '@/components/containers/buttons/button.vue';
 import { mapGetters } from 'vuex';
@@ -104,7 +90,7 @@ export default {
     components: {
         updateAvatarForUserComponent,
         ChangeEmail,
-        BreadcrumbComponent,
+        // BreadcrumbComponent,
         CustomInputComponent,
         Button
     },
@@ -127,7 +113,7 @@ export default {
                 image: null,
             },
             errors: {},
-            yearRange: Array.from({ length: 74 }, (_, i) => 2023 - i) // Array of years from 2023 to 1950
+            yearRange: Array.from({ length: 74 }, (_, i) => 2023 - i)
         };
     },
     async created() {

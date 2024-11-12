@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <button v-if="isVisible" @click="scrollToTop"
-            class="fixed bottom-6 right-6 w-8 h-8 bg-blue-600 text-white rounded transition duration-300 ease-in-out opacity-30 hover:opacity-100 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            class="fixed bottom-6 right-6 w-8 h-8 bg-red-600 text-white rounded transition duration-300 ease-in-out opacity-30 hover:opacity-100 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
             ↑
         </button>
     </transition>

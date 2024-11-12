@@ -1,27 +1,19 @@
 <template>
-    <div class="p-5 sm:p-6 lg:p-8 rounded-sm w-full mx-auto ">
-        <!-- Breadcrumb Navigation -->
-        <div class="mb-6">
-            <BreadcrumbComponent :items="breadcrumbItems" />
+    <div v-if="!isLoading" class="p-6 min-h-screen space-y-6">
+        <div>
+            <h2 class="text-xl font-semibold text-gray-600 mb-4">Thông tin tài khoản ngân hàng</h2>
         </div>
 
-        <!-- Title and Description -->
-        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">Thông tin ngân hàng</h2>
-        <p class="text-gray-500 mb-6 text-sm sm:text-base lg:text-lg">
-            Quản lý tài khoản ngân hàng của bạn để tiện cho giao dịch.
-        </p>
 
-        <!-- Add New Bank Account Button -->
-        <div class="flex justify-end mt-6 lg:mb-3 mb-3">
-            <button @click="openNewBankAccountModal" class="text-red-500 hover:underline transition duration-300">
-                <i class='bx bx-add-to-queue'></i> Thêm Ngân Hàng
-            </button>
-        </div>
 
         <!-- List of Bank Accounts in a Responsive Grid -->
-        <div v-if="bankAccounts.length" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+        <div v-if="bankAccounts.length" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <BankAccountComponent v-for="account in bankAccounts.filter(bank => !bank?.deleted)" :key="account?.id"
                 :account="account" @edit="openEditModal(account)" />
+            <div class="flex items-center justify-center bg-white h-[100px] border border-gray-300 rounded-2xl shadow-sm cursor-pointer hover:bg-gray-100 transition duration-200"
+                @click="isModalOpen = true">
+                <span class="text-4xl text-gray-500">+</span>
+            </div>
         </div>
         <p v-else class="text-gray-400 text-sm md:text-base mt-4 text-center italic">
             Chưa có thông tin ngân hàng nào.
@@ -33,14 +25,14 @@
 </template>
 
 <script>
-import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
+// import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
 import BankAccountComponent from '@/components/bankAccount/BankAccountComponent.vue';
 import BankAccountModal from '@/components/bankAccount/BankAccountModal.vue';
-
+import { mapGetters } from 'vuex';
 export default {
     name: 'BankPage',
     components: {
-        BreadcrumbComponent,
+        // BreadcrumbComponent,
         BankAccountComponent,
         BankAccountModal,
     },
@@ -76,6 +68,9 @@ export default {
             isModalOpen: false,
             selectedAccount: null,
         };
+    },
+    computed: {
+        ...mapGetters('loading', ['isLoading']),
     },
     methods: {
         openNewBankAccountModal() {

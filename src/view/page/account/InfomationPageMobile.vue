@@ -48,6 +48,14 @@
                     </router-link>
                 </li>
                 <li>
+                    <router-link :to="{ name: 'orderHistory' }"
+                        class="flex items-center space-x-2 text-gray-700 hover:text-red-500 transition duration-300"
+                        active-class="text-red-500 font-semibold">
+                        <i class="bx bx-cart text-lg" :class="{ 'bx-burst': $route.name === 'orderHistory' }"></i>
+                        <span>Đơn hàng</span>
+                    </router-link>
+                </li>
+                <li>
                     <router-link :to="{ name: 'withdrawalHistory' }"
                         class="flex items-center space-x-2 text-gray-700 hover:text-red-500 transition duration-300"
                         active-class="text-red-500 font-semibold">

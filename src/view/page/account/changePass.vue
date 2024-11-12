@@ -1,93 +1,80 @@
 <template>
-    <div class="p-5 sm:p-6 lg:p-8 rounded-sm w-full mx-auto ">
-        <!-- Breadcrumb Navigation -->
-        <BreadcrumbComponent :items="breadcrumbItems" />
-
+    <div class="p-6 min-h-screen space-y-6">
         <!-- Page Title -->
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Đổi mật khẩu</h2>
-
-        <!-- Step 1: Enter Email to Receive OTP -->
-        <div v-if="step === 1">
-            <CustomInputComponent v-model="email" label="Email" type="email" :error="!!errors.email"
-                :message="errors.email" @input="clearError('email')" required />
-            <button type="button" @click="sendOtp" :disabled="isCountdownActive"
-                class="mt-6 w-full py-3 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 disabled:opacity-50 transition duration-200">
-                {{ isCountdownActive ? `Gửi lại mã OTP sau ${countdown}s` : 'Gửi mã OTP' }}
-            </button>
+        <div>
+            <h2 class="text-xl font-semibold text-gray-600 mb-4">Thay đổi mật khẩu cho tài khoản</h2>
         </div>
 
-        <!-- Step 2: Enter OTP and New Password -->
-        <div v-if="step === 2" class="space-y-4">
-            <CustomInputComponent v-model="otp" label="Mã OTP" type="text" :error="!!errors.otp" :message="errors.otp"
-                @input="clearError('otp')" required />
+        <!-- Form Container -->
+        <div class="w-full space-y-6">
+            <!-- Old Password and OTP Button in Row -->
+            <div class="flex items-center space-x-4">
+                <CustomInputComponent v-model="oldPassword" label="Mật khẩu cũ" type="password"
+                    :error="!!errors.oldPassword" :message="errors.oldPassword" @input="clearError('oldPassword')"
+                    required class="flex-1" />
+                <Button type="button" @click="sendOtp" :disabled="isCountdownActive" :isLoading="isLoading"
+                    :text="isCountdownActive ? `${countdown}s` : 'Gửi mã OTP'"
+                    class="py-2 px-4 text-white bg-blue-500 rounded-sm  hover:bg-blue-600 disabled:opacity-50 transition duration-200">
+
+                </Button>
+            </div>
+
+            <!-- Other Password Inputs -->
             <CustomInputComponent v-model="newPassword" label="Mật khẩu mới" type="password"
                 :error="!!errors.newPassword" :message="errors.newPassword" @input="clearError('newPassword')"
                 required />
             <CustomInputComponent v-model="confirmPassword" label="Xác nhận mật khẩu mới" type="password"
                 :error="!!errors.confirmPassword" :message="errors.confirmPassword"
                 @input="clearError('confirmPassword')" required />
-            <button type="button" @click="submitNewPassword"
-                class="mt-6 w-full py-3 text-white bg-green-500 rounded-md shadow-md hover:bg-green-600 transition duration-200">
-                Đổi mật khẩu
-            </button>
-        </div>
+            <CustomInputComponent v-model="otp" label="Mã OTP" type="text" :error="!!errors.otp" :message="errors.otp"
+                @input="clearError('otp')" required />
 
-        <!-- Success Message -->
-        <div v-if="step === 3" class="text-center text-green-600 text-lg font-semibold mt-6">
-            Mật khẩu của bạn đã được thay đổi thành công!
+            <!-- Submit New Password Button at the Bottom, Smaller -->
+            <Button @click="submitNewPassword" :text="'   Xác nhận đổi mật khẩu'" :isLoading="isLoading"
+                class=" py-2 text-white bg-red-500 rounded-sm  hover:bg-red-600 transition duration-200">
+            </Button>
         </div>
     </div>
 </template>
 
 <script>
 import * as yup from 'yup';
-import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
 import CustomInputComponent from '@/components/containers/input/CustomInputComponent.vue';
+import { sendOtpChangePassword, changePassword } from '@/api/auth/changePassApi';
+import notificationService from '@/services/notificationService';
+import { mapGetters } from 'vuex';
+import Button from '@/components/containers/buttons/button.vue';
 
 export default {
     name: 'ChangePasswordPage',
     components: {
-        BreadcrumbComponent,
         CustomInputComponent,
+        Button
     },
     data() {
         return {
-            breadcrumbItems: [
-                { text: 'Trang chủ', name: 'home' },
-                { text: 'Đổi mật khẩu' },
-            ],
             step: 1,
-            email: '',
-            otp: '',
+            oldPassword: '',
             newPassword: '',
             confirmPassword: '',
+            otp: '',
             errors: {},
             countdown: 60,
             isCountdownActive: false,
             countdownInterval: null,
         };
     },
+    computed: {
+        ...mapGetters('loading', ['isLoading']),
+    },
     methods: {
         clearError(field) {
             this.errors[field] = '';
         },
-        sendOtp() {
-            const schema = yup.object().shape({
-                email: yup.string().email('Email không hợp lệ').required('Email là bắt buộc'),
-            });
-            schema.validate({ email: this.email }, { abortEarly: false })
-                .then(() => {
-                    this.errors = {};
-                    this.$emit('send-otp', this.email);
-                    this.startCountdown();
-                    this.step = 2;
-                })
-                .catch((err) => {
-                    this.errors = {};
-                    err.inner.forEach((validationError) => {
-                        this.errors[validationError.path] = validationError.message;
-                    });
-                });
+        async sendOtp() {
+            const res = await sendOtpChangePassword();
+            notificationService.success(res.message);
+            this.startCountdown();
         },
         startCountdown() {
             this.isCountdownActive = true;
@@ -106,21 +93,21 @@ export default {
         },
         submitNewPassword() {
             const schema = yup.object().shape({
-                otp: yup.string().required('Mã OTP là bắt buộc'),
+                oldPassword: yup.string().required('Mật khẩu cũ là bắt buộc'),
                 newPassword: yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Mật khẩu mới là bắt buộc'),
                 confirmPassword: yup.string()
                     .oneOf([yup.ref('newPassword')], 'Mật khẩu xác nhận không khớp')
                     .required('Xác nhận mật khẩu là bắt buộc'),
+                otp: yup.string().required('Mã OTP là bắt buộc'),
             });
 
             schema.validate(
-                { otp: this.otp, newPassword: this.newPassword, confirmPassword: this.confirmPassword },
+                { oldPassword: this.oldPassword, newPassword: this.newPassword, confirmPassword: this.confirmPassword, otp: this.otp },
                 { abortEarly: false }
             )
                 .then(() => {
                     this.errors = {};
-                    this.$emit('change-password', { email: this.email, otp: this.otp, newPassword: this.newPassword });
-                    this.step = 3;
+                    this.handleChangePassword({ oldPassword: this.oldPassword, newPassword: this.newPassword, confirmPassword: this.confirmPassword, otp: this.otp });
                 })
                 .catch((err) => {
                     this.errors = {};
@@ -128,6 +115,15 @@ export default {
                         this.errors[validationError.path] = validationError.message;
                     });
                 });
+        },
+        async handleChangePassword(data) {
+            try {
+                const res = await changePassword(data);
+                notificationService.success(res.message);
+                this.$router.push({ name: 'profile' });
+            } catch (error) {
+                console.error(error)
+            }
         },
     },
     beforeUnmount() {
@@ -137,7 +133,6 @@ export default {
 </script>
 
 <style scoped>
-/* Responsive styling for container */
 .max-w-md {
     max-width: 100%;
 }
@@ -156,5 +151,8 @@ export default {
 
 .bg-white {
     background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 </style>

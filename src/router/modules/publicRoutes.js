@@ -19,7 +19,7 @@ const publicRoutes = [
                     default: usePage('productDetail'),
                     header: useComponentLayout('Header'),
                     footer: useComponentLayout('Footer'),
-                    sidebar:useComponentLayout('SidebarComponent')
+                    // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
 
                 }
             },
@@ -34,12 +34,12 @@ const publicRoutes = [
                     default: usePage('homePage'),
                     header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
-                    sidebar:useComponentLayout('SidebarComponent'),
-                    mobile:useComponentLayout('ResponsiveMobile')
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent'),
+                    mobile: useComponentLayout('ResponsiveMobile')
 
                 }
             },
-            
+
         ]
     }
 ];

@@ -7,7 +7,7 @@
         </template>
 
         <template #body>
-            <form @submit.prevent="validateAndSave">
+            <form @submit.prevent="validateAndSave" class="w-full sm:w-full md:w-[600px] mx-auto p-4">
                 <CustomInputComponent v-model="localAccount.bank_name" label="Tên ngân hàng" :error="!!errors.bank_name"
                     :message="errors.bank_name" />
 
@@ -21,10 +21,12 @@
                     :error="!!errors.swift_code" :message="errors.swift_code" />
 
             </form>
-            <button type="button" @click="validateAndSave"
-                class="px-4 py-2 text-white bg-red-500  hover:bg-red-600 rounded-sm">
-                Lưu
-            </button>
+            <div class="flex justify-end space-x-2">
+                <button type="button" @click="validateAndSave"
+                    class="px-4 py-2 text-white bg-red-500 rounded-sm hover:bg-red-600 focus:outline-none">
+                    Lưu Ngân Hàng
+                </button>
+            </div>
         </template>
 
 

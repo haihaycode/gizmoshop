@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class=" mt-[68px] relative">
+    <div id="app" class=" mt-[76px] relative">
         <!-- Overlay Background for Sidebar on Mobile -->
         <div v-if="isSidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden" @click="toggleSidebar">
         </div>
@@ -65,6 +65,14 @@
                         </router-link>
                     </li>
                     <li>
+                        <router-link :to="{ name: 'orderHistory' }"
+                            class="flex items-center space-x-2 text-gray-700 hover:text-red-500 transition duration-300"
+                            active-class="text-red-500 font-semibold">
+                            <i class="bx bx-cart text-lg" :class="{ 'bx-burst': $route.name === 'orderHistory' }"></i>
+                            <span>Đơn hàng</span>
+                        </router-link>
+                    </li>
+                    <li>
                         <router-link :to="{ name: 'withdrawalHistory' }"
                             class="flex items-center space-x-2 text-gray-700 hover:text-red-500 transition duration-300"
                             active-class="text-red-500 font-semibold">
@@ -73,15 +81,22 @@
                             <span>Lịch sử rút tiền</span>
                         </router-link>
                     </li>
+
                 </ul>
             </aside>
 
             <!-- Main Content -->
             <main :class="[
-                'flex-grow transition-all duration-300 relative z-0 rounded-sm bg-white sm:bg-gray-50 shadow-none',
+                'flex-grow transition-all duration-300 relative z-0  shadow-none bg-white sm:bg-gray-200 sm:bg-opacity-5 sm:rounded-4xl',
                 isSidebarOpen ? 'md:ml-64' : 'ml-0'
             ]">
+                <div class="px-6">
+                    <BackComponent></BackComponent>
+                </div>
+                <LoadingSkeletionComponent :isLoading="isLoading" titleWidth="w-3/4" :textLines="4" :circles="2">
+                </LoadingSkeletionComponent>
                 <router-view @load="fetchUserInfo"></router-view>
+
             </main>
 
         </div>
@@ -91,9 +106,16 @@
 <script>
 import { getinfo } from '@/api/auth/meApi';
 import { loadImage } from '@/services/imageService';
+import LoadingSkeletionComponent from '@/components/containers/loading/LoadingSkeletionComponent.vue';
 
+import { mapGetters } from 'vuex';
+import BackComponent from '@/components/containers/breadcrumb/backComponent.vue';
 export default {
     name: 'App',
+    components: {
+        LoadingSkeletionComponent,
+        BackComponent
+    },
     data() {
         return {
             isSidebarOpen: false,
@@ -102,6 +124,9 @@ export default {
                 image: null
             }
         };
+    },
+    computed: {
+        ...mapGetters('loading', ['isLoading']),
     },
     methods: {
         loadImage,

@@ -1,6 +1,6 @@
 <template>
     <div @click="$emit('click')"
-        class="p-6 border rounded-lg shadow-md bg-white cursor-pointer hover:shadow-lg hover:bg-gray-50 transition-all duration-200 ease-in-out transform hover:scale-105">
+        class="p-6 border rounded-sm shadow-md  cursor-pointer hover:shadow-sm hover:bg-gray-50 transition-all duration-200 ease-in-out transform hover:scale-101">
         <div class="flex items-center justify-between mb-3">
             <h3 class="text-xl font-semibold text-gray-800">Rút {{ withdrawal.amount }} VND</h3>
             <span class="text-sm text-gray-500">{{ withdrawal.date }}</span>

@@ -116,7 +116,19 @@ const guestRoutesAuth = [
                         components: {
                             default: usePage('account/withdrawalHistory'),
                         }
+                    },
+                    {
+                        path: 'orderHistory',
+                        name: 'orderHistory',
+                        meta: {
+                            title: "Đơn hàng",
+                            description: "Gizmo"
+                        },
+                        components: {
+                            default: usePage('account/orderHistory'),
+                        }
                     }
+
                 ]
             },
         ]

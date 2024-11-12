@@ -3,7 +3,7 @@
     <ModalBox :isOpen="isOpen" :closeModal="() => $emit('close')" header="Chi tiết " closeText="Đóng">
         <!-- Modal Content -->
         <template #body>
-            <div class=" max-w-md w-full ">
+            <div class=" w-full sm:w-[500px] md:w-[600px] lg:w-[700px]">
                 <p class="text-sm text-gray-600 mb-2">
                     <strong>Số tiền:</strong> {{ withdrawal.amount }} VND
                 </p>

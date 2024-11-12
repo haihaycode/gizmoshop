@@ -1,17 +1,16 @@
 <template>
-    <div class="p-5 sm:p-6 lg:p-8 rounded-sm w-full mx-auto ">
-        <!-- Breadcrumb Navigation -->
-        <BreadcrumbComponent :items="breadcrumbItems" />
-
+    <div v-if="!isLoading" lass="min-h-screen space-y-6  ">
         <!-- Page Title -->
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Lịch sử rút tiền</h2>
+        <div>
+            <h2 class="text-xl font-semibold text-gray-600 mb-4 p-3 ">Lịch sử rút tiền</h2>
+        </div>
 
         <!-- List of Withdrawals -->
-        <div v-if="withdrawals.length" class="space-y-4">
+        <div v-if="withdrawals.length" class="space-y-4 p-3">
             <ItemCardComponent v-for="withdrawal in withdrawals" :key="withdrawal.id" :withdrawal="withdrawal"
                 @click="openModal(withdrawal)" />
         </div>
-        <p v-else class="text-gray-500 text-center italic mt-6">Không có giao dịch rút tiền nào.</p>
+        <p v-else class="text-gray-500 text-center italic mt-6 p-3">Không có giao dịch rút tiền nào.</p>
 
         <!-- Withdrawal Details Modal -->
         <WithdrawalDetailsModal :isOpen="isModalOpen" :withdrawal="selectedWithdrawal" @close="isModalOpen = false" />
@@ -21,14 +20,14 @@
 <script>
 import ItemCardComponent from '@/components/withdrawalHistory/ItemCardComponent.vue';
 import WithdrawalDetailsModal from '@/components/withdrawalHistory/WithdrawalDetailsModalComponent.vue';
-import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
-
+// import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
+import { mapGetters } from 'vuex';
 export default {
     name: 'WithdrawalHistoryPage',
     components: {
         ItemCardComponent,
         WithdrawalDetailsModal,
-        BreadcrumbComponent,
+        // BreadcrumbComponent,
     },
     data() {
         return {
@@ -45,6 +44,9 @@ export default {
             selectedWithdrawal: null,
         };
     },
+    computed: {
+        ...mapGetters('loading', ['isLoading']),
+    },
     methods: {
         openModal(withdrawal) {
             this.selectedWithdrawal = withdrawal;
@@ -54,24 +56,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.max-w-2xl {
-    max-width: 100%;
-}
-
-@media (min-width: 640px) {
-    .max-w-2xl {
-        max-width: 90%;
-    }
-}
-
-@media (min-width: 768px) {
-    .max-w-2xl {
-        max-width: 80%;
-    }
-}
-
-.bg-white {
-    background-color: #ffffff;
-}
-</style>
+<style scoped></style>
