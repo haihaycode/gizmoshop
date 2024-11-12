@@ -9,14 +9,14 @@ const publicRoutes = [
         component: useLayout('MemberLayout'),
         children: [
             {
-                path: '/demodev',
-                name: 'demodev',
+                path: '/product',
+                name: 'productDetail',
                 meta: {
                     title: "...Updating...",
                     description: " "
                 },
                 components: {
-                    default: usePage('demo'),
+                    default: usePage('productDetail'),
                     header: useComponentLayout('Header'),
                     footer: useComponentLayout('Footer'),
                     sidebar:useComponentLayout('SidebarComponent')
@@ -32,7 +32,7 @@ const publicRoutes = [
                 },
                 components: {
                     default: usePage('homePage'),
-                    header: useComponentLayout('Header'),
+                    header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
                     sidebar:useComponentLayout('SidebarComponent'),
                     mobile:useComponentLayout('ResponsiveMobile')

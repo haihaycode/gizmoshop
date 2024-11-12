@@ -19,9 +19,6 @@
           </svg>
           <h2 class="font-bold text-lg sm:text-xl md:text-2xl">Giảm Giá Sốc</h2>
         </div>
-        <a href="#" class="text-xs sm:text-sm md:text-base hover:underline"
-          >Xem Thêm</a
-        >
       </div>
 
       <!-- Swiper for Products with Responsive Slides Per View -->
@@ -34,30 +31,19 @@
         <swiper-slide
           v-for="(product, index) in products"
           :key="index"
-          class="product-card text-center flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300"
+          class="product-card-wrapper"
         >
-          <img
-            :src="product.image"
-            alt="Product Image"
-            class="product-image mx-auto"
-          />
-          <div
-            class="product-name font-semibold text-gray-800 mt-2 text-sm sm:text-base md:text-lg line-clamp-1"
-          >
-            {{ product.name }}
-          </div>
-          <p
-            class="product-description text-xs sm:text-sm text-gray-600 mt-1 text-center line-clamp-2"
-          >
-            {{ product.description }}
-          </p>
-          <div
-            class="product-price font-bold text-red-500 mt-2 text-sm sm:text-base md:text-lg"
-          >
-            {{ product.price }} VND
-          </div>
+          <!-- Sử dụng component ProductCard -->
+          <ProductCard :product="product" />
         </swiper-slide>
       </swiper>
+    </div>
+    <div class="flex justify-end px-3">
+      <span
+        class="font-semibold cursor-pointer text-base text-red-500 transition"
+      >
+        Xem tất cả
+      </span>
     </div>
   </div>
 </template>
@@ -65,9 +51,9 @@
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper-bundle.css";
-
+import ProductCard from "@/components/productDetail/ProductCard.vue";
 export default {
-  components: { Swiper, SwiperSlide },
+  components: { Swiper, SwiperSlide, ProductCard },
   data() {
     return {
       products: [

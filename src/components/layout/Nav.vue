@@ -35,88 +35,9 @@
             <p class="text-black font-serif text-2xl ml-1">GizmoShop</p>
           </div>
         </div>
-
-        <div
-          class="flex flex-col items-center justify-center sm:items-stretch sm:justify-center mx-auto"
-        >
-          <div class="flex flex-shrink-0 items-center sm:hidden">
-            <!-- <img class="h-8 w-auto" :src="logo" alt="My logo" /> -->
-            <p class="text-black font-serif ml-1">GizmoShop</p>
-          </div>
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
-              <div class="relative">
-                <!-- Nút Danh mục sản phẩm với mũi tên lên/xuống -->
-                <button
-                  @click="toggleDropdown"
-                  ref="dropdownButton"
-                  class="px-4 py-2 text-base font-medium text-black bg-gray-100 min-w-[150px] hover:bg-red-500 flex items-center w-full h-full"
-                >
-                  <i class="bx bx-notepad mr-2"></i>
-                  <span class="hidden lg:inline">Danh mục sản phẩm</span>
-                  <!-- Biểu tượng mũi tên -->
-                  <i
-                    :class="
-                      isDropdownOpen
-                        ? 'bx bx-chevron-up ml-2'
-                        : 'bx bx-chevron-down ml-2'
-                    "
-                  ></i>
-                </button>
-
-                <transition name="dropdown">
-                  <div
-                    v-show="isDropdownOpen"
-                    class="absolute top-12 left-0 bg-white border border-gray-200 shadow-lg z-10 w-full"
-                  >
-                    <ul class="py-1">
-                      <li v-for="category in categories" :key="category.id">
-                        <a
-                          href="#"
-                          class="block px-4 py-2 text-black hover:bg-gray-100"
-                        >
-                          {{ category.name }}
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </transition>
-              </div>
-              <a
-                href="#"
-                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
-              >
-                <i class="bx bx-search-alt mr-2"></i>
-                <span class="hidden lg:inline">Tra cứu</span>
-              </a>
-              <form class="flex items-center mx-auto">
-                <div class="relative w-full">
-                  <input
-                    type="text"
-                    id="simple-search"
-                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full ps-10 p-2.5 focus:outline-none focus:ring-0"
-                    placeholder="Tìm kiếm sản phẩm ..."
-                    required
-                  />
-                </div>
-              </form>
-
-              <a
-                href="#"
-                class="rounded-md px-1.5 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black pr-5"
-              >
-                <i class="bx bx-notepad mr-2"></i>
-                <span class="hidden lg:inline">Xây dựng cấu hình</span>
-              </a>
-              <a
-                href="#"
-                class="rounded-md px-2 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
-              >
-                <i class="bx bx-cart mr-2"></i
-                ><span class="hidden lg:inline">Giỏ hàng</span>
-              </a>
-            </div>
-          </div>
+        <div class="flex flex-shrink-0 items-center sm:hidden justify-center">
+          <!-- <img class="h-8 w-auto" :src="logo" alt="My logo" /> -->
+          <p class="text-black font-serif ml-1">GizmoShop</p>
         </div>
         <div class="hidden sm:block lg:block">
           <div
@@ -175,7 +96,7 @@
             </div>
           </div>
         </div>
-        <div class="block sm:hidden pr-3">
+        <div class="block sm:hidden pr-3 justify-end">
           <!-- Thẻ icon Search chỉ hiển thị ở chế độ điện thoại -->
           <button
             type="button"
@@ -185,6 +106,96 @@
             <!-- Đổi sang Boxicons và tăng kích thước -->
             <i class="bx bx-search text-2xl"></i>
           </button>
+        </div>
+      </div>
+      <div class="w-full h-12 hidden sm:block" v-show="isVisible">
+        <div
+          class="flex flex-col items-center justify-center sm:items-stretch sm:justify-center mx-auto"
+        >
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4 justify-around">
+              <div class="relative">
+                <!-- Nút Danh mục sản phẩm với mũi tên lên/xuống -->
+                <button
+                  @click="toggleDropdown"
+                  ref="dropdownButton"
+                  class="px-4 py-2 text-base font-medium text-black bg-gray-100 hover:bg-red-500 flex items-center w-full "
+                >
+                  <i class="bx bx-notepad mr-2"></i>
+                  <span class="hidden lg:inline">Danh mục sản phẩm</span>
+                  <!-- Biểu tượng mũi tên -->
+                  <i
+                    :class="
+                      isDropdownOpen
+                        ? 'bx bx-chevron-up ml-2'
+                        : 'bx bx-chevron-down ml-2'
+                    "
+                  ></i>
+                </button>
+
+                <transition name="dropdown">
+                  <div
+                    v-show="isDropdownOpen"
+                    class="absolute top-12 left-0 bg-white border border-gray-200 shadow-lg z-10 w-full"
+                  >
+                    <ul class="py-1">
+                      <li v-for="category in categories" :key="category.id">
+                        <a
+                          href="#"
+                          class="block px-4 py-2 text-black hover:bg-gray-100"
+                        >
+                          {{ category.name }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </transition>
+              </div>
+              <a
+                href="#"
+                class="rounded-md px-4 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center"
+              >
+                <i class="bx bx-notepad mr-2"></i>
+                <span class="hidden lg:inline">Xây dựng cấu hình</span>
+              </a>
+
+              <!-- Tra cứu -->
+              <a
+                href="#"
+                class="rounded-md px-4 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center"
+              >
+                <i class="bx bx-search-alt mr-2"></i>
+                <span class="hidden lg:inline">Tra cứu</span>
+              </a>
+
+              <!-- Giỏ hàng -->
+              <a
+                href="#"
+                class="rounded-md px-4 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center"
+              >
+                <i class="bx bx-cart mr-2"></i>
+                <span class="hidden lg:inline">Giỏ hàng</span>
+              </a>
+
+              <!-- Khuyến mãi -->
+              <a
+                href="#"
+                class="rounded-md px-4 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center"
+              >
+                <i class="bx bx-gift mr-2"></i>
+                <span class="hidden lg:inline">Khuyến mãi</span>
+              </a>
+
+              <!-- Tài khoản -->
+              <a
+                href="#"
+                class="rounded-md px-4 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center"
+              >
+                <i class="bx bx-user mr-2"></i>
+                <span class="hidden lg:inline">Tài khoản</span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -235,17 +246,17 @@ export default {
       isVisible: true,
     };
   },
-  async mounted() {
-    try {
-      // Gọi API và lấy danh mục
-      const response = await getCategories();
-      this.categories = response.data; // Gán đúng phần mảng từ response.data
-      console.log(this.categories); // Kiểm tra lại dữ liệu
-    } catch (error) {
-      console.error("Lỗi khi lấy danh mục:", error.message);
-    }
-    window.addEventListener("scroll", this.handleScroll);
-  },
+async mounted() {
+  try {
+    // Gọi API và lấy danh mục
+    const response = await getCategories();
+    this.categories = response.data; // Gán đúng phần mảng từ response.data
+    console.log(this.categories); // Kiểm tra lại dữ liệu
+  } catch (error) {
+    console.error("Lỗi khi lấy danh mục:", error.message);
+  }
+  window.addEventListener("scroll", this.handleScroll);
+},
   // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -273,7 +284,7 @@ export default {
 /* Hiệu ứng chuyển động */
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: all 0.7s ease;
+  transition: all 0.5s ease;
 }
 .dropdown-enter-from {
   opacity: 0;

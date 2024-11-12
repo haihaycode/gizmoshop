@@ -1,29 +1,33 @@
 <template>
-  <div class="md:m-0" ref="content">
-    <carouselVoucherComponent></carouselVoucherComponent>
-    <ScrollingVoucherComponent></ScrollingVoucherComponent>
-    <voucherHomeComponent></voucherHomeComponent>
-    <TopDiscountedProductsComponent></TopDiscountedProductsComponent>
-    <CarouselCategoryComponent></CarouselCategoryComponent>
-    <productComponent :products="products"></productComponent>
+  <div class="flex flex-col sm:flex-row w-full">
+    <!-- Cột trái -->
+    <div class="w-full sm:w-1/2 p-2">
+      <leftpageComponent></leftpageComponent>
+    </div>
+
+    <!-- Cột phải -->
+    <div class="w-full sm:w-1/2 p-2">
+      <rightpageComponent></rightpageComponent>
+    </div>
   </div>
+  <SettingProductVue></SettingProductVue>
+  <ProductRelatedVue> </ProductRelatedVue>
 </template>
+
+
 <script>
-import CarouselCategoryComponent from "@/components/carouselHome/carouselCategoryComponent.vue";
-import carouselVoucherComponent from "@/components/carouselHome/carouselVoucherComponent.vue";
-import voucherHomeComponent from "@/components/carouselHome/voucherHomeComponent.vue";
-import TopDiscountedProductsComponent from "@/components/product/TopDiscountedProductsComponent.vue";
-import ScrollingVoucherComponent from "@/components/carouselHome/ScrollingVoucherComponent.vue";
-import productComponent from "@/components/carouselHome/productComponent.vue";
+import leftpageComponent from "@/components/productDetail/LeftViewComponent.vue";
+import rightpageComponent from "@/components/productDetail/RightPageComponent.vue";
+import ProductRelatedVue from "@/components/productDetail/ProductRelated.vue";
+
+import SettingProductVue from "@/components/productDetail/SettingProduct.vue";
 export default {
   name: "demoTestDev",
   components: {
-    carouselVoucherComponent,
-    voucherHomeComponent,
-    CarouselCategoryComponent,
-    TopDiscountedProductsComponent,
-    ScrollingVoucherComponent,
-    productComponent,
+    leftpageComponent,
+    rightpageComponent,
+    ProductRelatedVue,
+    SettingProductVue,
   },
   data() {
     return {
