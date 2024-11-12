@@ -1,11 +1,11 @@
 <template>
   <div
-    class="fixed bottom-0 left-0 w-full bg-white shadow-lg flex  justify-between px-4 py-3 md:max-w-lg md:mx-auto items-center rounded-t-lg"
-  style="z-index: 50;"
+    class="fixed bottom-0 left-0 w-full bg-white shadow-lg flex justify-between px-4 py-3 md:max-w-lg md:mx-auto items-center rounded-t-lg"
+    style="z-index: 50;"
   >
     <!-- Home Icon -->
     <button class="icon w-12 h-12 flex items-center justify-center transition-all duration-200 hover:bg-gray-100">
-      <i class="bx bx-store text-2xl md:text-3xl hover:text-red-600"></i>
+      <i class="bx bx-home text-2xl md:text-3xl hover:text-red-600"></i>
     </button>
 
     <!-- Cart Icon -->
@@ -15,20 +15,21 @@
 
     <!-- Add Product Icon -->
     <button class="icon w-12 h-12 flex items-center bg-gray-100 justify-center transition-all duration-200 hover:bg-gray-100">
-      <i class="bx bx-plus-circle text-2xl md:text-3xl hover:text-red-600"></i>
+      <i class="bx bx-plus text-2xl md:text-3xl hover:text-red-600"></i>
     </button>
 
-    <!-- Contact Icon -->
+    <!-- User Icon -->
     <button class="icon w-12 h-12 flex items-center justify-center transition-all duration-200 hover:bg-gray-100">
-      <i class="bx bx-envelope text-2xl md:text-3xl hover:text-red-600"></i>
+      <i class="bx bx-user text-2xl md:text-3xl hover:text-red-600"></i>
     </button>
 
     <!-- Categories Icon -->
     <button class="icon w-12 h-12 flex items-center justify-center transition-all duration-200 hover:bg-gray-100">
-      <i class="bx bx-category text-2xl md:text-3xl hover:text-red-600"></i>
+      <i class="bx bx-label text-2xl md:text-3xl hover:text-red-600"></i>
     </button>
   </div>
 </template>
+
 
 <style scoped>
 .icon {

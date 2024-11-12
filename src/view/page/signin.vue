@@ -22,11 +22,13 @@
           <div class="relative z-10">
             <h2 class="text-4xl font-extrabold mb-4">Chào mừng bạn!</h2>
             <p class="mb-8 text-lg">Bạn đã có tài khoản, đăng nhập ngay.</p>
+            <router-link to="/login">
             <button
               class="py-3 px-10 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-red-600 transition duration-200 shadow-lg"
             >
-              Đăng ký
+              Đăng nhập
             </button>
+          </router-link>
           </div>
         </div>
 

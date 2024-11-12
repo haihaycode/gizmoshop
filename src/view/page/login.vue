@@ -1,15 +1,29 @@
 <template>
-  <div class="flex h-screen bg-gray-100" style="
-        background-image: url('https://i.pinimg.com/736x/41/60/7d/41607d7cc517513f13d335087de68d71.jpg');
-        background-size: cover;
-        background-position: center;
-      ">
-    <div class="w-5/6 h-5/6 flex items-center justify-center mx-auto my-auto rounded-lg">
-      <div class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg">
+  <div
+    class="flex h-screen bg-gray-100"
+    style="
+      background-image: url('https://i.pinimg.com/736x/41/60/7d/41607d7cc517513f13d335087de68d71.jpg');
+      background-size: cover;
+      background-position: center;
+    "
+  >
+    <div
+      class="w-5/6 h-5/6 flex items-center justify-center mx-auto my-auto rounded-lg"
+    >
+      <div
+        class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg"
+      >
         <h1 class="text-5xl font-extrabold mb-6 text-red-600">Gizmo</h1>
-        <p class="text-lg text-gray-700 mb-8">Chào mừng trở lại! Nhập thông tin để tiếp tục.</p>
+        <p class="text-lg text-gray-700 mb-8">
+          Chào mừng trở lại! Nhập thông tin để tiếp tục.
+        </p>
 
-        <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }" class="w-full max-w-sm">
+        <Form
+          @submit="handleLogin"
+          :validation-schema="schema"
+          v-slot="{ errors }"
+          class="w-full max-w-sm"
+        >
           <div class="mb-4">
             <Field
               name="email"
@@ -34,7 +48,9 @@
               <i
                 class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
                 @click="togglePassword"
-                :class="passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'"
+                :class="
+                  passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'
+                "
               ></i>
             </div>
             <p class="text-sm text-red-500">{{ errors.password }}</p>
@@ -59,11 +75,14 @@
       </div>
 
       <!-- Welcome Section -->
-      <div class="hidden md:flex md:w-1/3 lg:w-1/2 h-full flex-col justify-center items-center text-white text-center p-10 relative rounded-lg overflow-hidden" style="
+      <div
+        class="hidden md:flex md:w-1/3 lg:w-1/2 h-full flex-col justify-center items-center text-white text-center p-10 relative rounded-lg overflow-hidden"
+        style="
           background-image: url('https://i.pinimg.com/564x/53/91/15/539115966ea3c25b220d23ed23ee5848.jpg');
           background-size: cover;
           background-position: center;
-        ">
+        "
+      >
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black opacity-50"></div>
 
@@ -73,11 +92,13 @@
           <p class="mb-8 text-lg">
             Hãy đăng ký và bắt đầu hành trình cùng chúng tôi.
           </p>
-          <button
-            class="py-3 px-10 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-red-600 transition duration-200 shadow-lg"
-          >
-            Đăng ký
-          </button>
+          <router-link to="/signin">
+            <button
+              class="py-3 px-10 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-red-600 transition duration-200 shadow-lg"
+            >
+              Đăng ký
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
