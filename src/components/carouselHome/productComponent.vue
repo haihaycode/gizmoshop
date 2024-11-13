@@ -1,21 +1,37 @@
 <template>
   <div>
-    <div class="flex items-center mb-4 pt-3 h-screen">
+    <div class="flex items-center mb-4 pt-3">
       <div class="w-3 h-10 bg-orange-600 mr-1"></div>
       <p class="text-xl font-bold text-gray-800 uppercase">Sản phẩm nổi bật</p>
     </div>
     <div class="product pl-2 pr-2 mx-auto mt-5 md:container-flush">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div v-for="(product, index) in products" :key="index"
-          class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 duration-300">
-          <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
-            - 30%
+        <div
+            v-for="product in products"
+            :key="product.id"
+            class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 duration-300"
+        >
+          <div
+              class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg"
+          >
+            <!-- Kiểm tra xem product.discountProduct có giá trị không -->
+            <span v-if="product.discountProduct">
+              {{ product.discountProduct }}%
+            </span>
+            <span v-else>0%</span>
           </div>
-          <img class="w-full h-48 object-cover" :src="imageService(product.productImageMappingResponse, 'product')"
-            :alt="product.productName" @error="handleImageError" />
 
+          <img
+              class="w-full h-48 object-cover"
+              :src="loadImage(product.thumbnail, 'product')"
+              :alt="product.productName"
+              @error="handleImageError"
+          />
           <div class="p-3 space-y-3">
-            <h3 class="text-lg font-bold mb-1 text-gray-800 h-11 overflow-hidden" style="line-height: 1.5rem">
+            <h3
+                class="text-lg font-bold mb-1 text-gray-800 h-11 overflow-hidden"
+                style="line-height: 1.5rem"
+            >
               {{ product.productName }}
             </h3>
             <div class="flex items-center space-x-1">
@@ -23,25 +39,42 @@
                 {{ formatCurrency(product.productPrice) }}
               </span>
               <span class="text-sm line-through text-gray-500">
-                {{ formatCurrency(product.productPrice) }}
+                {{
+                  formatCurrency(
+                      calculateOldPrice(
+                          product.productPrice,
+                          product.discountProduct
+                      )
+                  )
+                }}
               </span>
             </div>
             <div class="bg-gray-100 p-1 rounded-md border border-gray-300">
-              <p class="text-sm text-gray-700 h-12 overflow-hidden flex flex-col justify-between">
+              <p
+                  class="text-sm text-gray-700 h-12 overflow-hidden flex flex-col justify-between"
+              >
                 {{ product.productShortDescription }}
               </p>
             </div>
             <div class="flex items-center justify-between space-x-2">
               <span class="text-yellow-500 text-lg"> ★★★★☆ </span>
-              <button class="text-gray-500 hover:text-red-500 text-sm font-medium">
+              <button
+                  class="text-gray-500 hover:text-red-500 text-sm font-medium"
+              >
                 Yêu thích ❤️
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div class="text-center mt-4" v-if="visibleProducts.length < products.length">
-        <button @click="loadMore" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500">
+      <div
+          class="text-center mt-4"
+          v-if="visibleProducts.length < products.length"
+      >
+        <button
+            @click="loadMore"
+            class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500"
+        >
           Xem thêm
         </button>
       </div>
@@ -50,55 +83,97 @@
 </template>
 
 <script>
-import { imageService } from "@/services/imageService";
+import { loadImage } from "@/services/imageService";
 import { getProduct } from "@/api/productApi";
+
 export default {
   data() {
     return {
       fallbackImage:
-        "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg",
+          "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg",
       products: [],
-
-      itemsToShow: 10, // Khai báo đúng
+      itemsToShow: 10, // Hiển thị 10 sản phẩm đầu tiên
     };
   },
 
   computed: {
+    // Dùng để hiển thị danh sách sản phẩm có số lượng sản phẩm giới hạn
     visibleProducts() {
       return this.products.slice(0, this.itemsToShow);
     },
   },
+
   async mounted() {
+    // Lắng nghe sự kiện scroll
     window.addEventListener("scroll", this.handleScroll);
     window.scrollTo(0, 0);
+    await this.getProduct(); // Lấy sản phẩm khi trang được tải
   },
+
   methods: {
-    imageService,
+    loadImage, // Gọi đến dịch vụ lấy hình ảnh
     async getProduct() {
       try {
         const res = await getProduct();
-        // Ánh xạ dữ liệu từ API và gán vào mảng products
-        this.products = res.data.content.map((product) => {
-          return {
-            ...product,
-            productImageMappingResponse:
-              product.productImageMappingResponse || [],
-          };
-        });
-        console.log(this.products); // Kiểm tra lại dữ liệu
+        console.log(res); // Kiểm tra dữ liệu trả về từ API
+
+        if (res && res.data && res.data.content) {
+          this.products = res.data.content.map((product) => ({
+            id: product.id,
+            productName: product.productName,
+            productPrice: product.productPrice,
+            discountProduct: product.discountProduct,
+            thumbnail: product.thumbnail, // Dữ liệu ảnh thumbnail
+            productShortDescription: product.productShortDescription,
+            productBrand: product.productBrand, // Thêm thông tin thương hiệu nếu cần
+            productCategories: product.productCategories, // Thêm thông tin danh mục sản phẩm nếu cần
+          }));
+          console.log("Sản phẩm đã được lấy:", this.products);
+        } else {
+          console.error("Dữ liệu sản phẩm không hợp lệ:", res.data);
+        }
       } catch (error) {
         console.error("Lỗi khi lấy sản phẩm:", error.message);
       }
     },
+    calculateOldPrice(productPrice, discountProduct) {
+      // Tính giá cũ bằng cách sử dụng giá gốc và phần trăm giảm giá
+      if (discountProduct && productPrice) {
+        return productPrice * (1 + discountProduct / 100);
+      }
+      return productPrice; // Nếu không có giảm giá, trả về giá gốc
+    },
     formatCurrency(value) {
+      // Hàm định dạng tiền tệ theo kiểu VND
       return new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
       }).format(value);
     },
+
+    handleScroll() {
+      // Xử lý sự kiện scroll khi người dùng kéo xuống cuối trang
+      const bottom =
+          window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight;
+      if (bottom) {
+        this.loadMore(); // Nếu đã kéo đến cuối trang, tải thêm sản phẩm
+      }
+    },
+
     loadMore() {
+      // Tăng số lượng sản phẩm hiển thị lên mỗi khi nhấn "Xem thêm"
       this.itemsToShow += 10;
+    },
+
+    handleImageError(event) {
+      // Xử lý lỗi khi hình ảnh không thể tải được (hiển thị hình ảnh mặc định)
+      event.target.src = this.fallbackImage;
     },
   },
 };
 </script>
+
+<style scoped>
+/* CSS tùy chỉnh (nếu cần) */
+</style>
