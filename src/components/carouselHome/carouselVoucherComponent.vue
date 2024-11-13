@@ -47,7 +47,6 @@ export default {
       try {
         const response = await getVoucherPage();
         this.voucher = response.data.content;
-        console.log(this.voucher);
       } catch (error) {
         console.error("Failed to load vouchers:", error);
       }

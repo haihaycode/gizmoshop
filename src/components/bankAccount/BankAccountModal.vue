@@ -8,20 +8,23 @@
 
         <template #body>
             <form @submit.prevent="validateAndSave" class="w-full sm:w-full md:w-[600px] mx-auto p-4">
-                <CustomInputComponent v-model="localAccount.bank_name" label="Tên ngân hàng" :error="!!errors.bank_name"
-                    :message="errors.bank_name" />
+                <CustomInputComponent v-model="localAccount.bankName" label="Họ và tên ( In ra không dấu )"
+                    :error="!!errors.bankName" :message="errors.bankName" />
 
-                <CustomInputComponent v-model="localAccount.account_number" label="Số tài khoản"
-                    :error="!!errors.account_number" :message="errors.account_number" />
+                <CustomInputComponent v-model="localAccount.accountNumber" label="Số tài khoản"
+                    :error="!!errors.accountNumber" :message="errors.accountNumber" />
 
-                <CustomInputComponent v-model="localAccount.branch" label="Chi nhánh" :error="!!errors.branch"
+                <CustomInputComponent v-model="localAccount.branch" label="Tên Ngân Hàng" :error="!!errors.branch"
                     :message="errors.branch" />
 
-                <CustomInputComponent v-model="localAccount.swift_code" label="SWIFT Code (tuỳ chọn)"
-                    :error="!!errors.swift_code" :message="errors.swift_code" />
+                <CustomInputComponent v-model="localAccount.swiftCode" label="SWIFT Code (tuỳ chọn)"
+                    :error="!!errors.swiftCode" :message="errors.swiftCode" />
 
             </form>
             <div class="flex justify-end space-x-2">
+                <button v-if="account" type="button" @click="() => this.$emit('delete', account)"
+                    class="px-4 py-2 text-white bg-gray-500 rounded-sm hover:bg-red-600 focus:outline-none">Xóa ngân
+                    hàng</button>
                 <button type="button" @click="validateAndSave"
                     class="px-4 py-2 text-white bg-red-500 rounded-sm hover:bg-red-600 focus:outline-none">
                     Lưu Ngân Hàng
@@ -51,7 +54,7 @@ export default {
         },
         account: {
             type: Object,
-            default: () => ({ bank_name: '', account_number: '', branch: '', swift_code: '' })
+            default: () => ({ bankName: '', accountNumber: '', branch: '', swiftCode: '' })
         }
     },
     data() {
@@ -75,10 +78,10 @@ export default {
         },
         validateAndSave() {
             const schema = yup.object().shape({
-                bank_name: yup.string().required('Tên ngân hàng là bắt buộc'),
-                account_number: yup.string().required('Số tài khoản là bắt buộc'),
+                bankName: yup.string().required('Tên ngân hàng là bắt buộc'),
+                accountNumber: yup.string().required('Số tài khoản là bắt buộc'),
                 branch: yup.string().required('Chi nhánh là bắt buộc'),
-                swift_code: yup.string().nullable(),
+                swiftCode: yup.string().nullable(),
             });
 
             schema.validate(this.localAccount, { abortEarly: false })
@@ -91,6 +94,7 @@ export default {
                     this.errors = {};
                     err.inner.forEach((validationError) => {
                         this.errors[validationError.path] = validationError.message;
+                        console.log(validationError.message)
                     });
                 });
         }

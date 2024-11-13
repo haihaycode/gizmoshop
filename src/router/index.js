@@ -48,8 +48,8 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach(async (to, from, next) => {
     const isAuthenticated = store.getters['auth/token'];
-    // Nếu người dùng không có token và không phải trang /login thì chuyển hướng tới /login
-    if (!isAuthenticated && to.path !== '/login') {
+    // Nếu người dùng không có token và đường dẫn chưa account thì chuyển về login
+    if (!isAuthenticated && to.path.includes('/account')) {
         return next('/login');
     }
     if (isAuthenticated && to.path === 'supplier' && !SUPPLIER()) {

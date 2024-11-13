@@ -6,28 +6,16 @@
     </div>
     <div class="product pl-2 pr-2 mx-auto mt-5 md:container-flush">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div
-          v-for="(product, index) in products"
-          :key="index"
-          class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 duration-300"
-        >
-          <div
-            class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg"
-          >
+        <div v-for="(product, index) in products" :key="index"
+          class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 duration-300">
+          <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
             - 30%
           </div>
-          <img
-            class="w-full h-48 object-cover"
-            :src="imageService(product.productImageMappingResponse,'product')"
-            :alt="product.productName"
-            @error="handleImageError"
-          />
+          <img class="w-full h-48 object-cover" :src="imageService(product.productImageMappingResponse, 'product')"
+            :alt="product.productName" @error="handleImageError" />
 
           <div class="p-3 space-y-3">
-            <h3
-              class="text-lg font-bold mb-1 text-gray-800 h-11 overflow-hidden"
-              style="line-height: 1.5rem"
-            >
+            <h3 class="text-lg font-bold mb-1 text-gray-800 h-11 overflow-hidden" style="line-height: 1.5rem">
               {{ product.productName }}
             </h3>
             <div class="flex items-center space-x-1">
@@ -39,31 +27,21 @@
               </span>
             </div>
             <div class="bg-gray-100 p-1 rounded-md border border-gray-300">
-              <p
-                class="text-sm text-gray-700 h-12 overflow-hidden flex flex-col justify-between"
-              >
+              <p class="text-sm text-gray-700 h-12 overflow-hidden flex flex-col justify-between">
                 {{ product.productShortDescription }}
               </p>
             </div>
             <div class="flex items-center justify-between space-x-2">
               <span class="text-yellow-500 text-lg"> ★★★★☆ </span>
-              <button
-                class="text-gray-500 hover:text-red-500 text-sm font-medium"
-              >
+              <button class="text-gray-500 hover:text-red-500 text-sm font-medium">
                 Yêu thích ❤️
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="text-center mt-4"
-        v-if="visibleProducts.length < products.length"
-      >
-        <button
-          @click="loadMore"
-          class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500"
-        >
+      <div class="text-center mt-4" v-if="visibleProducts.length < products.length">
+        <button @click="loadMore" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500">
           Xem thêm
         </button>
       </div>

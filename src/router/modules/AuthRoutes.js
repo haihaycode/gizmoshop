@@ -45,7 +45,7 @@ const guestRoutesAuth = [
                 name: 'account',
                 components: {
                     default: useLayout('layoutAccount/AccountLayout'),
-                    header: useComponentLayout('Header'),
+                    header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
                     mobile: useComponentLayout('ResponsiveMobile')
                 },
@@ -71,6 +71,17 @@ const guestRoutesAuth = [
                         },
                         components: {
                             default: usePage('account/profile'),
+                        }
+                    },
+                    {
+                        path: 'favorite',
+                        name: 'favorite',
+                        meta: {
+                            title: "Yêu thích",
+                            description: "Gizmo"
+                        },
+                        components: {
+                            default: usePage('account/favorite'),
                         }
                     },
                     {

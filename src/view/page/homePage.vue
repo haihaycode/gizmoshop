@@ -1,11 +1,11 @@
 <template>
   <div class="md:m-0" ref="content">
-    <carouselVoucherComponent></carouselVoucherComponent>
+    <carouselVoucherComponent class="md:mt-[120px]"></carouselVoucherComponent>
     <ScrollingVoucherComponent></ScrollingVoucherComponent>
     <voucherHomeComponent></voucherHomeComponent>
     <TopDiscountedProductsComponent></TopDiscountedProductsComponent>
     <CarouselCategoryComponent></CarouselCategoryComponent>
-    <productComponent ></productComponent>
+    <productComponent></productComponent>
     <!-- :products="products" -->
   </div>
 </template>
