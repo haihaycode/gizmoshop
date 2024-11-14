@@ -5,10 +5,19 @@
     <voucherHomeComponent></voucherHomeComponent>
     <TopDiscountedProductsComponent></TopDiscountedProductsComponent>
     <CarouselCategoryComponent></CarouselCategoryComponent>
-    <productComponent ></productComponent>
-    <!-- :products="products" -->
+    <productComponent
+      @hovered="onProductHovered"
+      @mouseleave="onMouseLeave"
+      :products="products"
+    />
+
+    <ProductHoverInfoComponent
+      v-if="hoveredProduct"
+      :product="hoveredProduct"
+    />
   </div>
 </template>
+
 <script>
 import CarouselCategoryComponent from "@/components/carouselHome/carouselCategoryComponent.vue";
 import carouselVoucherComponent from "@/components/carouselHome/carouselVoucherComponent.vue";
@@ -16,7 +25,7 @@ import voucherHomeComponent from "@/components/carouselHome/voucherHomeComponent
 import TopDiscountedProductsComponent from "@/components/product/TopDiscountedProductsComponent.vue";
 import ScrollingVoucherComponent from "@/components/carouselHome/ScrollingVoucherComponent.vue";
 import productComponent from "@/components/carouselHome/productComponent.vue";
-// import { getProduct } from "@/api/productApi";
+import ProductHoverInfoComponent from "@/components/carouselHome/ProductHoverInfoComponent.vue";
 
 export default {
   name: "demoTestDev",
@@ -27,23 +36,29 @@ export default {
     TopDiscountedProductsComponent,
     ScrollingVoucherComponent,
     productComponent,
+    ProductHoverInfoComponent,
   },
-  // data() {
-  //   return {
-  //     products: [], // Khai báo đúng
-  //   };
-  // },
-  // async mounted() {
-  //   try {
-  //     // Gọi API và lấy sản phẩm
-  //     const response = await getProduct();
-  //     this.products = response.data; // Gán vào products thay vì categories
-  //     console.log(this.products); // Kiểm tra lại dữ liệu
-  //   } catch (error) {
-  //     console.error("Lỗi khi lấy danh mục:", error.message);
-  //   }
-  //   window.addEventListener("scroll", this.handleScroll);
-  //   window.scrollTo(0, 0);
-  // },
+  data() {
+    return {
+      hoveredProduct: null,
+    };
+  },
+  methods: {
+    onProductHovered(product) {
+      this.hoveredProduct = product;
+    },
+    onMouseLeave() {
+      this.hoveredProduct = null;
+    },
+  },
 };
 </script>
+
+<style scoped>
+/* Định vị thành phần ở góc dưới bên trái */
+.ProductHoverInfoComponent {
+  position: fixed;
+  left: 20px;
+  z-index: 1000; /* Đảm bảo thành phần nổi trên các phần khác */
+}
+</style>

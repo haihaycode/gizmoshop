@@ -9,6 +9,7 @@
         <div
           v-for="product in products"
           :key="product.id"
+           @mouseover="handleHover(product)"
           class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 duration-300"
         >
           <div
@@ -56,13 +57,27 @@
                 {{ product.productShortDescription }}
               </p>
             </div>
-            <div class="flex items-center justify-between space-x-2">
-              <span class="text-yellow-500 text-lg"> ★★★★☆ </span>
-              <button
-                class="text-gray-500 hover:text-red-500 text-sm font-medium"
-              >
-                Yêu thích ❤️
-              </button>
+            <div class="flex items-center justify-between w-full">
+              <!-- Phần hiển thị số lượng sản phẩm đã bán -->
+              <div class="flex items-center">
+                <span class="text-black text-lg sm:text-sm font-medium">
+                  {{ product.soldProduct ? product.soldProduct : 0 }} đã bán
+                </span>
+              </div>
+
+              <!-- Phần nút yêu thích với Boxicons, căn sang phải -->
+              <div class="flex items-center justify-end ml-auto">
+                <button
+                  class="text-black hover:text-red-500 text-sm font-medium flex items-center space-x-2 transition duration-200 relative group"
+                 
+                >
+                  <i class="bx bx-heart text-xl"></i>
+                  <span
+                    class="absolute left-1/2 transform -translate-x-1/2 -top-6 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >Yêu thích</span
+                  >
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -111,7 +126,10 @@ export default {
   },
 
   methods: {
-    loadImage, // Gọi đến dịch vụ lấy hình ảnh
+    loadImage,
+    handleHover(product) {
+      this.$emit("hovered", product);
+    },
     async getProduct() {
       try {
         const res = await getProduct();
@@ -120,6 +138,7 @@ export default {
         if (res && res.data && res.data.content) {
           this.products = res.data.content.map((product) => ({
             id: product.id,
+            soldProduct: product.soldProduct,
             productName: product.productName,
             productPrice: product.productPrice,
             discountProduct: product.discountProduct,

@@ -9,6 +9,21 @@ const publicRoutes = [
         component: useLayout('MemberLayout'),
         children: [
             {
+                path: '/cart',
+                name: 'yourCart',
+                meta: {
+                    title: "...Updating...",
+                    description: " "
+                },
+                components: {
+                    default: usePage('cart'),
+                    header: useComponentLayout('Header'),
+                    footer: useComponentLayout('Footer'),
+                    // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+
+                }
+            },
+            {
                 path: '/product',
                 name: 'productDetail',
                 meta: {
