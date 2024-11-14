@@ -4,7 +4,7 @@
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-white text-sm md:text-lg font-semibold flex items-center">
                 <span class="mr-2"><i class="bx bx-bank text-lg md:text-xl"></i></span>
-                {{ account.bank_name }}
+                {{ account.branch }}
             </h3>
             <button @click="$emit('edit', account)"
                 class="text-white text-xs sm:text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-white rounded">
@@ -21,7 +21,7 @@
         <div class="flex justify-between items-center text-white text-xs sm:text-sm">
             <div>
                 <p class="uppercase tracking-wide text-xs opacity-75">TÊN CHỦ THẺ</p>
-                <p>{{ account.holder_name || 'JAME DOE' }}</p>
+                <p>{{ account.bankName || 'Không có tên hiển thị' }}</p>
             </div>
             <div>
                 <p class="uppercase tracking-wide text-xs opacity-75">HẾT HẠN</p>
@@ -43,8 +43,7 @@ export default {
     },
     computed: {
         formattedAccountNumber() {
-            // Format the account number to appear like a credit card number
-            return this.account.account_number ? this.account.account_number.match(/.{1,4}/g) : ['0000', '0000', '0000', '0000'];
+            return this.account.accountNumber ? this.account.accountNumber.match(/.{1,4}/g) : ['0000', '0000', '0000', '0000'];
         }
     }
 };

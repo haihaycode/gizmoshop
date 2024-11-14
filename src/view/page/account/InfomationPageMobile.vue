@@ -24,6 +24,14 @@
                     </router-link>
                 </li>
                 <li>
+                    <router-link :to="{ name: 'favorite' }"
+                        class="flex items-center space-x-2 text-gray-700 hover:text-red-500 transition duration-300"
+                        active-class="text-red-500 font-semibold">
+                        <i class="bx bx-heart text-lg" :class="{ 'bx-burst': $route.name === 'favorite' }"></i>
+                        <span>Yêu thích</span>
+                    </router-link>
+                </li>
+                <li>
                     <router-link :to="{ name: 'address' }"
                         class="flex items-center space-x-2 text-gray-700 hover:text-red-500 transition duration-300"
                         active-class="text-red-500 font-semibold">

@@ -13,7 +13,7 @@
           class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 duration-300"
         >
           <div
-            class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg"
+              class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg"
           >
             <!-- Kiểm tra xem product.discountProduct có giá trị không -->
             <span v-if="product.discountProduct">
@@ -23,15 +23,15 @@
           </div>
 
           <img
-            class="w-full h-48 object-cover"
-            :src="loadImage(product.thumbnail, 'product')"
-            :alt="product.productName"
-            @error="handleImageError"
+              class="w-full h-48 object-cover"
+              :src="loadImage(product.thumbnail, 'product')"
+              :alt="product.productName"
+              @error="handleImageError"
           />
           <div class="p-3 space-y-3">
             <h3
-              class="text-lg font-bold mb-1 text-gray-800 h-11 overflow-hidden"
-              style="line-height: 1.5rem"
+                class="text-lg font-bold mb-1 text-gray-800 h-11 overflow-hidden"
+                style="line-height: 1.5rem"
             >
               {{ product.productName }}
             </h3>
@@ -42,17 +42,17 @@
               <span class="text-sm line-through text-gray-500">
                 {{
                   formatCurrency(
-                    calculateOldPrice(
-                      product.productPrice,
-                      product.discountProduct
-                    )
+                      calculateOldPrice(
+                          product.productPrice,
+                          product.discountProduct
+                      )
                   )
                 }}
               </span>
             </div>
             <div class="bg-gray-100 p-1 rounded-md border border-gray-300">
               <p
-                class="text-sm text-gray-700 h-12 overflow-hidden flex flex-col justify-between"
+                  class="text-sm text-gray-700 h-12 overflow-hidden flex flex-col justify-between"
               >
                 {{ product.productShortDescription }}
               </p>
@@ -69,7 +69,7 @@
               <div class="flex items-center justify-end ml-auto">
                 <button
                   class="text-black hover:text-red-500 text-sm font-medium flex items-center space-x-2 transition duration-200 relative group"
-                 
+
                 >
                   <i class="bx bx-heart text-xl"></i>
                   <span
@@ -83,12 +83,12 @@
         </div>
       </div>
       <div
-        class="text-center mt-4"
-        v-if="visibleProducts.length < products.length"
+          class="text-center mt-4"
+          v-if="visibleProducts.length < products.length"
       >
         <button
-          @click="loadMore"
-          class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500"
+            @click="loadMore"
+            class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500"
         >
           Xem thêm
         </button>
@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       fallbackImage:
-        "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg",
+          "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg",
       products: [],
       itemsToShow: 10, // Hiển thị 10 sản phẩm đầu tiên
     };
@@ -173,8 +173,8 @@ export default {
     handleScroll() {
       // Xử lý sự kiện scroll khi người dùng kéo xuống cuối trang
       const bottom =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight;
+          window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight;
       if (bottom) {
         this.loadMore(); // Nếu đã kéo đến cuối trang, tải thêm sản phẩm
       }
