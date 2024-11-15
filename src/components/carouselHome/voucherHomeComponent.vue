@@ -1,52 +1,54 @@
 <template>
     <div class="voucher-container my-1 mx-1 sm:mx-0 md:mx-0 lg:mx-0 xl:mx-auto">
         <!-- Carousel for Mobile View -->
+        <div v-if="isMobile"
+            class="voucher-ticket flex shadow-sm rounded-sm overflow-hidden bg-white relative border-1">
+            <swiper :slides-per-view="getSlidesPerView" :space-between="5" :loop="false">
+                <swiper-slide v-for="(voucher, index) in limitedVouchers" :key="voucher.id || index"
+                    class="voucher-ticket flex  rounded-sm overflow-hidden bg-white relative">
+                    <!-- Left Section with Icon and Perforated Edge -->
+                    <div class="bg-red-500 flex items-center justify-center w-1/4 p-3 relative">
+                        <div class="text-white text-3xl font-bold">
+                            <i class='bx bxs-cart'></i>
+                        </div>
+                        <div class="perforated-edge absolute -right-2 top-0 bottom-0 flex flex-col justify-between">
+                            <span class="dot h-1.5 w-1.5 bg-white rounded-full"></span>
+                            <span class="dot h-1.5 w-1.5 bg-white rounded-full"></span>
+                            <span class="dot h-1.5 w-1.5 bg-white rounded-full"></span>
+                            <span class="dot h-1.5 w-1.5 bg-white rounded-full"></span>
+                        </div>
+                    </div>
 
-        <div v-if="isMobile" class="carousel">
-            <div class="voucher-ticket flex shadow-sm rounded-sm overflow-hidden bg-white relative border-1">
-                <!-- Left Section with Icon and Perforated Edge -->
-                <div class="bg-red-500 flex items-center justify-center w-1/4 p-3 relative">
-                    <div class="text-white text-3xl font-bold">
-                        <i class='bx bxs-cart'></i>
+                    <!-- Right Section with Text -->
+                    <div @click="OpenModal(voucher)" class="flex flex-col justify-between w-3/4 p-3 cursor-pointer">
+                        <div>
+                            <h3 v-if="voucher.discountPercent" class="text-sm font-semibold text-gray-800">
+                                Giảm {{ voucher.discountPercent }}% Tối đa {{
+                                    voucher.maxDiscountAmount?.toLocaleString() ||
+                                    '0' }}
+                                VND
+                            </h3>
+                            <h3 v-else-if="voucher.discountAmount" class="text-sm font-semibold text-gray-800">
+                                Giảm {{ voucher.discountAmount?.toLocaleString() || '0' }} VND
+                            </h3>
+                            <p class="text-xs text-gray-600 mt-1">
+                                Đơn Tối Thiểu: {{ voucher.minimumOrderValue?.toLocaleString() || '0' }} VND
+                            </p>
+                        </div>
+                        <div class="text-xs text-gray-500 flex items-center mt-2">
+                            <i class="far fa-clock mr-1"></i>
+                            Hiệu lực: {{ formatDay(voucher.validFrom) }} - {{ formatDay(voucher.validTo) }}
+                            <a href="#" class="text-blue-500 ml-1">Điều Kiện</a>
+                        </div>
                     </div>
-                    <div class="perforated-edge absolute -right-2 top-0 bottom-0 flex flex-col justify-between">
-                        <span class="dot h-1.5 w-1.5 bg-white rounded-full"></span>
-                        <span class="dot h-1.5 w-1.5 bg-white rounded-full"></span>
-                        <span class="dot h-1.5 w-1.5 bg-white rounded-full"></span>
-                        <span class="dot h-1.5 w-1.5 bg-white rounded-full"></span>
-                    </div>
-                </div>
 
-                <!-- Right Section with Text -->
-                <div class="flex flex-col justify-between w-3/4 p-3">
-                    <div>
-                        <h3 v-if="currentVoucher.discountPercent" class="text-sm font-semibold text-gray-800">
-                            Giảm {{ currentVoucher.discountPercent }}% Tối đa {{
-                                currentVoucher.maxDiscountAmount?.toLocaleString() || '0' }} VND
-                        </h3>
-                        <h3 v-else-if="currentVoucher.discountAmount" class="text-sm font-semibold text-gray-800">
-                            Giảm {{ currentVoucher.discountAmount?.toLocaleString() || '0' }} VND
-                        </h3>
-                        <p class="text-xs text-gray-600 mt-1">
-                            Đơn Tối Thiểu: {{ currentVoucher.minimumOrderValue?.toLocaleString() || '0' }} VND
-                        </p>
+                    <!-- New Label -->
+                    <div class="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 rounded-bl-lg">
+                        Mới
                     </div>
-                    <div class="text-xs text-gray-500 flex items-center mt-2">
-                        <i class="far fa-clock mr-1"></i>
-                        Hiệu lực: {{ formatDay(currentVoucher.validFrom) }} - {{ formatDay(currentVoucher.validTo)
-                        }}
-                        <a href="#" class="text-blue-500 ml-1">Điều Kiện</a>
-                    </div>
-                </div>
-
-                <!-- New Label -->
-                <div class="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 rounded-bl-lg">
-                    Mới
-                </div>
-            </div>
+                </swiper-slide>
+            </swiper>
         </div>
-
-        <!-- Grid for Desktop View -->
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <div v-for="(voucher, index) in limitedVouchers" :key="voucher.id || index"
                 class="voucher-ticket flex  rounded-sm overflow-hidden bg-white relative">
@@ -64,7 +66,7 @@
                 </div>
 
                 <!-- Right Section with Text -->
-                <div @click="OpenModal(voucher)" class="flex flex-col justify-between w-3/4 p-3">
+                <div @click="OpenModal(voucher)" class="flex flex-col justify-between w-3/4 p-3 cursor-pointer">
                     <div>
                         <h3 v-if="voucher.discountPercent" class="text-sm font-semibold text-gray-800">
                             Giảm {{ voucher.discountPercent }}% Tối đa {{
@@ -96,30 +98,40 @@
 
 
     <div class="flex justify-end px-3 ">
-        <span class="  font-semibold cursor-pointer text-base text-red-500 transition">
+        <span @click="changModalViewAll" class=" font-semibold cursor-pointer text-base text-red-500 transition">
             Xem tất cả
         </span>
     </div>
-    <voucherDetailComponentVue :isOpen="isOpen" @closeModal="isOpen = false" :voucherSelected="voucherSelected">
+    <voucherDetailComponentVue :isOpen="isOpenModalVoucherDetail" @closeModal="isOpenModalVoucherDetail = false"
+        :voucherSelected="voucherSelected">
     </voucherDetailComponentVue>
+    <voucherViewAllComponent :isOpen="isOpenModalVoucherViewAll" @closeModal="isOpenModalVoucherViewAll = false"
+        :voucherSelected="voucherSelected">
+    </voucherViewAllComponent>
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from "swiper/vue";
 import { getVoucherPage } from '@/api/voucherApi';
 import { formatDay } from '@/utils/currencyUtils';
 import voucherDetailComponentVue from '../voucher/voucherDetailComponent.vue';
+import voucherViewAllComponent from '../voucher/voucherViewAllComponent.vue';
 
 export default {
     data() {
         return {
+            isOpenModalVoucherDetail: false,
+            isOpenModalVoucherViewAll: false,
             voucherSelected: null,
-            isOpen: false,
             vouchers: [],
             currentIndex: 0,
             isMobile: window.innerWidth < 640,
         };
     },
     components: {
+        Swiper,
+        SwiperSlide,
+        voucherViewAllComponent,
         voucherDetailComponentVue,
     },
     computed: {
@@ -128,6 +140,11 @@ export default {
         },
         currentVoucher() {
             return this.vouchers[this.currentIndex] || {};
+        },
+        getSlidesPerView() {
+            // if (window.innerWidth >= 1024) return 6; // Desktop
+            // if (window.innerWidth >= 768) return 4; // Tablet
+            return 1; // Mobile
         },
     },
     async mounted() {
@@ -145,7 +162,7 @@ export default {
         formatDay,
         OpenModal(data) {
             this.voucherSelected = data;
-            this.isOpen = !this.isOpen
+            this.isOpenModalVoucherDetail = !this.isOpenModalVoucherDetail
         },
         async handleFetchVoucher() {
             try {
@@ -158,6 +175,9 @@ export default {
         checkScreenSize() {
             this.isMobile = window.innerWidth < 640;
         },
+        changModalViewAll() {
+            this.isOpenModalVoucherViewAll = !this.isOpenModalVoucherViewAll
+        }
     },
     beforeUnmount() {
         window.removeEventListener("resize", this.checkScreenSize);

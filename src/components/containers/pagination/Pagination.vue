@@ -9,7 +9,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="flex items-center justify-center">
+    <div v-if="totalPages > 1" class="hidden md:flex items-center justify-center">
       <!-- Previous Button -->
       <button @click="prevPage" :disabled="currentPage === 1"
         class="mx-1 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-400 transition-colors duration-200"
