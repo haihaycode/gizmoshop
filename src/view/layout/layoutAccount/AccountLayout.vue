@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class=" mt-[76px] relative">
+    <div id="app" class=" mt-[140px] sm:mt-[150px] relative">
         <!-- Overlay Background for Sidebar on Mobile -->
         <div v-if="isSidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden" @click="toggleSidebar">
         </div>
@@ -38,6 +38,14 @@
                             active-class="text-red-500 font-semibold">
                             <i class="bx bx-user text-lg" :class="{ 'bx-burst': $route.name === 'profile' }"></i>
                             <span>Hồ Sơ</span>
+                        </router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{ name: 'favorite' }"
+                            class="flex items-center space-x-2 text-gray-700 hover:text-red-500 transition duration-300"
+                            active-class="text-red-500 font-semibold">
+                            <i class="bx bx-heart text-lg" :class="{ 'bx-burst': $route.name === 'favorite' }"></i>
+                            <span>Yêu thích</span>
                         </router-link>
                     </li>
                     <li>
@@ -81,6 +89,8 @@
                             <span>Lịch sử rút tiền</span>
                         </router-link>
                     </li>
+
+
 
                 </ul>
             </aside>
