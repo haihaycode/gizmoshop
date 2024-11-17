@@ -40,16 +40,31 @@ const publicRoutes = [
             },
             {
                 path: '/product',
-                name: 'productDetail',
+                name: 'product',
                 meta: {
-                    title: "...Updating...",
+                    title: "Đồ công nghệ rẻ",
                     description: " "
                 },
                 components: {
                     default: usePage('productDetail'),
                     header: useComponentLayout('Header'),
                     footer: useComponentLayout('Footer'),
-                    // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+
+                }
+            },
+            {
+                path: '/product/detail',
+                name: 'productDetail',
+                meta: {
+                    title: "Sản phẩm mô tả",
+                    description: " "
+                },
+                components: {
+                    default: usePage('productDetail'),
+                    header: useComponentLayout('Nav'),
+                    footer: useComponentLayout('Footer'),
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
 
                 }
             },
