@@ -24,6 +24,21 @@ const publicRoutes = [
                 }
             },
             {
+                path: '/toOrder',
+                name: 'cartToOrder',
+                meta: {
+                    title: "...Updating...",
+                    description: " "
+                },
+                components: {
+                    default: usePage('cartToOder'),
+                    header: useComponentLayout('Header'),
+                    footer: useComponentLayout('Footer'),
+                    // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+
+                }
+            },
+            {
                 path: '/product',
                 name: 'productDetail',
                 meta: {
