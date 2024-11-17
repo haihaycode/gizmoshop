@@ -24,17 +24,32 @@ const publicRoutes = [
                 }
             },
             {
-                path: '/product/detail',
+                path: '/toOrder',
+                name: 'cartToOrder',
+                meta: {
+                    title: "...Updating...",
+                    description: " "
+                },
+                components: {
+                    default: usePage('cartToOder'),
+                    header: useComponentLayout('Header'),
+                    footer: useComponentLayout('Footer'),
+                    // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+
+                }
+            },
+            {
+                path: '/product',
                 name: 'productDetail',
                 meta: {
-                    title: "Sản phẩm mô tả",
+                    title: "...Updating...",
                     description: " "
                 },
                 components: {
                     default: usePage('productDetail'),
-                    header: useComponentLayout('Nav'),
+                    header: useComponentLayout('Header'),
                     footer: useComponentLayout('Footer'),
-                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+                    // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
 
                 }
             },

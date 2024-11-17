@@ -1,21 +1,19 @@
 <template>
-  <div class="bg-white w-full p-4 rounded-lg shadow-lg mt-4">
+  <div class="bg-white w-full p-4 rounded-lg shadow-lg border border-gray-200">
     <h2 class="text-lg font-bold mb-4">Tổng kết giỏ hàng</h2>
 
-    <!-- Gợi ý voucher -->
     <div class="mb-4">
       <label class="block text-gray-700 font-medium mb-2">Voucher gợi ý</label>
       <div
         class="border p-4 rounded-lg cursor-pointer bg-orange-50 border-orange-500 text-orange-800"
       >
         <div class="flex items-center">
-          <!-- Hiển thị hình ảnh voucher nếu có -->
           <div class="w-1/3 mr-4">
             <img
               v-if="selectedVoucher && selectedVoucher.image"
-              :src="selectedVoucher.image"
+              :src="loadImage(selectedVoucher.image, 'voucher')"
               alt="Voucher Image"
-              class="w-full h-32 object-cover rounded-lg"
+              class="w-full h-20 object-cover rounded-lg"
             />
             <img
               v-else
@@ -24,14 +22,12 @@
               class="w-full h-20 object-cover rounded-lg"
             />
           </div>
-
-          <!-- Thông tin voucher -->
           <div class="w-2/3">
             <h3 class="text-sm font-bold">
-              {{ selectedVoucher ? selectedVoucher.name : "Chọn voucher..." }}
+              {{ selectedVoucher ? selectedVoucher.code : "Chọn voucher..." }}
             </h3>
             <p v-if="selectedVoucher" class="text-gray-500">
-              Giảm {{ selectedVoucher.discount }}%
+              Giảm {{ selectedVoucher.discountPercent }}%
             </p>
             <button
               class="mt-2 text-sm underline text-orange-600"
@@ -44,31 +40,31 @@
       </div>
     </div>
 
-    <!-- Modal chọn voucher -->
     <div
       v-if="showModal"
       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
     >
       <div class="bg-white w-11/12 md:w-1/2 p-6 rounded-lg shadow-lg">
         <h3 class="text-lg font-bold mb-4">Chọn voucher</h3>
-        <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <div
+          v-if="vouchers.length > 0"
+          class="grid grid-cols-1 gap-2 md:grid-cols-2"
+        >
           <div
             v-for="voucher in vouchers"
             :key="voucher.id"
             @click="selectVoucher(voucher)"
             class="border p-4 rounded-lg cursor-pointer hover:bg-orange-100 border-gray-300 text-gray-700"
-            :class="
-              selectedVoucher && selectedVoucher.id === voucher.id
-                ? 'border-orange-500 bg-orange-50'
-                : ''
-            "
+            :class="{
+              'border-orange-500 bg-orange-50':
+                selectedVoucher && selectedVoucher.id === voucher.id,
+            }"
           >
             <div class="flex items-center">
-              <!-- Hình ảnh voucher -->
               <div class="w-1/3 mr-4">
                 <img
                   v-if="voucher.image"
-                  :src="voucher.image"
+                  :src="loadImage(voucher.image, 'voucher')"
                   alt="Voucher Image"
                   class="w-full h-20 object-cover rounded-lg"
                 />
@@ -79,14 +75,14 @@
                   class="w-full h-20 object-cover rounded-lg"
                 />
               </div>
-              <!-- Thông tin voucher -->
               <div class="w-2/3">
-                <h4 class="text-sm font-bold">{{ voucher.name }}</h4>
-                <p class="text-gray-500">Giảm {{ voucher.discount }}%</p>
+                <h4 class="text-sm font-bold">{{ voucher.code }}</h4>
+                <p class="text-gray-500">Giảm {{ voucher.discountPercent }}%</p>
               </div>
             </div>
           </div>
         </div>
+        <div v-else class="text-gray-500">Không có voucher khả dụng</div>
         <button
           class="mt-4 px-4 py-2 bg-orange-600 text-white rounded-lg"
           @click="showModal = false"
@@ -96,7 +92,6 @@
       </div>
     </div>
 
-    <!-- Hiển thị tổng tiền -->
     <div class="flex justify-between items-center mb-4 mt-4">
       <p class="text-gray-600">Tạm tính:</p>
       <p class="font-semibold">{{ formatCurrency(totalPrice) }}</p>
@@ -104,7 +99,7 @@
     <div class="flex justify-between items-center mb-4">
       <p class="text-gray-600">Giảm giá (voucher):</p>
       <p class="font-semibold text-red-500">
-        -{{ formatCurrency(discountAmount) }}
+        {{ formatCurrency(discountAmount) }}
       </p>
     </div>
     <div class="flex justify-between items-center border-t pt-4">
@@ -113,39 +108,139 @@
         {{ formatCurrency(finalPrice) }}
       </p>
     </div>
+
+    <div class="mt-6">
+      <label class="block text-gray-700 font-medium mb-2"
+        >Chọn địa chỉ giao hàng</label
+      >
+      <div
+        @click="toggleAddressList"
+        class="border p-4 rounded-lg cursor-pointer hover:bg-gray-100"
+      >
+        <p v-if="selectedAddress">
+          {{ selectedAddress.city }} - {{ selectedAddress.specificAddress }}
+        </p>
+        <p v-else>Chọn địa chỉ giao hàng</p>
+      </div>
+
+      <div v-if="showAddressList" class="mt-4 max-h-60 overflow-y-auto">
+        <div
+          v-for="address in userAddresses"
+          :key="address.id"
+          @click="selectAddress(address)"
+          class="border p-4 rounded-lg mb-2 cursor-pointer hover:bg-orange-50"
+          :class="{
+            'bg-orange-50 border-orange-500':
+              selectedAddress && selectedAddress.id === address.id,
+            'bg-white border-gray-300': !(
+              selectedAddress && selectedAddress.id === address.id
+            ),
+          }"
+        >
+          <p>{{ address.city }} - {{ address.specificAddress }}</p>
+          <p class="text-sm text-gray-500">
+            {{ address.district }}, {{ address.commune }}
+          </p>
+          <p class="text-sm text-gray-500">SĐT: {{ address.sdt }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <div class="flex items-center justify-between mb-4">
+        <label class="text-gray-700 font-medium"
+          >Chọn ngân hàng (hoàn trả)</label
+        >
+        <button
+          v-if="!showBankList"
+          class="text-red-500 hover:text-red-600 font-sans text-sm"
+          @click="toggleBankList"
+        >
+          Thay đổi <i class="bx bx-edit-alt"></i>
+        </button>
+      </div>
+
+      <div
+        v-if="selectedBank"
+        class="bank-card p-4 bg-white border border-gray-300 w-full rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-transform transform hover:scale-105"
+        @click="toggleBankList"
+      >
+        <div class="bank-info text-center">
+          <div class="bank-name text-lg font-semibold text-gray-800">
+            {{ selectedBank.bankName }}
+          </div>
+          <div class="bank-seri text-sm text-gray-500 mt-2">
+            Số thẻ: {{ selectedBank.swiftCode || "Không có" }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Hiển thị danh sách các ngân hàng khi nhấn "Xem thêm" -->
+      <div v-if="showBankList" class="grid gap-4 mt-4">
+        <div
+          v-for="(bank, index) in userBanks"
+          :key="index"
+          class="bank-card p-4 bg-white border border-gray-300 w-full rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-transform transform hover:scale-105"
+          @click="selectBank(bank)"
+        >
+          <div class="bank-info text-center">
+            <div class="bank-name text-lg font-semibold text-gray-800">
+              {{ bank.bankName }}
+            </div>
+            <div class="bank-seri text-sm text-gray-500 mt-2">
+              Số thẻ: {{ bank.swiftCode || "Không có" }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 mt-3 rounded w-full"
+      >
+        Mua Ngay
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import { loadImage } from "@/services/imageService";
+import { getVoucherForUser } from "@/api/voucherApi";
+import { getWallet } from "@/api/walletApi";
+import { getAddressUser } from "@/api/addressApi";
+
 export default {
+  props: {
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       showModal: false,
-      totalPrice: 1000000, // Giá tạm tính (có thể lấy từ giỏ hàng)
       selectedVoucher: null,
-      vouchers: [
-        { id: 1, name: "Voucher 10%", discount: 10, image: "" },
-        {
-          id: 2,
-          name: "Voucher 20%",
-          discount: 20,
-          image: "https://example.com/voucher-2.jpg",
-        },
-        { id: 3, name: "Voucher 30%", discount: 30, image: "" },
-        {
-          id: 4,
-          name: "Voucher 40%",
-          discount: 40,
-          image: "https://example.com/voucher-4.jpg",
-        },
-        { id: 5, name: "Voucher 50%", discount: 50, image: "" },
-      ],
+      selectedPaymentMethod: "",
+      selectedBank: null,
+      showBankList: false,
+      selectedWallet: "",
+      vouchers: [],
+      showAddressList: false,
+      selectedAddress: null,
+      userBanks: [],
+
+      userAddresses: [],
     };
   },
   computed: {
     discountAmount() {
-      if (this.selectedVoucher) {
-        return (this.totalPrice * this.selectedVoucher.discount) / 100;
+      if (
+        this.selectedVoucher &&
+        !isNaN(this.selectedVoucher.discountPercent)
+      ) {
+        return (
+          (this.totalPrice * parseFloat(this.selectedVoucher.discountPercent)) /
+          100
+        );
       }
       return 0;
     },
@@ -154,44 +249,70 @@ export default {
     },
   },
   methods: {
+    selectBank(bank) {
+      this.selectedBank = bank;
+      this.showBankList = false;
+      console.log("Ngân hàng đã chọn:", bank);
+    },
+
+    toggleBankList() {
+      this.showBankList = !this.showBankList;
+    },
+    loadImage,
+    toggleAddressList() {
+      this.showAddressList = !this.showAddressList;
+    },
+    selectAddress(address) {
+      this.selectedAddress = address;
+      this.showAddressList = false;
+    },
+    async handleFetchVoucher() {
+      try {
+        const response = await getVoucherForUser();
+        this.vouchers = response.data;
+      } catch (error) {
+        console.error("Failed to load vouchers:", error?.message || error);
+      }
+    },
+    async handleFetchWallet() {
+      try {
+        const response = await getWallet();
+        
+        this.userBanks = response.data; // Gán dữ liệu vào userBanks
+      } catch (error) {
+        console.error("Failed to load wallets:", error?.message || error);
+      }
+    },
+    async handleFetchAddress() {
+      try {
+        const response = await getAddressUser();
+        this.userAddresses = response.data;
+        if (response.length > 0) {
+          this.selectedAddress = response[0]; // Mặc định chọn địa chỉ đầu tiên
+        }
+      } catch (error) {
+        console.error("Failed to fetch addresses:", error);
+      }
+    },
     formatCurrency(amount) {
       return new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
       }).format(amount);
     },
+
     selectVoucher(voucher) {
       this.selectedVoucher = voucher;
       this.showModal = false;
     },
   },
   mounted() {
-    // Gợi ý voucher đầu tiên trong danh sách (nếu có)
-    if (this.vouchers.length > 0) {
-      this.selectedVoucher = this.vouchers[0];
-    }
+    this.handleFetchVoucher();
+    this.handleFetchAddress();
+    this.handleFetchWallet();
+  },
+  created() {
+   this.handleFetchWallet();
   },
 };
 </script>
-
-<style scoped>
-/* Tùy chỉnh CSS cho tông màu đỏ cam */
-.bg-orange-50 {
-  background-color: #fff7ed;
-}
-.border-orange-500 {
-  border-color: #f97316;
-}
-.text-orange-800 {
-  color: #c2410c;
-}
-.text-orange-600 {
-  color: #ea580c;
-}
-.bg-orange-600 {
-  background-color: #ea580c;
-}
-.hover\:bg-orange-100:hover {
-  background-color: #ffedd5;
-}
-</style>

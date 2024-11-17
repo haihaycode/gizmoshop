@@ -2,7 +2,9 @@
 <template>
   <nav class="bg-white shadow-xl z-50 fixed w-full top-0 left-0 rounded-sm">
     <div class="mx-auto">
-      <div class="relative max-w-7xl flex items-center mx-auto justify-between h-16">
+      <div
+        class="relative max-w-7xl flex items-center mx-auto justify-between h-16"
+      >
         <!-- Logo (hiển thị trên màn hình từ tablet trở lên) -->
         <div class="hidden md:flex items-center justify-center flex-shrink-0">
           <a href="/" class="text-black font-serif text-2xl ml-1">GizmoShop</a>
@@ -50,7 +52,10 @@
         <div class="absolute right-0 flex items-center sm:hidden">
           <button type="button"
             class="relative inline-flex items-center justify-center rounded-md p-2 text-black hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-            aria-controls="mobile-menu" aria-expanded="false" @click="OpenMenu">
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+            @click="OpenMenu"
+          >
             <span class="sr-only">Open main menu</span>
             <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
               aria-hidden="true">
@@ -82,24 +87,32 @@
         <div class="flex flex-col items-center justify-center sm:items-stretch sm:justify-center mx-auto">
           <div class="hidden sm:ml-6 max-w-7xl justify-center sm:block">
             <div class="flex justify-around">
-              <div class="relative bg-red-600 h-12 transition-all duration-300 ease-in-out transform scale-105 pl-7">
+              <div class="relative bg-red-500 h-12 transition-all duration-300 ease-in-out transform scale-105 pl-7">
                 <button @click="toggleDropdown" ref="dropdownButton"
-                  class="px-4 h-full text-base font-medium text-white bg-transparent hover:text-white  focus:outline-none flex items-center w-full transition-all duration-300 ease-in-out transform scale-105">
+                  class="px-4 h-full text-base font-medium text-white bg-transparent hover:text-white hover:bg-red-500 focus:outline-none flex items-center w-full transition-all duration-300 ease-in-out transform scale-105">
                   <i class="bx bx-category mr-2 text-3xl"></i>
                   <span class="hidden lg:inline">Danh mục sản phẩm</span>
 
-                  <i :class="isDropdownOpen
-                    ? 'bx bx-chevron-up ml-2 transform rotate-180 transition-all duration-300'
-                    : 'bx bx-chevron-down ml-2 transform rotate-0 transition-all duration-300'
-                    "></i>
+                  <i
+                    :class="
+                      isDropdownOpen
+                        ? 'bx bx-chevron-up ml-2 transform rotate-180 transition-all duration-300'
+                        : 'bx bx-chevron-down ml-2 transform rotate-0 transition-all duration-300'
+                    "
+                  ></i>
                 </button>
 
                 <transition name="dropdown">
-                  <div v-show="isDropdownOpen"
-                    class="absolute top-12 left-0 bg-white border border-gray-200 shadow-lg z-10 w-full rounded-b-lg">
+                  <div
+                    v-show="isDropdownOpen"
+                    class="absolute top-12 left-0 bg-white border border-gray-200 shadow-lg z-10 w-full rounded-b-lg"
+                  >
                     <ul class="py-1">
                       <li v-for="category in categories" :key="category.id">
-                        <a href="#" class="block px-4 py-2 text-black hover:bg-gray-100 transition-all">
+                        <a
+                          href="#"
+                          class="block px-4 py-2 text-black hover:bg-gray-100 transition-all"
+                        >
                           {{ category.name }}
                         </a>
                       </li>
@@ -109,14 +122,16 @@
               </div>
 
               <!-- Các link menu khác -->
-              <a href="#"
-                class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
+              <a
+                href="#"
+                class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all"
+              >
                 <i class="bx bx-notepad mr-2"></i>
                 <span class="hidden lg:inline">Xây dựng cấu hình</span>
               </a>
 
               <a href="#" @click="modalSearchOrderIsOpen = !modalSearchOrderIsOpen"
-                class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
+                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i class="bx bx-search-alt mr-2"></i>
                 <span class="hidden lg:inline">Tra cứu đơn hàng</span>
               </a>
@@ -132,10 +147,20 @@
                 <span class="hidden lg:inline">Khuyến mãi</span>
               </a>
 
-              <a href="#"
-                class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
+              <a
+                href="#"
+                class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all"
+              >
                 <i class="bx bx-phone mr-2"></i>
                 <span class="hidden lg:inline">Liên hệ</span>
+              </a>
+              <a
+                href="#"
+                @click.prevent="toggleCartModal"
+                class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all"
+              >
+                <i class="bx bx-cart mr-2"></i>
+                <span class="hidden lg:inline">Giỏ hàng</span>
               </a>
             </div>
           </div>
@@ -146,25 +171,43 @@
     <!-- Mobile menu, show/hide based on menu state. -->
     <div class="sm:hidden" id="mobile-menu" v-if="isMenuOpen">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Doanh
-          mục</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Ưu
-          đãi</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Liên
-          hệ</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Tra
-          cứu</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Giỏ
-          hàng</a>
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
+          >Doanh mục</a
+        >
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
+          >Ưu đãi</a
+        >
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
+          >Liên hệ</a
+        >
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
+          >Tra cứu</a
+        >
+        <a
+          href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
+          >Giỏ hàng</a
+        >
       </div>
     </div>
+    <transition name="fade">
+      <div
+          v-if="isCartModalOpen"
+          v-show="isVisible"
+          class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-50"
+      >
+        <ListProductComponent></ListProductComponent>
+      </div>
+    </transition>
 
-    <!-- thông tin cá nhân -->
     <transition name="fade">
       <div v-if="isProfileOpen" class="absolute top-20 right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-50">
         <div class="flex items-center mb-4">
@@ -201,7 +244,7 @@
             <span>Trang Đối tác</span>
           </li>
           <router-link :to="{ name: 'searchOrder' }"
-            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
+                       class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
             <i class="bx bx-search-alt mr-2"></i> <!-- Icon bx-search-alt cho mục 'Tra cứu đơn hàng' -->
             <span>Tra cứu </span>
           </router-link>
@@ -254,6 +297,9 @@
 import { getCategories } from "@/api/categoryApi";
 import notificationService from "@/services/notificationService";
 import { mapGetters, mapActions } from 'vuex';
+import ListProductComponent from "../cart/cartNavHomeComponent.vue";
+
+
 export default {
   data() {
     return {
@@ -267,8 +313,12 @@ export default {
       isDropdownOpen: false,
       isVisible: true,
       modalSearchOrderIsOpen: false,
-      searchQuery: ""
+      searchQuery: "",
+      isCartModalOpen: false,
     };
+  },
+  components: {
+    ListProductComponent, // Khai báo component
   },
   async mounted() {
     try {
@@ -304,6 +354,9 @@ export default {
         this.$router.push({ name: 'product', query: { keyword: this.searchQuery.trim() } });
       }
     },
+    toggleCartModal() {
+      this.isCartModalOpen = !this.isCartModalOpen;
+    },
     toggleMenu() {
       this.isProfileOpen = !this.isProfileOpen;
     },
@@ -325,6 +378,14 @@ export default {
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition: all 0.5s ease;

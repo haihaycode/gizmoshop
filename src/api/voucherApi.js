@@ -13,3 +13,13 @@ export const getVoucherPage = async (data) => {
         throw new Error(`${error}`);
     }
 };
+
+
+export const getVoucherForUser = async () => {
+  try {
+    const response = await Axios.get(`${HOST}/api/public/voucher/getallforuser`);
+    return response.data;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};
