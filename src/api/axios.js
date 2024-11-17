@@ -65,6 +65,11 @@ Axios.interceptors.response.use(
         const originalRequest = error.config;
         store.dispatch('loading/setLoading', false); // Tắt loading khi có lỗi
 
+        if (error.status === 404) {
+            notificationService.error('Không tìm thấy dữ liệu.'); // Notify the user
+            router.push({ name: 'NotFound' });
+            return Promise.reject(error);
+        }
 
         if (error.message === 'Network Error') {
             notificationService.error('Không thể kết nối mạng. Vui lòng kiểm tra kết nối internet của bạn.'); // Notify the user

@@ -5,16 +5,7 @@
     <voucherHomeComponent></voucherHomeComponent>
     <TopDiscountedProductsComponent></TopDiscountedProductsComponent>
     <CarouselCategoryComponent></CarouselCategoryComponent>
-    <productComponent
-      @hovered="onProductHovered"
-      @mouseleave="onMouseLeave"
-      :products="products"
-    />
-
-    <ProductHoverInfoComponent
-      v-if="hoveredProduct"
-      :product="hoveredProduct"
-    />
+    <FeaturedProductsComponent></FeaturedProductsComponent>
   </div>
 </template>
 
@@ -24,8 +15,7 @@ import carouselVoucherComponent from "@/components/carouselHome/carouselVoucherC
 import voucherHomeComponent from "@/components/carouselHome/voucherHomeComponent.vue";
 import TopDiscountedProductsComponent from "@/components/product/TopDiscountedProductsComponent.vue";
 import ScrollingVoucherComponent from "@/components/carouselHome/ScrollingVoucherComponent.vue";
-import productComponent from "@/components/carouselHome/productComponent.vue";
-import ProductHoverInfoComponent from "@/components/carouselHome/ProductHoverInfoComponent.vue";
+import FeaturedProductsComponent from "@/components/product/FeaturedProductsComponent.vue";
 
 export default {
   name: "demoTestDev",
@@ -34,9 +24,9 @@ export default {
     voucherHomeComponent,
     CarouselCategoryComponent,
     TopDiscountedProductsComponent,
+    FeaturedProductsComponent,
     ScrollingVoucherComponent,
-    productComponent,
-    ProductHoverInfoComponent,
+
   },
   data() {
     return {
@@ -44,21 +34,8 @@ export default {
     };
   },
   methods: {
-    onProductHovered(product) {
-      this.hoveredProduct = product;
-    },
-    onMouseLeave() {
-      this.hoveredProduct = null;
-    },
   },
 };
 </script>
 
-<style scoped>
-/* Định vị thành phần ở góc dưới bên trái */
-.ProductHoverInfoComponent {
-  position: fixed;
-  left: 20px;
-  z-index: 1000; /* Đảm bảo thành phần nổi trên các phần khác */
-}
-</style>
+<style scoped></style>

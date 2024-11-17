@@ -1,18 +1,23 @@
 <template>
-    <div v-if="!isLoading" class="p-6 min-h-screen space-y-6">
+    <div class="p-6 min-h-screen space-y-6">
         <div>
             <h2 class="text-xl font-semibold text-gray-600 mb-4">Sản phẩm đã yêu thích</h2>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <ProductCard v-for="product in products" :key="product.id" :product="product" />
+        <!-- Check if there are no products and show a message -->
+        <div v-if="products.length === 0" class="text-center text-gray-500">
+            <p>Hiện tại bạn chưa có sản phẩm yêu thích nào.</p>
         </div>
-        <!-- Add pagination controls if needed -->
+        <!-- Display products if available -->
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <ProductCard v-for="product in products" :key="product.id" :product="product.product" :deleteFavorite="true"
+                @load-product="handleLoadFavoriteProduct" />
+        </div>
     </div>
 </template>
 
 <script>
 import { getProductFavorite } from '@/api/auth/favoriteApi';
-import ProductCard from '@/components/productDetail/ProductCard.vue';
+import ProductCard from '@/components/product/ProductCard.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -25,32 +30,32 @@ export default {
                 sortDirection: 'asc',
                 sortField: 'id',
             },
-            products: [], // Chứa danh sách sản phẩm yêu thích
+            products: [],
         };
     },
     components: {
         ProductCard,
     },
-    async created() {
-        await this.handleFetchProductsFavorite();
+    computed: {
+        ...mapGetters('loading', ['isLoading']),
+    },
+    mounted() {
+        this.handleFetchProductsFavorite();
     },
     methods: {
         async handleFetchProductsFavorite() {
             try {
                 const res = await getProductFavorite(this.page, this.limit, this.sort.sortField, this.sort.sortDirection);
                 this.products = res.data.content;
-                console.log(this.products)
             } catch (error) {
-                console.error("Failed to fetch favorite products:", error);
+                console.error(error);
             }
         },
+        handleLoadFavoriteProduct(product) {
+            console.log("Product removed or updated:", product);
+            this.handleFetchProductsFavorite();
+        }
     },
-    computed: {
-        ...mapGetters('loading', ['isLoading']),
-    },
+
 };
 </script>
-
-<style scoped>
-/* Add custom styles here if necessary */
-</style>

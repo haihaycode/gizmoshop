@@ -24,17 +24,17 @@ const publicRoutes = [
                 }
             },
             {
-                path: '/product',
+                path: '/product/detail',
                 name: 'productDetail',
                 meta: {
-                    title: "...Updating...",
+                    title: "Sản phẩm mô tả",
                     description: " "
                 },
                 components: {
                     default: usePage('productDetail'),
-                    header: useComponentLayout('Header'),
+                    header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
-                    // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
 
                 }
             },
@@ -54,6 +54,53 @@ const publicRoutes = [
 
                 }
             },
+            {
+                path: '/search-order/:phoneNumber?/:orderCode?',
+                name: 'searchOrder',
+                meta: {
+                    title: "Gizmo Shop",
+                    description: "Tra cứu đơn hàng"
+                },
+                components: {
+                    default: usePage('searchOrder'),
+                    header: useComponentLayout('Nav'),
+                    footer: useComponentLayout('Footer'),
+                    mobile: useComponentLayout('ResponsiveMobile')
+                }
+            },
+            {
+                path: '/product',
+                name: 'product',
+                meta: {
+                    title: "Đồ công nghệ rẻ",
+                    description: " "
+                },
+                components: {
+                    default: usePage('product'),
+                    header: useComponentLayout('Nav'),
+                    footer: useComponentLayout('Footer'),
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+
+                }
+            },
+            {
+                path: '/tt',
+                name: 'tt',
+                meta: {
+                    title: "Đồ công nghệ rẻ",
+                    description: " "
+                },
+                components: {
+                    default: usePage('testthanhtoan'),
+                    header: useComponentLayout('Nav'),
+                    footer: useComponentLayout('Footer'),
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+
+                }
+            },
+
+
+
 
         ]
     }

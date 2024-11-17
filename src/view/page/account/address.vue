@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isLoading" class="p-6  min-h-screen space-y-6">
+    <div class="p-6  min-h-screen space-y-6">
         <div>
             <h2 class="text-xl font-semibold text-gray-600 mb-4">Địa chỉ giao hàng</h2>
         </div>
@@ -25,7 +25,7 @@
 
 <script>
 // import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
-import { getAddress } from '@/api/auth/addressApi';
+import { getAddress, updateAddress, createAddress } from '@/api/auth/addressApi';
 import AddressBoxComponent from '@/components/addressAccount/AddressBoxComponent.vue';
 import AddressNewModalComponent from '@/components/addressAccount/AddressNewModalComponent.vue';
 import { mapGetters } from 'vuex';
@@ -69,21 +69,45 @@ export default {
             this.isModalOpen = true;
         },
         closeModal() {
+            this.handleGetAddresses();
             this.isModalOpen = false;
             this.selectedAddress = null;
         },
         handleSaveAddress(address) {
+            // Map fields to match the backend DTO structure
+            const addressDTO = {
+                id: address.id || null,
+                fullname: address.fullname,
+                specificAddress: address.specificAddress,
+                sdt: address.sdt,
+                city: address.city,
+                district: address.district,
+                commune: address.ward, // Map `ward` to `commune`
+                longitude: address.lon, // Map `lon` to `longitude`
+                latitude: address.lat, // Map `lat` to `latitude`
+                deleted: address.deleted,
+            };
+
             if (address.id) {
-                const index = this.addresses.findIndex((a) => a.id === address.id);
-                if (index !== -1) {
-                    this.addresses.splice(index, 1, address);
-                }
+                // Update existing address
+                updateAddress(address.id, addressDTO)
+                    .then((response) => {
+                        console.log("Address updated successfully:", response);
+                    })
+                    .catch((error) => console.error("Error updating address:", error));
             } else {
-                address.id = Date.now();
-                this.addresses.push(address);
+                // Create new address
+                createAddress(addressDTO)
+                    .then((response) => {
+                        console.log("Address created successfully:", response);
+                    })
+                    .catch((error) => console.error("Error creating address:", error));
             }
+
+
             this.closeModal();
         }
+
     }
 };
 </script>

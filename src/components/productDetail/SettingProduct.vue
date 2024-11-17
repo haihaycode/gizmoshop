@@ -1,126 +1,39 @@
 <template>
   <div class="flex flex-col md:flex-row gap-6 py-6">
-    <div class="w-full md:w-8/12 p-6 bg-white shadow-lg border-2 rounded-lg">
-      <h2 class="text-xl font-semibold text-gray-800">Mô Tả Sản Phẩm</h2>
-      <div class="mt-2 px-5">
-        <img
-          src="https://via.placeholder.com/600x400"
-          alt="Sản phẩm"
-          class="w-full h-auto rounded-lg shadow-md mb-2"
-        />
-
-        <p class="text-gray-700 text-sm leading-relaxed mb-4">
-          Đây là mô tả chi tiết về sản phẩm. Sản phẩm này được thiết kế để mang
-          lại trải nghiệm tuyệt vời cho người dùng. Được trang bị các tính năng
-          ưu việt, sản phẩm giúp bạn giải quyết các nhu cầu của công việc cũng
-          như giải trí.
-        </p>
-
-        <p class="text-gray-700 text-sm leading-relaxed mb-4">
-          Sản phẩm có thể sử dụng cho nhiều mục đích khác nhau, từ văn phòng đến
-          giải trí, mang lại sự tiện ích và hiệu quả trong công việc hàng ngày.
-        </p>
-
-        <button @click="toggleDescription" class="text-blue-500 text-sm mt-2">
-          {{ isExpanded ? "Thu gọn" : "Xem thêm" }}
-        </button>
+    <!-- Product Description Column -->
+    <div class="w-full md:w-8/12 p-6 bg-white rounded-lg">
+      <div class="flex items-center mb-4">
+        <div class="w-3 h-10 bg-orange-600 mr-2"></div>
+        <p class="text-xl font-bold text-gray-800">Mô tả chi tiết</p>
       </div>
+      <div :class="{ 'truncate-text ': !isExpanded }">
+        <p v-html="product?.productLongDescription"></p>
+      </div>
+      <button @click="toggleDescription" class="text-red-500 mt-2">
+        {{ isExpanded ? "Thu gọn ..." : "Xem thêm ..." }}
+      </button>
     </div>
 
-    <!-- Cột Cấu Hình Chi Tiết (2 phần) -->
-    <div class="w-full md:w-4/12 p-6 border-2 bg-white shadow-lg rounded-lg">
+    <!-- Detailed Configuration Column (Two Sections) -->
+    <div class="w-full md:w-4/12 p-2">
       <div class="flex flex-col">
         <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
           <div class="py-2 inline-block min-w-full sm:px-2 lg:px-2">
+            <div class="flex items-center mb-4">
+              <div class="w-3 h-10 bg-orange-600 mr-2"></div>
+              <p class="text-xl font-bold text-gray-800">Thông tin kỹ thuật</p>
+            </div>
             <div class="overflow-hidden">
-              <table class="min-w-full">
-                <thead class="bg-white border-b">
-                  <tr>
-                    <th
-                      scope="col"
-                      class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                    >
-                      Thông tin
-                    </th>
-                    <th
-                      scope="col"
-                      class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                    >
-                      Giá trị
-                    </th>
-                  </tr>
-                </thead>
+              <table class="min-w-full divide-y divide-gray-200">
                 <tbody>
-                  <tr class="bg-gray-100 border-b">
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                    >
-                      Model
+                  <tr v-for="(value, key) in parsedProductDetails" :key="key"
+                    :class="{ 'bg-gray-100': key % 2 === 0, 'bg-white': key % 2 !== 0 }"
+                    class="border-b border-gray-200">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                      {{ key }}
                     </td>
-                    <td
-                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                    >
-                      G.Skill Trident Z RGB 16GB
-                    </td>
-                  </tr>
-                  <tr class="bg-white border-b">
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                    >
-                      Dung lượng
-                    </td>
-                    <td
-                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                    >
-                      16GB (2 x 8GB)
-                    </td>
-                  </tr>
-                  <tr class="bg-gray-100 border-b">
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                    >
-                      Tốc độ
-                    </td>
-                    <td
-                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                    >
-                      3200 MHz
-                    </td>
-                  </tr>
-                  <tr class="bg-white border-b">
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                    >
-                      Loại RAM
-                    </td>
-                    <td
-                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                    >
-                      DDR4
-                    </td>
-                  </tr>
-                  <tr class="bg-gray-100 border-b">
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                    >
-                      Đèn RGB
-                    </td>
-                    <td
-                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                    >
-                      Có
-                    </td>
-                  </tr>
-                  <tr class="bg-white border-b">
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                    >
-                      Điện áp
-                    </td>
-                    <td
-                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                    >
-                      1.35V
+                    <td class="px-6 py-4 text-sm text-gray-700">
+                      {{ value }}
                     </td>
                   </tr>
                 </tbody>
@@ -135,14 +48,36 @@
 
 <script>
 export default {
+  props: {
+    product: {
+      type: Object,
+      required: true,
+      default: null,
+    },
+  },
   data() {
     return {
-      // Điều khiển việc mở rộng mô tả sản phẩm
       isExpanded: false,
     };
   },
+  computed: {
+    parsedProductDetails() {
+      const description = this.product?.productShortDescription || "";
+      const jsonStart = description.indexOf("[[[");
+      const jsonEnd = description.indexOf("]]]", jsonStart);
+
+      if (jsonStart !== -1 && jsonEnd !== -1) {
+        try {
+          const jsonString = description.slice(jsonStart + 3, jsonEnd);
+          return JSON.parse(jsonString);
+        } catch (e) {
+          console.error("Failed to parse product details JSON:", e);
+        }
+      }
+      return {};
+    },
+  },
   methods: {
-    // Hàm toggle để mở rộng/thu gọn mô tả sản phẩm
     toggleDescription() {
       this.isExpanded = !this.isExpanded;
     },
@@ -151,10 +86,10 @@ export default {
 </script>
 
 <style scoped>
-/* Tùy chỉnh để mô tả sản phẩm ngắn gọn và ẩn đi khi không mở rộng */
 .truncate-text {
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* Giới hạn 4 dòng */
+  -webkit-line-clamp: 10;
+  /* Limit to 4 lines */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

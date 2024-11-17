@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isLoading" lass="min-h-screen space-y-6  ">
+    <div class="min-h-screen space-y-6  ">
         <!-- Page Title -->
         <div>
             <h2 class="text-xl font-semibold text-gray-600 mb-4 p-3 ">Lịch sử rút tiền</h2>

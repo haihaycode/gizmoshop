@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center mb-4">
-    <div class="w-3 h-10 bg-orange-600 mr-1"></div>
+    <div class="w-3 h-10 bg-red-600 mr-1"></div>
     <p class="text-2xl font-bold text-gray-800 uppercase">Danh mục</p>
   </div>
   <div class="flex flex-col md:flex-row items-start my-1 w-full">

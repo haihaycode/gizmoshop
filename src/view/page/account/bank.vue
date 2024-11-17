@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isLoading" class="p-6 min-h-screen space-y-6">
+    <div class="p-6 min-h-screen space-y-6">
         <div>
             <h2 class="text-xl font-semibold text-gray-600 mb-4">Thông tin tài khoản ngân hàng</h2>
         </div>

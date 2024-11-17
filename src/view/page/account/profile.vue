@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isLoading" class="p-6 min-h-screen space-y-6">
+    <div class="p-6 min-h-screen space-y-6">
         <form @submit.prevent="handleSubmit">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="col-span-2 space-y-4">
@@ -7,7 +7,7 @@
                         :error="!!errors.fullname" :message="errors.fullname" />
 
                     <CustomInputComponent v-model="user.email" label="Email" :error="!!errors.email"
-                        :message="errors.email" :disabled="true">
+                        :message="errors.email" disabled>
                         <template #label>
                             &nbsp; Email <span @click="modalUpdateEmailIsOpen = true"
                                 class="text-blue-500 text-sm cursor-pointer hover:underline">

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="relative  w-full mx-auto overflow-hidden rounded-none sm:rounded-md md:rounded-md lg:rounded-md"
+    <div
+      class="relative  w-full mx-auto overflow-hidden rounded-none sm:rounded-md md:rounded-md lg:rounded-md mt-[130px]"
       @touchstart="startSwipe" @touchmove="swiping" @touchend="endSwipe">
       <div class="flex transition-transform duration-500" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
         <div v-for="(item, index) in itemsToDisplay" :key="index"

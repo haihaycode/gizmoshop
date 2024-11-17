@@ -1,19 +1,35 @@
 <template>
-    <div class="p-4 sm:p-6 lg:p-8  min-h-screen space-y-4 sm:space-y-6">
+    <div class="p-6 min-h-screen space-y-2 bg-gray-50">
         <!-- User Order Stats -->
         <OrderStats :orderCount="orders.length" :totalPoints="totalPoints" />
 
-        <!-- Date Filter Section -->
-        <DateFilter />
+        <!-- Filters Section -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            <!-- Date Filter -->
+            <DateFilter @date-range-selected="setDateRange" />
 
-        <!-- Order Status Tabs -->
-        <OrderStatusTabs :statuses="statuses" :activeStatus="activeStatus" @changeStatus="setActiveStatus" />
+            <!-- Order Status Tabs -->
+            <OrderStatusTabs @changeStatus="setActiveStatus" />
+
+            <!-- Search Button -->
+            <div class=" ">
+                <button @click="searchOrders"
+                    class="bg-red-500 text-white py-2   px-6 rounded-sm shadow-md hover:shadow-lg transition duration-300 transform scale-90 font-medium tracking-wide">
+                    Tìm kiếm
+                </button>
+            </div>
+
+        </div>
 
         <!-- Order Table or Empty State -->
         <div v-if="orders.length">
-            <OrderTable :orders="filteredOrders" @viewOrderDetails="openOrderDetails" />
+            <OrderTable :orders="orders" @viewOrderDetails="openOrderDetails" />
+            <br>
+            <Pagination :total-items="pagination?.totalElements || 0" :items-per-page="limit" :current-page="page + 1"
+                @page-changed="handlePageChange" @limit-changed="handleLimitChange">
+            </Pagination>
         </div>
-        <EmptyState v-else message="Không có đơn hàng nào thỏa mãn!" />
+        <EmptyState v-else message="--- Không có đơn hàng nào thỏa mãn ! ---" />
 
         <!-- Order Details Modal -->
         <OrderDetailsModal :isOpen="isModalOpen" :order="selectedOrder" @close="closeOrderDetails" />
@@ -24,54 +40,83 @@
 import OrderStats from '@/components/orderForCustomer/OrderStatsComponent.vue';
 import DateFilter from '@/components/orderForCustomer/DateFilterComponent.vue';
 import OrderStatusTabs from '@/components/orderForCustomer/OrderStatusTabsComponent.vue';
-import EmptyState from '@/components/orderForCustomer/EmptyStateComponent.vue';
 import OrderTable from '@/components/orderForCustomer/orderTableComponent.vue';
+import EmptyState from '@/components/orderForCustomer/EmptyStateComponent.vue';
 import OrderDetailsModal from '@/components/orderForCustomer/OrderDetailsModalComponent.vue';
-
+import { getOrders } from '@/api/orderForCustomerApi';
 import { mapGetters } from 'vuex';
+import Pagination from '@/components/containers/pagination/Pagination.vue';
+
 export default {
     name: 'OrderHistoryPage',
     components: {
         OrderStats,
         DateFilter,
         OrderStatusTabs,
-        EmptyState,
         OrderTable,
+        EmptyState,
         OrderDetailsModal,
+        Pagination
     },
     data() {
         return {
-            orders: [
-                {
-                    id: 1, date: '2023-11-10', status: 'Completed', total: '200,000đ', items: [
-                        { id: 1, name: 'Product A', quantity: 1, price: '100,000', total: '100,000' },
-                        { id: 2, name: 'Product B', quantity: 2, price: '50,000', total: '100,000' },
-                    ]
-                },
-                {
-                    id: 2, date: '2023-11-09', status: 'Pending', total: '150,000đ', items: [
-                        { id: 3, name: 'Product C', quantity: 3, price: '50,000', total: '150,000' },
-                    ]
-                },
-            ],
+            orders: [],
             totalPoints: 0,
-            statuses: ['Tất cả', 'Chờ xác nhận', 'Đã xác nhận', 'Đang vận chuyển', 'Đã giao hàng', 'Đã hủy'],
-            activeStatus: 'Tất cả',
+            activeStatus: null,
+            startDate: null,
+            limit: 5,
+            page: 0,
+            endDate: null,
             isModalOpen: false,
             selectedOrder: null,
+            pagination: null,
         };
     },
+    mounted() {
+        this.fetchOrders();
+    },
     computed: {
-        filteredOrders() {
-            return this.activeStatus === 'Tất cả'
-                ? this.orders
-                : this.orders.filter(order => order.status === this.activeStatus);
-        },
         ...mapGetters('loading', ['isLoading']),
     },
     methods: {
-        setActiveStatus(status) {
-            this.activeStatus = status;
+        setActiveStatus(statusId) {
+            this.activeStatus = statusId;
+        },
+        setDateRange({ startDate, endDate }) {
+            this.startDate = startDate;
+            this.endDate = endDate;
+        },
+        handlePageChange(newPage) {
+            this.page = newPage - 1;
+            this.fetchOrders();
+        },
+        handleLimitChange(limitPanigation) {
+            this.limit = limitPanigation;
+            this.page = 0;
+            this.fetchOrders();
+        },
+        async fetchOrders() {
+            console.log(this.startDate, this.endDate)
+            try {
+                const filters = {
+                    page: this.page,
+                    limit: this.limit,
+                    idStatus: this.activeStatus,
+                    startDate: this.startDate ? this.formatDate(this.startDate) : null,
+                    endDate: this.endDate ? this.formatDate(this.endDate) : null,
+                };
+                const response = await getOrders(filters);
+                this.orders = response.data.content;
+                this.pagination = response.data;
+            } catch (error) {
+                console.error("Error fetching orders:", error);
+            }
+        },
+        formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
         },
         openOrderDetails(order) {
             this.selectedOrder = order;
@@ -81,6 +126,10 @@ export default {
             this.isModalOpen = false;
             this.selectedOrder = null;
         },
+        searchOrders() {
+            this.page = 0; // Reset to the first page when searching
+            this.fetchOrders();
+        }
     },
 };
 </script>

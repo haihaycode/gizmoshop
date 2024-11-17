@@ -6,11 +6,13 @@ import { SUPPLIER } from '@/services/authService';
 import AuthRoutes from '@/router/modules/AuthRoutes';
 import PublicRoutes from '@/router/modules/publicRoutes';
 import ErrorRoutes from '@/router/modules/errorRoutes';
+import paymentRoutes from './modules/paymentRoutes';
 
 export const routes = [
     ...AuthRoutes,
     ...PublicRoutes,
     ...ErrorRoutes,
+    ...paymentRoutes,
     { path: '/:pathMatch(.*)*', redirect: { name: 'NotFound' } }
 ];
 
@@ -48,12 +50,11 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach(async (to, from, next) => {
     const isAuthenticated = store.getters['auth/token'];
-    // Nếu người dùng không có token và đường dẫn chưa account thì chuyển về login
     if (!isAuthenticated && to.path.includes('/account')) {
         return next('/login');
     }
     if (isAuthenticated && to.path === 'supplier' && !SUPPLIER()) {
-        return next('/403'); //hoac chuyen toi trang dang SUPPLIER
+        return next('/403');
     }
     return next();
 });

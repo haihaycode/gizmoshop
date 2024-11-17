@@ -11,26 +11,32 @@
                     <CustomInputComponent v-model="localAddress.fullname" label="Tên người nhận"
                         :error="!!errors.fullname" :message="errors.fullname" @input="clearError('fullname')"
                         required />
+
                     <CustomInputComponent v-model="localAddress.sdt" label="Số điện thoại" type="tel"
                         :error="!!errors.sdt" :message="errors.sdt" @input="clearError('sdt')" required />
 
+                    <!-- City Selection -->
                     <div class="mb-4">
                         <label for="city" class="text-gray-700">Thành phố/Tỉnh</label>
-                        <select v-model="localAddress.city" required class="w-full p-2 mt-2 border rounded">
+                        <select v-model="localAddress.city" @change="fetchDistricts" required
+                            class="w-full p-2 mt-2 border rounded">
                             <option value="">Chọn Thành phố/Tỉnh</option>
                             <option v-for="city in cities" :key="city.id" :value="city.name">{{ city.name }}</option>
                         </select>
                     </div>
 
+                    <!-- District Selection -->
                     <div class="mb-4" v-if="districts.length">
                         <label for="district" class="text-gray-700">Quận/Huyện</label>
-                        <select v-model="localAddress.district" required class="w-full p-2 mt-2 border rounded">
+                        <select v-model="localAddress.district" @change="fetchWards" required
+                            class="w-full p-2 mt-2 border rounded">
                             <option value="">Chọn Quận/Huyện</option>
                             <option v-for="district in districts" :key="district.id" :value="district.name">{{
                                 district.name }}</option>
                         </select>
                     </div>
 
+                    <!-- Ward Selection -->
                     <div class="mb-4" v-if="wards.length">
                         <label for="ward" class="text-gray-700">Phường/Xã</label>
                         <select v-model="localAddress.ward" required class="w-full p-2 mt-2 border rounded">
@@ -49,16 +55,17 @@
                     </div>
                 </form>
 
+                <!-- Display Coordinates if available -->
                 <div v-if="localAddress.lat && localAddress.lon" class="mt-4 text-gray-700">
                     <p><strong>Tọa độ:</strong> {{ localAddress.lat }}, {{ localAddress.lon }}</p>
                 </div>
             </div>
 
+            <!-- Save Button -->
             <div class="flex justify-end space-x-2">
-                <button type="button" @click="validateAndSave"
+                <Button :isLoading="isLoading" :text="'Lưu địa chỉ'" type="button" @click="validateAndSave"
                     class="px-4 py-2 text-white bg-red-500 rounded-sm hover:bg-red-600 focus:outline-none">
-                    Lưu địa chỉ
-                </button>
+                </Button>
             </div>
         </template>
     </ModalBox>
@@ -69,12 +76,14 @@ import axios from 'axios';
 import ModalBox from '@/components/containers/modal/ModalBox.vue';
 import CustomInputComponent from '@/components/containers/input/CustomInputComponent.vue';
 import * as yup from 'yup';
-
+import Button from '../containers/buttons/button.vue';
+import { mapGetters } from 'vuex';
 export default {
     name: 'AddressFormModal',
     components: {
         ModalBox,
         CustomInputComponent,
+        Button
     },
     props: {
         isOpen: {
@@ -114,7 +123,6 @@ export default {
                 this.localAddress = { ...newAddress };
             },
         },
-
     },
     mounted() {
         this.fetchCities();
@@ -158,6 +166,8 @@ export default {
             }
         },
         async fetchCoordinates() {
+            if (!this.localAddress.specificAddress || !this.localAddress.district || !this.localAddress.city) return;
+
             const address = `${this.localAddress.specificAddress}, ${this.localAddress.district}, ${this.localAddress.city}, Vietnam`;
             const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&addressdetails=1&limit=1`;
             try {
@@ -210,6 +220,9 @@ export default {
             this.$emit('save', savedData);
             this.closeModal();
         },
+    },
+    computed: {
+        ...mapGetters('loading', ['isLoading']),
     },
 };
 </script>

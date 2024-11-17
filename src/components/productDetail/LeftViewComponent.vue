@@ -1,59 +1,34 @@
 <template>
   <div class="w-full mx-auto pt-4">
-    <!-- Hình ảnh chính -->
+    <!-- Main Image Display -->
     <div class="relative">
-      <img
-        :src="images[currentImageIndex]"
-        alt="image"
-        class="w-full max-h-[400px] md:h-full rounded-md object-cover border-2 "
-      />
+      <img :src="loadImage(displayedImage, 'product')" alt="image"
+        class="w-full max-h-[400px] md:h-full rounded-md object-cover border-2" @error="handleImageError" />
       <div class="absolute inset-0 flex items-center justify-between p-4">
-        <!-- Nút chuyển qua hình trước -->
-        <button
-          @click="previousImage"
-          class="bg-gray-300 text-gray-700 p-2 rounded-full hover:bg-gray-400"
-          :class="{ 'opacity-50 cursor-not-allowed': currentImageIndex === 0 }"
-          :disabled="currentImageIndex === 0"
-        >
+        <!-- Previous Image Button -->
+        <button @click="previousImage" class="bg-gray-300 text-gray-700 p-2 rounded-full hover:bg-gray-400"
+          :class="{ 'opacity-50 cursor-not-allowed': currentImageIndex === 0 }" :disabled="currentImageIndex === 0">
           &#10094;
         </button>
 
-        <!-- Nút chuyển qua hình kế tiếp -->
-        <button
-          @click="nextImage"
-          class="bg-gray-300 text-gray-700 p-2 rounded-full hover:bg-gray-400"
-          :class="{
-            'opacity-50 cursor-not-allowed':
-              currentImageIndex === images.length - 1,
-          }"
-          :disabled="currentImageIndex === images.length - 1"
-        >
+        <!-- Next Image Button -->
+        <button @click="nextImage" class="bg-gray-300 text-gray-700 p-2 rounded-full hover:bg-gray-400" :class="{
+          'opacity-50 cursor-not-allowed':
+            currentImageIndex === imagesWithFallback.length - 1,
+        }" :disabled="currentImageIndex === imagesWithFallback.length - 1">
           &#10095;
         </button>
       </div>
     </div>
 
-    <!-- Danh sách hình nhỏ dưới dạng Swiper -->
+    <!-- Thumbnail Swiper -->
     <div class="pt-3">
-      <swiper
-        ref="thumbnailSwiper"
-        :slides-per-view="5"
-        space-between="10"
-        class="mySwiper"
-        :loop="false"
-      >
-        <swiper-slide
-          v-for="(image, index) in images"
-          :key="index"
-          @click="selectImage(index)"
-          class="cursor-pointer"
-        >
-          <img 
-            :src="image"
-            alt="thumbnail"
+      <swiper ref="thumbnailSwiper" :slides-per-view="5" space-between="10" class="mySwiper" :loop="false">
+        <swiper-slide v-for="(image, index) in imagesWithFallback" :key="index" @click="selectImage(index)"
+          class="cursor-pointer">
+          <img :src="loadImage(image, 'product')" alt="thumbnail"
             class="w-24 h-16 md:w-28 md:h-20 lg:w-28 lg:h-20 object-cover rounded-md border-2 shadow-lg"
-            :class="{ 'border-blue-500': currentImageIndex === index }"
-          />
+            :class="{ 'border-blue-500': currentImageIndex === index }" @error="handleImageError" />
         </swiper-slide>
       </swiper>
     </div>
@@ -63,6 +38,7 @@
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper-bundle.css";
+import { loadImage } from "@/services/imageService";
 
 export default {
   components: {
@@ -73,28 +49,31 @@ export default {
     images: {
       type: Array,
       required: true,
-      default: () => [
-        "https://i.pinimg.com/564x/6c/af/eb/6cafeb9bf4235db7ef53b737c835b9dc.jpg",
-        "https://i.pinimg.com/564x/ed/9a/4c/ed9a4c8cb9f2504ac15845e793d9baf9.jpg",
-        "https://i.pinimg.com/564x/8d/90/d6/8d90d633685e7ffb8794e0a6be4eb378.jpg",
-        "https://i.pinimg.com/564x/ed/9a/4c/ed9a4c8cb9f2504ac15845e793d9baf9.jpg",
-        "https://i.pinimg.com/564x/8d/90/d6/8d90d633685e7ffb8794e0a6be4eb378.jpg",
-        "https://i.pinimg.com/564x/6c/af/eb/6cafeb9bf4235db7ef53b737c835b9dc.jpg",
-        "https://i.pinimg.com/564x/ed/9a/4c/ed9a4c8cb9f2504ac15845e793d9baf9.jpg",
-        "https://i.pinimg.com/564x/8d/90/d6/8d90d633685e7ffb8794e0a6be4eb378.jpg",
-        "https://i.pinimg.com/564x/ed/9a/4c/ed9a4c8cb9f2504ac15845e793d9baf9.jpg",
-        "https://i.pinimg.com/564x/8d/90/d6/8d90d633685e7ffb8794e0a6be4eb378.jpg",
-      ],
+      default: () => [],
     },
   },
   data() {
     return {
       currentImageIndex: 0,
+      placeholderImage: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg",
     };
   },
+  computed: {
+    displayedImage() {
+      // Show the current image if available, otherwise use the placeholder
+      return this.imagesWithFallback[this.currentImageIndex] || this.placeholderImage;
+    },
+    imagesWithFallback() {
+      // Transform nested structure into an array of URLs or fallback if empty
+      return this.images.length > 0
+        ? this.images.flatMap(item => item.image.map(img => img.fileDownloadUri))
+        : [this.placeholderImage];
+    },
+  },
   methods: {
+    loadImage,
     nextImage() {
-      if (this.currentImageIndex < this.images.length - 1) {
+      if (this.currentImageIndex < this.imagesWithFallback.length - 1) {
         this.currentImageIndex++;
         this.updateThumbnailSwiper();
       }
@@ -112,21 +91,21 @@ export default {
     updateThumbnailSwiper() {
       const swiperInstance = this.$refs.thumbnailSwiper.swiper;
       if (swiperInstance) {
-        const visibleSlides = 5; // số lượng slide hiển thị cùng lúc
-        if (
-          this.currentImageIndex >=
-          swiperInstance.activeIndex + visibleSlides
-        ) {
+        const visibleSlides = 5;
+        if (this.currentImageIndex >= swiperInstance.activeIndex + visibleSlides) {
           swiperInstance.slideTo(this.currentImageIndex - visibleSlides + 1);
         } else if (this.currentImageIndex < swiperInstance.activeIndex) {
           swiperInstance.slideTo(this.currentImageIndex);
         }
       }
     },
+    handleImageError(event) {
+      event.target.src = this.placeholderImage;
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Thêm style tùy chỉnh nếu cần */
+/* Custom styles if needed */
 </style>

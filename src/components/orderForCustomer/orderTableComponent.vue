@@ -1,53 +1,74 @@
 <template>
-    <div class="bg-white p-4 sm:p-6 rounded-md shadow overflow-x-auto">
-        <table class="min-w-full border-collapse border border-gray-200">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="p-2 sm:p-4 text-left text-gray-600 font-semibold border-b">Mã đơn hàng</th>
-                    <th class="p-2 sm:p-4 text-left text-gray-600 font-semibold border-b">Ngày đặt</th>
-                    <th class="p-2 sm:p-4 text-left text-gray-600 font-semibold border-b">Trạng thái</th>
-                    <th class="p-2 sm:p-4 text-right text-gray-600 font-semibold border-b">Tổng tiền</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="order in orders" :key="order.id" class="border-t cursor-pointer hover:bg-gray-100"
-                    @click="$emit('viewOrderDetails', order)">
-                    <td class="p-2 sm:p-4 text-gray-700">{{ order.id }}</td>
-                    <td class="p-2 sm:p-4 text-gray-700">{{ order.date }}</td>
-                    <td class="p-2 sm:p-4">
-                        <span :class="statusClass(order.status)" class="px-2 py-1 rounded">
-                            {{ order.status }}
-                        </span>
-                    </td>
-                    <td class="p-2 sm:p-4 text-right text-gray-700">{{ order.total }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
+        <div v-for="order in orders" :key="order.id" class="bg-white p-4 rounded-sm shadow-sm border hover:shadow-lg"
+            @click="$emit('viewOrderDetails', order)">
+            <!-- Order Code -->
+            <div class="text-base font-semibold text-gray-500 mb-2">
+                <strong>Mã đơn hàng :</strong> {{ order.orderCode || 'null' }}
+            </div>
+
+            <!-- Order Date -->
+            <div class="text-base text-gray-500 mb-2">
+                <strong>Ngày đặt :</strong> {{ formatDate(order.createOderTime) || 'null' }}
+            </div>
+
+            <!-- Order Status -->
+            <div class="mb-2">
+                <strong class="text-gray-500">Trạng thái : &nbsp;</strong>
+                <span class="px-2 py-1 rounded">
+                    {{ order.orderStatus?.status || 'null' }}
+                </span>
+            </div>
+            <div class="mb-2">
+                <strong class="text-gray-500">Phiếu giảm giá : &nbsp;</strong>
+                <span class="px-2 py-1 rounded">
+                    {{ order.vouchers[0].voucher.description || 'không' }}
+                </span>
+            </div>
+
+
+            <!-- Total Price -->
+            <div class="text-gray-500 text-xl font-semibold">
+                <span>Tổng tiền : </span> <span class="text-red-500 text-xl">{{ formatCurrencyVN(order.totalPrice) ||
+                    'null' }} VND</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import { formatCurrencyVN } from '@/utils/currencyUtils';
 export default {
-    name: 'OrderTable',
+    name: 'OrderCardGrid',
     props: {
         orders: {
             type: Array,
             required: true,
         },
+        loading: {
+            type: Boolean,
+            default: false,
+        },
     },
     methods: {
-        statusClass(status) {
-            switch (status) {
-                case 'Completed':
-                    return 'bg-green-100 text-green-600';
-                case 'Pending':
-                    return 'bg-yellow-100 text-yellow-600';
-                case 'Canceled':
-                    return 'bg-red-100 text-red-600';
-                default:
-                    return 'bg-gray-100 text-gray-600';
-            }
+        formatCurrencyVN,
+        formatDate(date) {
+            if (!date) return 'null';
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            return new Date(date).toLocaleDateString('vi-VN', options);
         },
     },
 };
 </script>
+
+<style scoped>
+/* Adjusting responsive grid for different screen sizes */
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>

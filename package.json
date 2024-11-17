@@ -10,11 +10,13 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^43.3.0",
     "@ckeditor/ckeditor5-vue": "^7.2.0",
+    "@vuepic/vue-datepicker": "^10.0.0",
     "axios": "^1.7.7",
     "boxicons": "^2.1.4",
     "chart.js": "^4.4.5",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.13",
+    "element-plus": "^2.8.7",
     "floating-vue": "^5.2.2",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
