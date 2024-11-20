@@ -1,9 +1,24 @@
 <template>
   <div class="p-1">
     <!-- Tiêu đề -->
-    <div class="flex items-center mb-2 border-b rounded border-gray-200 pb-2">
-      <router-link to="/cart" class="text-red-600 font-mono text-md">
-        Giỏ hàng của bạn
+    <div
+      class="flex items-center justify-between mb-2 border-b rounded border-gray-200 pb-2 hover:border-red-600 transition duration-300"
+    >
+      <!-- Tiêu đề giỏ hàng -->
+      <h3 class="text-gray-800 font-bold text-lg">Giỏ hàng</h3>
+
+      <!-- Nút đi đến giỏ hàng -->
+      <router-link
+        to="/cart"
+        class="flex items-center text-red-600 hover:text-red-800 transition duration-300 relative group"
+      >
+        <i class="bx bx-cart text-2xl"></i>
+
+        <span
+          class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition"
+        >
+          Xem giỏ hàng
+        </span>
       </router-link>
     </div>
 
@@ -11,11 +26,24 @@
     <div v-if="errorMessage" class="text-red-500 text-center">
       {{ errorMessage }}
     </div>
-
+    <div v-else-if="isLoading" class="flex justify-center items-center h-32">
+      <div
+        class="loader border-t-4 border-red-600 rounded-full w-8 h-8 animate-spin"
+      ></div>
+    </div>
+    <div v-else-if="cartItems.length === 0" class="text-center py-4">
+      <p class="text-gray-600 text-sm">Giỏ hàng trống, mua sắm tiếp nào!</p>
+      <a
+        href="/"
+        class="mt-2 inline-block text-red-500 font-medium hover:underline"
+      >
+        Tiếp tục mua sắm
+      </a>
+    </div>
     <!-- Danh sách sản phẩm -->
     <div v-else>
       <div
-        v-for="(product, index) in cartItems"
+        v-for="(product) in cartItems"
         :key="product.id"
         class="bg-white p-2 mb-2 flex items-center justify-between hover:shadow transition duration-200 border-b"
       >
@@ -52,13 +80,7 @@
         </div>
 
         <div class="flex items-center">
-          <!-- Nút giảm số lượng -->
-          <button
-            @click="decreaseQuantity(index)"
-            class="w-4 h-4 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 focus:outline-none transition"
-          >
-            -
-          </button>
+    
 
           <!-- Input số lượng sản phẩm -->
           <input
@@ -67,13 +89,6 @@
             class="w-8 h-4 text-center border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none text-xs"
           />
 
-          <!-- Nút tăng số lượng -->
-          <button
-            @click="increaseQuantity(index)"
-            class="w-4 h-4 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 focus:outline-none transition"
-          >
-            +
-          </button>
         </div>
       </div>
 
@@ -95,8 +110,9 @@ export default {
   name: "CartComponent",
   data() {
     return {
-      cartItems: [], // Danh sách sản phẩm trong giỏ hàng
-      errorMessage: null, // Thông báo lỗi nếu xảy ra
+      cartItems: [],
+      errorMessage: null,
+      isLoading: true,
     };
   },
   computed: {
@@ -111,47 +127,57 @@ export default {
     this.getViewCart();
   },
   methods: {
-    // Hàm rút ngắn mô tả sản phẩm
     truncateDescription(text, length) {
       return text.length > length ? text.substring(0, length) + "..." : text;
     },
-
-    // Hàm lấy giỏ hàng từ API
     async getViewCart() {
+      this.isLoading = true; // Bắt đầu loading
       try {
         const response = await getCart();
         this.cartItems = response.data;
-        console.log(this.cartItems);
       } catch (error) {
-        this.errorMessage = "Không thể tải giỏ hàng.";
+        this.errorMessage = "Vui lòng đăng nhập.";
         console.error(error);
+      } finally {
+        this.isLoading = false; // Kết thúc loading
       }
     },
-
-    // Hàm định dạng giá trị thành VND
     formatCurrency(value) {
       return new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
       }).format(value);
     },
-
-    // Hàm giảm số lượng sản phẩm
     decreaseQuantity(index) {
       const item = this.cartItems[index];
       if (item.quantity > 1) {
         item.quantity--;
       }
     },
-
-    // Hàm tăng số lượng sản phẩm
     increaseQuantity(index) {
       const item = this.cartItems[index];
       item.quantity++;
     },
-
-    // Lấy URL ảnh sản phẩm
     loadImage,
   },
 };
 </script>
+<style>
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid red;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>

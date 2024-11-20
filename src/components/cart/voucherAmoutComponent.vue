@@ -44,24 +44,32 @@
       v-if="showModal"
       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
     >
-      <div class="bg-white w-11/12 md:w-1/2 p-6 rounded-lg shadow-lg">
-        <h3 class="text-lg font-bold mb-4">Chọn voucher</h3>
+      <div
+        class="bg-white w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg"
+      >
+        <!-- Tiêu đề Modal -->
+        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-4 text-center">
+          Chọn voucher
+        </h3>
+
+        <!-- Danh sách voucher -->
         <div
           v-if="vouchers.length > 0"
-          class="grid grid-cols-1 gap-2 md:grid-cols-2"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
         >
           <div
             v-for="voucher in vouchers"
             :key="voucher.id"
             @click="selectVoucher(voucher)"
-            class="border p-4 rounded-lg cursor-pointer hover:bg-orange-100 border-gray-300 text-gray-700"
+            class="border p-4 rounded-lg cursor-pointer hover:bg-orange-100 border-gray-300 text-gray-700 transition-transform transform hover:scale-105"
             :class="{
               'border-orange-500 bg-orange-50':
                 selectedVoucher && selectedVoucher.id === voucher.id,
             }"
           >
-            <div class="flex items-center">
-              <div class="w-1/3 mr-4">
+            <div class="flex items-center space-x-4">
+              <!-- Hình ảnh voucher -->
+              <div class="w-1/3">
                 <img
                   v-if="voucher.image"
                   :src="loadImage(voucher.image, 'voucher')"
@@ -75,20 +83,34 @@
                   class="w-full h-20 object-cover rounded-lg"
                 />
               </div>
+
+              <!-- Nội dung voucher -->
               <div class="w-2/3">
-                <h4 class="text-sm font-bold">{{ voucher.code }}</h4>
-                <p class="text-gray-500">Giảm {{ voucher.discountPercent }}%</p>
+                <h4 class="text-sm sm:text-base md:text-lg font-bold">
+                  {{ voucher.code }}
+                </h4>
+                <p class="text-gray-500 text-xs sm:text-sm md:text-base">
+                  Giảm {{ voucher.discountPercent }}%
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <div v-else class="text-gray-500">Không có voucher khả dụng</div>
-        <button
-          class="mt-4 px-4 py-2 bg-orange-600 text-white rounded-lg"
-          @click="showModal = false"
-        >
-          Đóng
-        </button>
+
+        <!-- Không có voucher -->
+        <div v-else class="text-gray-500 text-center">
+          Không có voucher khả dụng
+        </div>
+
+        <!-- Nút đóng -->
+        <div class="flex justify-center mt-6">
+          <button
+            class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm sm:text-base rounded-lg"
+            @click="showModal = false"
+          >
+            Đóng
+          </button>
+        </div>
       </div>
     </div>
 
@@ -109,10 +131,10 @@
       </p>
     </div>
 
-    <div class="mt-6">
-      <label class="block text-gray-700 font-medium mb-2"
-        >Chọn địa chỉ giao hàng</label
-      >
+    <div class="mt-2">
+      <label class="block text-gray-700 font-medium mb-2">
+        Chọn địa chỉ giao hàng
+      </label>
       <div
         @click="toggleAddressList"
         class="border p-4 rounded-lg cursor-pointer hover:bg-gray-100"
@@ -123,7 +145,14 @@
         <p v-else>Chọn địa chỉ giao hàng</p>
       </div>
 
-      <div v-if="showAddressList" class="mt-4 max-h-60 overflow-y-auto">
+      <div v-if="userAddresses.length === 0" class="mt-0 text-red-500">
+        Bạn chưa thêm địa chỉ nhận hàng
+      </div>
+
+      <div
+        v-if="showAddressList && userAddresses.length > 0"
+        class="mt-4 max-h-60 overflow-y-auto"
+      >
         <div
           v-for="address in userAddresses"
           :key="address.id"
@@ -147,7 +176,7 @@
     </div>
 
     <div class="mt-2">
-      <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center justify-between">
         <label class="text-gray-700 font-medium"
           >Chọn ngân hàng (hoàn trả)</label
         >
@@ -174,9 +203,10 @@
           </div>
         </div>
       </div>
-
-      <!-- Hiển thị danh sách các ngân hàng khi nhấn "Xem thêm" -->
-      <div v-if="showBankList" class="grid gap-4 mt-4">
+      <div v-if="userBanks.length === 0" class="mt-1 text-red-500">
+        Bạn chưa liên kết ngân hàng nào.
+      </div>
+      <div v-if="showBankList && userBanks.length > 0" class="grid gap-4 mt-4">
         <div
           v-for="(bank, index) in userBanks"
           :key="index"
@@ -193,12 +223,46 @@
           </div>
         </div>
       </div>
-      <button
-        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 mt-3 rounded w-full"
-      >
-        Mua Ngay
-      </button>
+      <div class="mt-2">
+        <label class="block text-gray-700 font-medium mb-2">
+          Chọn phương thức thanh toán
+        </label>
+        <div class="grid grid-cols-2 gap-4">
+          <div
+            class="payment-method border p-4 rounded-lg cursor-pointer text-center hover:bg-gray-100"
+            :class="{
+              'border-green-500 bg-green-50': selectedPaymentMethod === 'cash',
+              'border-gray-300 bg-white': selectedPaymentMethod !== 'cash',
+            }"
+            @click="selectPaymentMethod('cash')"
+          >
+            <i class="bx bx-money text-green-500 text-2xl"></i>
+            <p class="mt-2 text-gray-700 font-medium">Thanh toán trực tiếp</p>
+          </div>
+          <div
+            class="payment-method border p-4 rounded-lg cursor-pointer text-center hover:bg-gray-100"
+            :class="{
+              'border-green-500 bg-green-50': selectedPaymentMethod === 'bank',
+              'border-gray-300 bg-white': selectedPaymentMethod !== 'bank',
+            }"
+            @click="selectPaymentMethod('bank')"
+          >
+            <i class="bx bx-credit-card text-blue-500 text-2xl"></i>
+            <p class="mt-2 text-gray-700 font-medium">
+              Thanh toán qua ngân hàng
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <button
+      v-if="isPurchaseReady"
+      class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 mt-3 rounded w-full"
+      @click="handlePurchase"
+    >
+      Mua Ngay
+    </button>
   </div>
 </template>
 
@@ -219,7 +283,7 @@ export default {
     return {
       showModal: false,
       selectedVoucher: null,
-      selectedPaymentMethod: "",
+
       selectedBank: null,
       showBankList: false,
       selectedWallet: "",
@@ -227,11 +291,18 @@ export default {
       showAddressList: false,
       selectedAddress: null,
       userBanks: [],
-
+      selectedPaymentMethod: null,
       userAddresses: [],
     };
   },
   computed: {
+    isPurchaseReady() {
+      return (
+        this.selectedAddress !== null &&
+        this.selectedBank !== null &&
+        this.selectedPaymentMethod !== null
+      );
+    },
     discountAmount() {
       if (
         this.selectedVoucher &&
@@ -249,6 +320,17 @@ export default {
     },
   },
   methods: {
+    handlePurchase() {
+      console.log("Thông tin mua hàng:");
+      console.log("Địa chỉ đã chọn:", this.selectedAddress);
+      console.log("Ngân hàng đã chọn:", this.selectedBank);
+      console.log("Phương thức thanh toán:", this.selectedPaymentMethod);
+      console.log("Voucher đã chọn:", this.selectedVoucher);
+      console.log("Tổng tiền thanh toán:", this.finalPrice);
+    },
+    selectPaymentMethod(method) {
+      this.selectedPaymentMethod = method;
+    },
     selectBank(bank) {
       this.selectedBank = bank;
       this.showBankList = false;
@@ -277,7 +359,7 @@ export default {
     async handleFetchWallet() {
       try {
         const response = await getWallet();
-        
+
         this.userBanks = response.data; // Gán dữ liệu vào userBanks
       } catch (error) {
         console.error("Failed to load wallets:", error?.message || error);
@@ -312,7 +394,7 @@ export default {
     this.handleFetchWallet();
   },
   created() {
-   this.handleFetchWallet();
+    this.handleFetchWallet();
   },
 };
 </script>

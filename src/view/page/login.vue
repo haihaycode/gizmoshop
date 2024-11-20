@@ -67,7 +67,7 @@
           </div>
         </Form>
 
-        <a href="#" class="text-red-600 mt-4 hover:underline">Quên mật khẩu?</a>
+        <a href="/forgotpassword" class="text-red-600 mt-4 hover:underline">Quên mật khẩu?</a>
         <p class="mt-4 text-sm text-gray-600">
           Chưa có tài khoản?
           <a href="#" class="text-red-600 hover:underline">Đăng ký ngay</a>
