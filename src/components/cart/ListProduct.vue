@@ -1,6 +1,4 @@
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  
   <div
     class="flex items-center space-x-4 bg-white rounded-lg shadow-md p-4 mb-4 hover:shadow-lg transition duration-200 border border-gray-200"
   >
@@ -16,17 +14,36 @@
     />
 
     <div class="flex-1 ml-4">
-      <!-- Product Name and Short Description -->
       <p class="text-gray-800 font-semibold text-sm md:text-base truncate">
-        {{ product.productId.productName }}
-      </p>
-      <p class="text-gray-500 text-xs md:text-sm mt-1 line-clamp-2">
-        {{ product.productId.productShortDescription }}
+        {{ truncateText(product.productId.productName, 50) }}
       </p>
 
-      <!-- Price -->
-      <p class="text-red-500 text-sm font-semibold mt-2">
-        {{ formatCurrency(product.productId.productPrice) }}
+      <p class="text-gray-500 text-xs md:text-sm mt-1 line-clamp-2">
+        {{ truncateText(product.productId.productShortDescription, 70) }}
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+        <p
+          v-if="product.productId.discountProduct > 0"
+          class="text-gray-400 text-sm line-through"
+        >
+          {{ formatCurrency(product.productId.productPrice) }}
+        </p>
+        <p class="text-red-500 text-sm font-semibold">
+          {{
+            formatCurrency(
+              discountedPrice(
+                product.productId.productPrice,
+                product.productId.discountProduct
+              )
+            )
+          }}
+        </p>
+      </div>
+      <p
+        v-if="product.productId.discountProduct > 0"
+        class="text-green-500 text-xs mt-1"
+      >
+        Giảm {{ product.productId.discountProduct }}%
       </p>
 
       <!-- Category -->
@@ -56,6 +73,15 @@ export default {
     removeProduct: Function,
   },
   methods: {
+    truncateText(text, maxLength) {
+      if (!text || typeof text !== "string") {
+        return "";
+      }
+      return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+    },
+    discountedPrice(price, discount) {
+      return price - (price * discount) / 100;
+    },
     loadImage,
   },
 };

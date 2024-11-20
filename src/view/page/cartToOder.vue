@@ -1,9 +1,21 @@
 <template>
   <div class="flex flex-wrap w-full" ref="content">
+    <div
+      v-if="isLoading"
+      class="fixed inset-0 flex justify-center items-center z-50 bg-opacity-50 bg-gray-800"
+    >
+      <div
+        class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-red-500"
+      ></div>
+      <img
+        src="https://i.pinimg.com/736x/93/62/f8/9362f8b574c0d01f96129bd57ba2ec3b.jpg"
+        class="rounded-full h-20 w-20 opacity-80"
+      />
+    </div>
     <div class="w-full lg:w-7/10 md:w-2/3 p-4">
       <a
         href="/cart"
-        class="relative flex items-center text-red-500 hover:text-red-600 font-semibold text-lg bg-white pb-4 "
+        class="relative flex items-center text-red-500 hover:text-red-600 font-semibold text-lg bg-white pb-4"
       >
         <!-- Icon mũi tên -->
         <svg
@@ -36,7 +48,7 @@
 
     <!-- Thành phần tổng kết giỏ hàng chiếm 3 phần -->
     <div class="w-full lg:w-3/10 md:w-1/3 p-4">
-      <VoucherAmountComponent :totalPrice="totalPrice" />
+      <VoucherAmountComponent :totalPrice="finalPrice" />
     </div>
   </div>
 </template>
@@ -54,10 +66,24 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       cartItems: [],
     };
   },
   computed: {
+    discountAmount() {
+      return this.cartItems.reduce(
+        (total, item) =>
+          total +
+          ((item.productId.productPrice * item.productId.discountProduct) /
+            100) *
+            item.quantity,
+        0
+      );
+    },
+    finalPrice() {
+      return this.totalPrice - this.discountAmount;
+    },
     totalPrice() {
       return this.cartItems.reduce(
         (total, item) => total + item.productId.productPrice * item.quantity,
@@ -77,31 +103,17 @@ export default {
       });
     },
     async getViewCart() {
+      this.isLoading = true;
+
       try {
         const response = await getCart();
-        this.cartItems = response.data; // Lưu giỏ hàng vào cartItems
+        this.cartItems = response.data;
       } catch (error) {
-        console.error("Không thể tải giỏ hàng.", error);
+        this.errorMessage = "Không thể tải giỏ hàng.";
+        console.error(error);
+      } finally {
+        this.isLoading = false;
       }
-    },
-    async removeProduct(index) {
-      const productId = this.cartItems[index].productId.id; // Truy xuất id của sản phẩm
-      // Xử lý xóa sản phẩm
-      console.log(`Xóa sản phẩm với id: ${productId}`);
-      // Gọi API xóa sản phẩm tại đây
-    },
-    updateQuantity(index, delta) {
-      let newQuantity = this.cartItems[index].quantity + delta;
-      // Đảm bảo số lượng không thấp hơn 1
-      if (newQuantity < 1) newQuantity = 1;
-      this.cartItems[index].quantity = newQuantity;
-      // Gọi API cập nhật số lượng sản phẩm
-      console.log(
-        `Cập nhật số lượng cho sản phẩm với id: ${this.cartItems[index].productId.id} - mới: ${newQuantity}`
-      );
-    },
-    proceedToCheckout() {
-      this.$router.push("/toOrder");
     },
   },
 };

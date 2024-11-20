@@ -30,6 +30,19 @@ const guestRoutesAuth = [
 
                 }
             },
+            {
+                path: '/forgotpassword',
+                name: 'forgotpassword',
+                meta: {
+                    title: "Gizmo Shop",
+                    description: "Đồ công nghệ Giá rẻ   "
+                },
+                components: {
+                    default: usePage('forgotPassword'),
+
+
+                }
+            },
 
         ]
     },
