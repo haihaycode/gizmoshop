@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       localItemsPerPage: this.itemsPerPage,
-      limitOptions: [5, 10, 15, 20],
+      limitOptions: [5, 8, 10, 15, 20],
       editablePage: this.currentPage,
     };
   },

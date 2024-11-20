@@ -45,3 +45,11 @@ export const translatedRoles = (roles) => {
         };
     });
 };
+
+
+export const formatDateToISO = (date) => {
+    const d = new Date(date);
+    return d.toISOString().split('T')[0];
+}
+
+

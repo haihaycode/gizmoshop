@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <nav class="bg-white shadow-xl z-50 fixed w-full top-0 left-0 rounded-sm">
+  <nav class="bg-white shadow-xl z-10 fixed w-full top-0 left-0 rounded-sm">
     <div class="mx-auto">
       <div class="relative max-w-7xl flex items-center mx-auto justify-between h-16">
         <!-- Logo (hiển thị trên màn hình từ tablet trở lên) -->
@@ -89,8 +89,8 @@
                   <span class="hidden lg:inline">Danh mục sản phẩm</span>
 
                   <i :class="isDropdownOpen
-                      ? 'bx bx-chevron-up ml-2 transform rotate-180 transition-all duration-300'
-                      : 'bx bx-chevron-down ml-2 transform rotate-0 transition-all duration-300'
+                    ? 'bx bx-chevron-up ml-2 transform rotate-180 transition-all duration-300'
+                    : 'bx bx-chevron-down ml-2 transform rotate-0 transition-all duration-300'
                     "></i>
                 </button>
 
@@ -99,9 +99,11 @@
                     class="absolute top-12 left-0 bg-white border border-gray-200 shadow-lg z-10 w-full rounded-b-lg">
                     <ul class="py-1">
                       <li v-for="category in categories" :key="category.id">
-                        <a href="#" class="block px-4 py-2 text-black hover:bg-gray-100 transition-all">
+                        <div
+                          @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); }"
+                          href="#" class="block px-4 py-2 text-black hover:bg-gray-100 transition-all cursor-pointer">
                           {{ category.name }}
-                        </a>
+                        </div>
                       </li>
                     </ul>
                   </div>
@@ -170,13 +172,13 @@
     </div>
     <transition name="fade">
       <div v-if="isCartModalOpen" v-show="isVisible"
-        class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-50">
+        class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-30">
         <ListProductComponent></ListProductComponent>
       </div>
     </transition>
 
     <transition name="fade">
-      <div v-if="isProfileOpen" class="absolute top-20 right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-50">
+      <div v-if="isProfileOpen" class="absolute top-20 right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-30">
         <div class="flex items-center mb-4">
           <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center text-base font-bold">
             {{ token ? 'Gizmo' : 'Gizmo' }}
@@ -205,21 +207,21 @@
             <i class="bx bx-package mr-2"></i>
             <span>Đơn mua</span>
           </router-link>
-          <li v-if="token && role.includes('ROLE_SUPPLIER')"
+          <router-link :to="{ name: 'SupplierHome' }" v-if="token && role.includes('ROLE_SUPPLIER')"
             class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
             <i class="bx bx-package mr-2"></i> <!-- Icon bx-package cho mục 'Trang Đối tác' -->
             <span>Trang Đối tác</span>
-          </li>
+          </router-link>
           <router-link :to="{ name: 'searchOrder' }"
             class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
             <i class="bx bx-search-alt mr-2"></i> <!-- Icon bx-search-alt cho mục 'Tra cứu đơn hàng' -->
             <span>Tra cứu </span>
           </router-link>
-          <li v-if="!role?.includes('ROLE_SUPPLIER')"
+          <router-link :to="{ name: 'supplierRegister' }" v-if="!role?.includes('ROLE_SUPPLIER')"
             class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
             <i class="bx bx-clipboard mr-2"></i> <!-- Icon bx-clipboard cho mục 'Đăng ký nhà cung cấp' -->
             <span>Đăng ký nhà cung cấp</span>
-          </li>
+          </router-link>
         </ul>
       </div>
     </transition>
@@ -227,7 +229,7 @@
     <!-- tra cứu đơ hàng  -->
     <transition name="fade">
       <div v-if="modalSearchOrderIsOpen"
-        class="absolute top-30 left-0 right-0 flex items-center bg-gray-50 p-4 rounded-sm shadow-lg w-full z-50 space-x-4">
+        class="absolute top-30 left-0 right-0 flex items-center bg-gray-50 p-4 rounded-sm shadow-lg w-full z-30 space-x-4">
         <!-- Phone Number Input -->
         <div class="flex-1">
           <label class="text-sm text-gray-600">Số điện thoại</label>

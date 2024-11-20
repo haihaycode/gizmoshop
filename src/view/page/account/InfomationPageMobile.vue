@@ -69,7 +69,7 @@
                         active-class="text-red-500 font-semibold">
                         <i class="bx bx-money-withdraw text-lg"
                             :class="{ 'bx-burst': $route.name === 'withdrawalHistory' }"></i>
-                        <span>Lịch sử rút tiền</span>
+                        <span>Lịch sử Giao dịch</span>
                     </router-link>
                 </li>
             </ul>

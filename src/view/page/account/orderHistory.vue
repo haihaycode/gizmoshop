@@ -23,7 +23,7 @@
 
         <!-- Order Table or Empty State -->
         <div v-if="orders.length">
-            <OrderTable :orders="orders" @viewOrderDetails="openOrderDetails" />
+            <OrderTable :orders="orders" @viewOrderDetails="openOrderDetails" @cancelOrder="cancelOrder" />
             <br>
             <Pagination :total-items="pagination?.totalElements || 0" :items-per-page="limit" :current-page="page + 1"
                 @page-changed="handlePageChange" @limit-changed="handleLimitChange">
@@ -43,9 +43,10 @@ import OrderStatusTabs from '@/components/orderForCustomer/OrderStatusTabsCompon
 import OrderTable from '@/components/orderForCustomer/orderTableComponent.vue';
 import EmptyState from '@/components/orderForCustomer/EmptyStateComponent.vue';
 import OrderDetailsModal from '@/components/orderForCustomer/OrderDetailsModalComponent.vue';
-import { getOrders } from '@/api/orderForCustomerApi';
+import { getOrders, cancelOrderForUsers } from '@/api/orderForCustomerApi';
 import { mapGetters } from 'vuex';
 import Pagination from '@/components/containers/pagination/Pagination.vue';
+
 
 export default {
     name: 'OrderHistoryPage',
@@ -96,7 +97,6 @@ export default {
             this.fetchOrders();
         },
         async fetchOrders() {
-            console.log(this.startDate, this.endDate)
             try {
                 const filters = {
                     page: this.page,
@@ -129,6 +129,14 @@ export default {
         searchOrders() {
             this.page = 0; // Reset to the first page when searching
             this.fetchOrders();
+        },
+        async cancelOrder(order) {
+            try {
+                await cancelOrderForUsers(order.order.id, order.reason === 'other' ? order.note : order.reason);
+                this.fetchOrders();
+            } catch (error) {
+                console.error("Error canceling order:", error);
+            }
         }
     },
 };

@@ -1,21 +1,23 @@
 <template>
     <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
         <div class="bg-white w-full max-w-3xl p-6 rounded-lg shadow-lg relative overflow-auto max-h-[90vh]">
-            <!-- Close Button -->
             <button @click="$emit('close')" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-2xl">
                 &times;
             </button>
-
             <!-- Modal Title -->
             <h3 class="text-2xl font-semibold text-gray-700 mb-4">Chi tiết đơn hàng #{{ order.orderCode || 'null' }}
             </h3>
-
             <!-- Order Information Section -->
             <div class="mb-4 space-y-2">
                 <p><strong>Ngày đặt:</strong> {{ formatDate(order.createOderTime) || 'null' }}</p>
                 <p><strong>Trạng thái:</strong>
                     <span class="px-3 py-1 rounded-full text-sm">
                         {{ order.orderStatus?.status || 'null' }}
+                    </span>
+                </p>
+                <p><strong>Ghi chú :</strong>
+                    <span class="px-3 py-1 rounded-full text-sm">
+                        {{ order.note || 'không có' }}
                     </span>
                 </p>
                 <!-- <p><strong>Tổng tiền:</strong> <span class="text-red-500 text-xl">{{ formatCurrencyVN(order.totalPrice)
@@ -27,7 +29,7 @@
                     <p v-if="order.vouchers[0].voucher.discountAmount !== 0">
                         <strong>Giảm :</strong> <span class="text-red-500 text-xl"> {{
                             formatCurrencyVN(order.vouchers[0].voucher.discountAmount)
-                            }}</span>
+                        }}</span>
                     </p>
 
                     <!-- Check if discount is a percentage, and display max discount if applicable -->
@@ -69,7 +71,10 @@
                                 <div class="flex items-center space-x-3">
                                     <img :src="loadImage('product', item.product.image)" alt="product image"
                                         class="w-12 h-12 object-cover rounded-md" @error="handleImageError">
+
                                     <span class="text-sm">{{ item.product.productName || 'không có tên' }}</span>
+                                    <span v-if="item.product.discountProduct" class="text-xl text-red-500 "> ({{
+                                        item.product.discountProduct + '%' || 'không có' }})</span>
                                 </div>
                             </td>
                             <td class="p-2 text-right text-gray-700">{{ item.quantity || '0' }}</td>

@@ -7,7 +7,7 @@
     <div v-if="products.length === 0" class="flex items-center justify-center">
       không có dữ liệu
     </div>
-    <div v-else class="discounted-products-container my-2 mx-auto border border-gray-50 rounded-lg shadow-md">
+    <div v-else class="discounted-products-container my-2 mx-auto  ">
       <swiper :slides-per-view="getSlidesPerView" :space-between="10" :loop="false" class="products-swiper p-4">
         <swiper-slide v-for="(product, index) in products" :key="index" class="product-card-wrapper">
           <ProductCard :product="product" />
@@ -26,7 +26,7 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper-bundle.css";
 import ProductCard from "@/components/product/ProductCard.vue";
-import { fetchRelatedProducts } from "@/api/productApi";
+import { getProduct } from "@/api/productApi";
 
 export default {
   components: { Swiper, SwiperSlide, ProductCard },
@@ -74,10 +74,17 @@ export default {
         const { productBrand, productCategories } = this.product;
         const brandId = productBrand?.id;
         const categoryId = productCategories?.id;
+        const filter = {
+          sort: 'id,desc',
+          page: 0,
+          size: 6,
+          brand: brandId,
+          category: categoryId,
+        }
 
         if (brandId && categoryId) {
-          const response = await fetchRelatedProducts(brandId, categoryId);
-          this.products = response.data;
+          const response = await getProduct(filter);
+          this.products = response.data.content.splice(0, 6);
         }
       } catch (error) {
         console.error("Error fetching related products:", error);

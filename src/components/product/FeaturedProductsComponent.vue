@@ -37,9 +37,40 @@
 
         <!-- Product Grid -->
         <div class="product pl-2 pr-2 mx-auto mt-5 md:container-flush">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <!-- Skeleton Loading Grid -->
+            <div v-if="isLoading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <!-- Repeat skeleton SVGs as needed -->
+                <div v-for="n in 5" :key="n" class="p-4 border rounded-sm shadow-sm bg-gray-100">
+                    <svg class="w-full h-32 bg-gray-300 rounded-sm" viewBox="0 0 400 150" preserveAspectRatio="none">
+                        <rect x="0" y="0" width="100%" height="100%" fill="url(#loadingGradient)" />
+                        <defs>
+                            <linearGradient id="loadingGradient">
+                                <stop offset="0%" stop-color="#e0e0e0">
+                                    <animate attributeName="offset" from="0" to="1" dur="1s" repeatCount="indefinite" />
+                                </stop>
+                                <stop offset="50%" stop-color="#f0f0f0">
+                                    <animate attributeName="offset" from="0.5" to="1.5" dur="1s"
+                                        repeatCount="indefinite" />
+                                </stop>
+                                <stop offset="100%" stop-color="#e0e0e0">
+                                    <animate attributeName="offset" from="1" to="2" dur="1s" repeatCount="indefinite" />
+                                </stop>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <svg class="w-full mt-2">
+                        <rect x="0" y="0" width="60%" height="12" fill="url(#loadingGradient)" />
+                        <rect x="0" y="20" width="40%" height="12" fill="url(#loadingGradient)" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <ProductCard v-for="product in products" :key="product.id" :product="product" />
             </div>
+
+            <!-- Load More Button -->
             <div class="text-center mt-4" v-if="hasMoreProducts">
                 <Button @click="loadMore" :isLoading="isLoading" :text="'Tải thêm'"
                     class="bg-red-600 text-white px-4 py-2 rounded-sm hover:bg-red-500">
@@ -63,7 +94,7 @@ export default {
     data() {
         return {
             filter: {
-                limit: 5,
+                limit: 10,
                 page: 0,
                 sortDirection: 'desc',
                 sortParams: 'id',

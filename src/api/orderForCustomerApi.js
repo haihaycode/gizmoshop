@@ -61,3 +61,27 @@ export const orderSummary = async () => {
         throw error;
     }
 };
+
+/**
+ * Cancel an order for users with an optional note.
+ *
+ * @param {number} idOrder - ID of the order to be canceled
+ * @param {string} note - (Optional) Reason or note for canceling the order
+ * @returns {Promise<Object>} - Response data from the API
+ */
+export const cancelOrderForUsers = async (idOrder, note = '') => {
+    try {
+        const response = await Axios.get(`${HOST}/api/public/orders/cancelOrderForUsers/${idOrder}`, {
+            params: {
+                note: note || null,  // Pass note only if provided
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error canceling order:", error);
+        throw error;
+    }
+};
+
+
+
