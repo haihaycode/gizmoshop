@@ -4,7 +4,12 @@
         <div class="px-6 py-4 border-b">
             <h2 class="text-2xl font-semibold text-blue-600">Đối tác Gizmo</h2>
         </div>
+
         <nav class="flex-1 px-4 py-4 space-y-2">
+            <router-link :to="{ name: 'SupplierHome' }" :class="{ 'text-red-500 ': $route.name === 'SupplierHome' }"
+                class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                <span>Tổng quan</span>
+            </router-link>
             <div class="group">
                 <a href="#"
                     class="flex items-center justify-between px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
@@ -15,26 +20,36 @@
                     </svg>
                 </a>
                 <div class="hidden group-hover:block ml-4 mt-2 space-y-2">
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
-                        Đơn hàng đã gửi
-                    </a>
+                    <router-link :to="{ name: 'OrdersSupplier' }"
+                        :class="{ 'text-red-500 ': $route.name === 'OrdersSupplier' }"
+                        class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
+                        Quản lý Đơn hàng
+                    </router-link>
                     <router-link :to="{ name: 'OrdersPendingSupplier' }"
                         :class="{ 'text-red-500 ': $route.name === 'OrdersPendingSupplier' }"
                         class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
-                        Đơn hàng chưa gửi
+                        Tạo Đơn hàng
                     </router-link>
                 </div>
             </div>
-            <a href="#" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+            <router-link :to="{ name: 'productSupplier' }"
+                :class="{ 'text-red-500 ': $route.name === 'productSupplier' }"
+                class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                 <span>Sản phẩm đã cung cấp</span>
-            </a>
-            <a href="#" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+            </router-link>
+            <router-link :to="{ name: 'walletSupplier' }" :class="{ 'text-red-500 ': $route.name === 'walletSupplier' }"
+                class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                 <span>Quản lý ví</span>
-            </a>
-            <a href="#" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+            </router-link>
+            <router-link :to="{ name: 'TransactionsHistory' }"
+                :class="{ 'text-red-500 ': $route.name === 'TransactionsHistory' }" class=" flex items-center px-4 py-2 text-gray-600
+                hover:bg-gray-100 rounded-lg">
+                <span>Lịch sử giao dịch</span>
+            </router-link>
+            <a href="/" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                 <span>Quay lại cửa hàng</span>
             </a>
-            <a href="#" class="flex items-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg">
+            <a href="#" class="flex items-center px-4 py-2 text-blue-600 hover:bg-red-50 rounded-lg">
                 <span>Logout</span>
             </a>
         </nav>

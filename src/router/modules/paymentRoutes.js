@@ -19,7 +19,8 @@ const paymentRoutes = [
                     default: usePage('payment/PaymentSuccess'),
                     header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
-                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent'),
+                    mobile: useComponentLayout('ResponsiveMobile')
                 }
             },
             {
@@ -33,7 +34,8 @@ const paymentRoutes = [
                     default: usePage('payment/PaymentFailed'),
                     header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
-                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent'),
+                    mobile: useComponentLayout('ResponsiveMobile')
 
                 }
             },

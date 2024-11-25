@@ -2,22 +2,7 @@ import Axios from '@/api/axios';
 import { HOST } from '@/api/config'
 
 
-/**
- * Fetch products with various optional filters.
- *
- * @param {Object} filter - Object containing optional filter parameters
- * @param {number} filter.limit - (Optional) Number of products per page
- * @param {number} filter.page - (Optional) Current page number
- * @param {string} filter.sortParams - (Optional) Sort field
- * @param {string} filter.sortDirection - (Optional) Sort direction ('asc' or 'desc')
- * @param {string} filter.keyword - (Optional) Keyword for search
- * @param {string} filter.sortFieldCase - (Optional) Field to use for case-insensitive sorting
- * @param {number} filter.price1 - (Optional) Minimum price filter
- * @param {number} filter.price2 - (Optional) Maximum price filter
- * @param {number} filter.brand - (Optional) Brand ID filter
- * @param {number} filter.category - (Optional) Category ID filter
- * @returns {Promise<Object>} - Response data from the API
- */
+
 export const getProduct = async (filter = {}) => {
   try {
     const params = {};
@@ -44,7 +29,6 @@ export const getProduct = async (filter = {}) => {
 
 
 // api/public/product/product-detail
-
 export const getProductDetail = async (id) => {
   try {
     const response = await Axios.get(`${HOST}/api/public/product/product-detail`, {
@@ -56,5 +40,18 @@ export const getProductDetail = async (id) => {
   } catch (error) {
     console.error("Error calling API:", error);
     throw error;
+  }
+};
+
+export const updataImage = async (formData) => {
+  try {
+    const response = await Axios.post(`${HOST}/api/admin/product/updateimage`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Lỗi API updataImage: ${error}`);
   }
 };

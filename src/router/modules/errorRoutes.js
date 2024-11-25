@@ -34,6 +34,7 @@ const errorRoutes = [
                 components: {
                     default: useErrorPage('403'),
 
+
                 }
 
             },

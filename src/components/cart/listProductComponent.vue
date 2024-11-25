@@ -2,63 +2,38 @@
   <div class="flex flex-wrap w-full">
     <div class="rounded-md w-full lg:w-7/10 md:w-2/3 p-4">
       <div class="flex items-center mb-6 border-b pb-2">
-        <button class="text-red-600 font-bold text-lg">Giỏ hàng của bạn</button>
+        <button class="text-red-600 font-bold text-lg">Giỏ hàng của bạn </button>
       </div>
-      <div
-        v-if="isLoading"
-        class="fixed inset-0 flex justify-center items-center z-50 bg-opacity-50 bg-gray-800"
-      >
-        <div
-          class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-red-500"
-        ></div>
-        <img
-          src="https://i.pinimg.com/736x/93/62/f8/9362f8b574c0d01f96129bd57ba2ec3b.jpg"
-          class="rounded-full h-20 w-20 opacity-80"
-        />
+      <div v-if="isLoading" class="fixed inset-0 flex justify-center items-center z-50 bg-opacity-50 bg-gray-800">
+        <div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-red-500"></div>
+        <img src="https://i.pinimg.com/736x/93/62/f8/9362f8b574c0d01f96129bd57ba2ec3b.jpg"
+          class="rounded-full h-20 w-20 opacity-80" />
       </div>
 
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center">
-          <input
-            type="checkbox"
-            class="form-checkbox h-5 w-5 text-red-600"
-            v-model="selectAll"
-            @change="toggleSelectAll"
-          />
+          <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" v-model="selectAll"
+            @change="toggleSelectAll" />
           <label class="ml-2 text-gray-700 font-medium">Chọn tất cả</label>
         </div>
         <button
           class="text-gray-500 text-sm border border-gray-300 px-3 py-1 rounded-md flex items-center justify-center hover:bg-gray-100 transition duration-200"
-          :disabled="isLoading"
-          @click="removeSelectedProducts"
-        >
+          :disabled="isLoading" @click="removeSelectedProducts">
           <span v-if="!isLoading">Xóa sản phẩm đã chọn</span>
           <span v-else class="flex items-center">
             <i class="bx bx-loader-alt animate-spin mr-2"></i> Đang xử lý...
           </span>
         </button>
       </div>
-      <div
-        v-for="(product, index) in cartItems"
-        :key="product.id"
-        class="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center justify-between border border-gray-200 hover:shadow-lg transition duration-200"
-      >
+      <div v-for="(product, index) in cartItems" :key="product.id"
+        class="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center justify-between border border-gray-200 hover:shadow-lg transition duration-200">
         <!-- Chi tiết sản phẩm -->
         <div class="flex items-center space-x-4">
-          <input
-            type="checkbox"
-            class="form-checkbox h-5 w-5 text-red-600"
-            v-model="product.selected"
-          />
-          <img
-            :src="
-              product.productId.thumbnail
-                ? loadImage(product.productId.thumbnail, 'product')
-                : 'https://i.pinimg.com/736x/01/7c/44/017c44c97a38c1c4999681e28c39271d.jpg'
-            "
-            alt="Product Image"
-            class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg border border-gray-300"
-          />
+          <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" v-model="product.selected" />
+          <img :src="product.productId.thumbnail
+            ? loadImage(product.productId.thumbnail, 'product')
+            : 'https://i.pinimg.com/736x/01/7c/44/017c44c97a38c1c4999681e28c39271d.jpg'
+            " alt="Product Image" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg border border-gray-300" />
           <div>
             <p class="text-gray-800 font-semibold text-sm md:text-base">
               {{ product.productId.productName }}
@@ -69,19 +44,13 @@
 
             <!-- Giá sản phẩm -->
             <div class="mt-1">
-              <p
-                class="text-gray-500 line-through text-sm"
-                v-if="product.productId.discountProduct > 0"
-              >
+              <p class="text-gray-500 line-through text-sm" v-if="product.productId.discountProduct > 0">
                 {{ formatCurrency(product.productId.productPrice) }}
               </p>
               <p class="text-red-500 text-lg font-semibold">
                 {{ formatCurrency(getFinalPrice(product)) }}
               </p>
-              <p
-                class="text-green-600 text-xs"
-                v-if="product.productId.discountProduct > 0"
-              >
+              <p class="text-green-600 text-xs" v-if="product.productId.discountProduct > 0">
                 Giảm: {{ product.productId.discountProduct }}%
               </p>
             </div>
@@ -92,41 +61,29 @@
           <!-- Giảm số lượng -->
           <button
             class="text-gray-500 border border-gray-300 rounded-full w-8 h-8 items-center justify-center hover:bg-gray-100 transition duration-200"
-            @click="updateQuantity(index, -1)"
-            :disabled="isLoading"
-          >
+            @click="updateQuantity(index, -1)" :disabled="isLoading">
             -
           </button>
           <!-- Hiển thị số lượng -->
-          <input
-            type="text"
+          <input type="text"
             class="w-12 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-200"
-            v-model.number="product.quantity"
-            @blur="updateQuantity(index, 0)"
-            :disabled="isLoading"
-          />
+            v-model.number="product.quantity" @blur="updateQuantity(index, 0)" :disabled="isLoading" />
           <!-- Tăng số lượng -->
           <button
             class="text-gray-500 border border-gray-300 rounded-full w-8 h-8 items-center justify-center hover:bg-gray-100 transition duration-200"
-            @click="updateQuantity(index, 1)"
-            :disabled="isLoading"
-          >
+            @click="updateQuantity(index, 1)" :disabled="isLoading">
             +
           </button>
           <!-- Xóa sản phẩm -->
           <button
             class="text-red-500 text-sm border border-red-500 px-2 py-1 rounded-md hover:bg-red-100 transition duration-200"
-            @click="removeProduct(index)"
-            :disabled="isLoading"
-          >
+            @click="removeProduct(index)" :disabled="isLoading">
             Xóa
           </button>
         </div>
       </div>
     </div>
-    <div
-      class="bg-white rounded-lg shadow-xl mt-6 p-6 w-full lg:w-3/10 md:w-1/3 border-1 border-gray-100"
-    >
+    <div class="bg-white rounded-lg shadow-xl mt-6 p-6 w-full lg:w-3/10 md:w-1/3 border-1 border-gray-100">
       <h2 class="text-xl font-semibold mb-6 text-gray-800">
         Tổng kết giỏ hàng
       </h2>
@@ -137,11 +94,8 @@
           Sản phẩm đã chọn:
         </p>
         <!-- Danh sách sản phẩm -->
-        <div
-          v-for="(item, index) in cartItems"
-          :key="index"
-          class="flex justify-between items-center mb-4 border-b pb-3"
-        >
+        <div v-for="(item, index) in cartItems" :key="index"
+          class="flex justify-between items-center mb-4 border-b pb-3">
           <!-- Tên và mô tả sản phẩm -->
           <div>
             <p class="text-gray-800 font-medium">
@@ -157,10 +111,7 @@
                 {{ formatCurrency(item.productId.productPrice) }}
               </p>
               <!-- Phần trăm giảm -->
-              <p
-                class="text-green-500"
-                v-if="item.productId.discountProduct > 0"
-              >
+              <p class="text-green-500" v-if="item.productId.discountProduct > 0">
                 Giảm: {{ item.productId.discountProduct }}%
               </p>
             </div>
@@ -181,10 +132,7 @@
       </div>
 
       <!-- Giảm giá -->
-      <div
-        v-if="discountAmount > 0"
-        class="flex justify-between items-center mb-4"
-      >
+      <div v-if="discountAmount > 0" class="flex justify-between items-center mb-4">
         <p class="text-sm text-gray-600">Giảm giá:</p>
         <p class="font-medium text-green-500">
           - {{ formatCurrency(discountAmount) }}
@@ -192,20 +140,17 @@
       </div>
 
       <!-- Tổng cộng -->
-      <div
-        class="flex justify-between items-center border-t border-gray-300 pt-4"
-      >
+      <div class="flex justify-between items-center border-t border-gray-300 pt-4">
         <p class="text-base font-bold text-gray-800">Tổng cộng:</p>
         <p class="text-lg font-bold text-red-500">
           {{ formatCurrency(finalPrice) }}
         </p>
       </div>
 
-      <div class="mt-6 "  v-if="cartItems.length > 0">
+      <div class="mt-6 " v-if="cartItems.length > 0">
         <button
           class="w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition duration-200 shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300"
-          @click="proceedToCheckout"
-        >
+          @click="proceedToCheckout">
           Tiến hành đặt hàng
         </button>
       </div>
@@ -239,7 +184,7 @@ export default {
           total +
           ((item.productId.productPrice * item.productId.discountProduct) /
             100) *
-            item.quantity,
+          item.quantity,
         0
       );
     },
@@ -280,9 +225,7 @@ export default {
       return originalPrice * (1 - discount / 100);
     },
     proceedToCheckout() {
-      this.$router.push("/toOrder");
-
-      console.log("Tiến hành đặt hàng...");
+      this.$router.push({ name: 'cartToOrder' });
     },
     async getViewCart() {
       this.isLoading = true;

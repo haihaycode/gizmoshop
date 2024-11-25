@@ -44,8 +44,14 @@
           <span class="text-xs sm:text-sm font-thin text-gray-700">
             {{ product?.soldProduct ? product?.soldProduct : 0 }} Đã bán
           </span>
+          <span v-if="!hiddenButtonFavotite" class="text-xs sm:text-sm font-thin text-gray-700">
+            Cung cấp : {{ product?.quantityBr }}
+          </span>
+          <span v-if="!hiddenButtonFavotite" class="text-xs sm:text-sm font-thin text-gray-700">
+            Tồn kho : {{ product?.productInventoryResponse?.quantity }}
+          </span>
         </div>
-        <button @click="toggleFavorite"
+        <button @click="toggleFavorite" v-if="hiddenButtonFavotite"
           class="text-gray-500 hover:text-red-500 text-sm transition duration-200 flex items-center space-x-2 relative group">
           <span v-if="deleteFavorite" class="text-sm font-serif">bỏ</span>
           <i v-if="deleteFavorite" class="bx bxs-heart text-2xl text-gray-500"></i>
@@ -74,6 +80,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    hiddenButtonFavotite: {
+      type: Boolean,
+      default: true,
+    }
   },
   computed: {
     ...mapGetters('auth', ['token', 'user', 'name', 'role']),

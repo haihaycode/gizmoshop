@@ -53,3 +53,76 @@ export const formatDateToISO = (date) => {
 }
 
 
+export const formatDateToYYYYMMDD = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = (`0${d.getMonth() + 1}`).slice(-2);
+    const day = (`0${d.getDate()}`).slice(-2);
+    return `${year}-${month}-${day}`;
+}
+
+export const convertBase64ToFile = (base64String) => {
+    // Ensure the base64 string has both metadata and data
+    if (!base64String.includes(',')) {
+        throw new Error('Invalid Base64 string format.');
+    }
+
+    const [metadata, base64Data] = base64String.split(',');
+    const mimeTypeMatch = metadata.match(/:(.*?);/);
+
+    if (!mimeTypeMatch) {
+        throw new Error('MIME type not found in Base64 string.');
+    }
+
+    const mimeType = mimeTypeMatch[1]; // Extract MIME type (e.g., "image/jpeg")
+    const extension = mimeType.split('/')[1]; // Extract file extension (e.g., "jpeg")
+
+    // Generate a unique file name
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `file_${timestamp}_${randomString}.${extension}`;
+
+    // Decode Base64 data
+    const byteString = atob(base64Data); // Decode Base64 into a binary string
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
+    }
+
+    // Create and return a File object
+    return new File([uint8Array], fileName, { type: mimeType });
+};
+
+
+/**
+ * Converts a list of Base64 strings to a list of File objects with auto-generated names.
+ * @param {string[]} base64List - An array of Base64 encoded strings.
+ * @returns {File[]} - An array of File objects.
+ */
+export const convertBase64ListToFileList = (base64List) => {
+    return base64List.map(base64String => {
+        const [metadata, base64Data] = base64String.split(','); // Split metadata and Base64 data
+        const mimeType = metadata.match(/:(.*?);/)[1]; // Extract MIME type
+        const extension = mimeType.split('/')[1]; // Extract file extension (e.g., 'jpeg', 'png')
+
+        // Generate a unique file name
+        const timestamp = Date.now();
+        const randomString = Math.random().toString(36).substring(2, 8); // Generate a random 6-character string
+        const fileName = `file_${timestamp}_${randomString}.${extension}`;
+
+        // Decode Base64 data
+        const byteString = atob(base64Data);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const uint8Array = new Uint8Array(arrayBuffer);
+
+        // Fill array with decoded bytes
+        for (let i = 0; i < byteString.length; i++) {
+            uint8Array[i] = byteString.charCodeAt(i);
+        }
+
+        // Create and return a File object
+        return new File([arrayBuffer], fileName, { type: mimeType });
+    });
+};

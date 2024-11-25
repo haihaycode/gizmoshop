@@ -11,6 +11,9 @@
                 <p class="text-sm text-gray-600 mb-2">
                     <strong>Ngày :</strong> {{ formatDay(withdrawal.withdrawalDate) }}
                 </p>
+                <p class="text-sm text-gray-600 mb-2">
+                    <strong>Lý do :</strong> {{ withdrawal.note }}
+                </p>
 
                 <!-- Display User Information -->
                 <div v-if="withdrawal.account">

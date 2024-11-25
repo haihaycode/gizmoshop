@@ -10,22 +10,22 @@
             <!-- Sorting Buttons Section -->
             <div class="flex overflow-x-auto space-x-2 mb-4 md:mb-0 whitespace-nowrap hide-scrollbar">
                 <button @click="sortProducts('desc', 'id')"
-                    :class="filter.sortParams === 'id' ? 'bg-red-600 text-white' : ''"
+                    :class="filter.sort.includes('id') ? 'bg-red-600 text-white' : ''"
                     class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
                     Nổi bật
                 </button>
                 <button @click="sortProducts('desc', 'price')"
-                    :class="filter.sortParams === 'price' && filter.sortDirection === 'desc' ? 'bg-red-600 text-white' : ''"
+                    :class="filter.sort.includes('price,desc') ? 'bg-red-600 text-white' : ''"
                     class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
                     Giá Cao - Thấp
                 </button>
                 <button @click="sortProducts('asc', 'price')"
-                    :class="filter.sortParams === 'price' && filter.sortDirection === 'asc' ? 'bg-red-600 text-white' : ''"
+                    :class="filter.sort.includes('price,asc') ? 'bg-red-600 text-white' : ''"
                     class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
                     Giá Thấp - Cao
                 </button>
                 <button @click="sortProducts('desc', 'view')"
-                    :class="filter.sortParams === 'view' && filter.sortDirection === 'desc' ? 'bg-red-600 text-white' : ''"
+                    :class="filter.sort.includes('view') ? 'bg-red-600 text-white' : ''"
                     class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
                     Xem Nhiều
                 </button>
@@ -38,9 +38,9 @@
         <!-- Product Grid -->
         <div class="product pl-2 pr-2 mx-auto mt-5 md:container-flush">
             <!-- Skeleton Loading Grid -->
-            <div v-if="isLoading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div v-if="isLoading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <!-- Repeat skeleton SVGs as needed -->
-                <div v-for="n in 5" :key="n" class="p-4 border rounded-sm shadow-sm bg-gray-100">
+                <div v-for="n in 8" :key="n" class="p-4 border rounded-sm shadow-sm bg-gray-100">
                     <svg class="w-full h-32 bg-gray-300 rounded-sm" viewBox="0 0 400 150" preserveAspectRatio="none">
                         <rect x="0" y="0" width="100%" height="100%" fill="url(#loadingGradient)" />
                         <defs>
@@ -66,7 +66,7 @@
             </div>
 
             <!-- Product Grid -->
-            <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <ProductCard v-for="product in products" :key="product.id" :product="product" />
             </div>
 
@@ -94,10 +94,9 @@ export default {
     data() {
         return {
             filter: {
-                limit: 10,
+                limit: 8,
                 page: 0,
-                sortDirection: 'desc',
-                sortParams: 'id',
+                sort: 'id,desc',
                 keyword: '',
             },
             products: [],
@@ -143,8 +142,7 @@ export default {
             }
         },
         sortProducts(direction, param) {
-            this.filter.sortDirection = direction;
-            this.filter.sortParams = param;
+            this.filter.sort = `${param},${direction}`
             this.hasMoreProducts = true;
             this.products = [];
             this.filter.page = 0;

@@ -9,6 +9,34 @@ const SupplierRoutes = [
         component: useLayout('SupplierLayout'),
         children: [
             {
+                path: 'contact-us',
+                name: 'ContactUs',
+                meta: {
+                    title: "Liên hệ với chúng tôi",
+                    description: " Gizmo"
+                },
+                components: {
+                    default: usePage('supplier/Contact'),
+                    header: useComponentLayout('supplier/Header'),
+                    footer: useComponentLayout('supplier/Footer'),
+                    sidebar: useComponentLayout('supplier/Sidebar'),
+                }
+            },
+            {
+                path: 'about-us',
+                name: 'AboutUs',
+                meta: {
+                    title: "Giới thiệu",
+                    description: " Gizmo"
+                },
+                components: {
+                    default: usePage('supplier/About'),
+                    header: useComponentLayout('supplier/Header'),
+                    footer: useComponentLayout('supplier/Footer'),
+                    sidebar: useComponentLayout('supplier/Sidebar'),
+                }
+            },
+            {
                 path: '',
                 name: 'SupplierHome',
                 meta: {
@@ -31,6 +59,62 @@ const SupplierRoutes = [
                 },
                 components: {
                     default: usePage('supplier/pendingOrders'),
+                    header: useComponentLayout('supplier/Header'),
+                    footer: useComponentLayout('supplier/Footer'),
+                    sidebar: useComponentLayout('supplier/Sidebar'),
+                }
+            },
+            {
+                path: 'orders',
+                name: 'OrdersSupplier',
+                meta: {
+                    title: "Đơn hàng ",
+                    description: " Gizmo"
+                },
+                components: {
+                    default: usePage('supplier/Orders'),
+                    header: useComponentLayout('supplier/Header'),
+                    footer: useComponentLayout('supplier/Footer'),
+                    sidebar: useComponentLayout('supplier/Sidebar'),
+                }
+            },
+            {
+                path: 'products-me',
+                name: 'productSupplier',
+                meta: {
+                    title: "Sản phẩm của tôi",
+                    description: "Gizmo"
+                },
+                components: {
+                    default: usePage('supplier/product'),
+                    header: useComponentLayout('supplier/Header'),
+                    footer: useComponentLayout('supplier/Footer'),
+                    sidebar: useComponentLayout('supplier/Sidebar'),
+                }
+            },
+            {
+                path: 'wallet-me',
+                name: 'walletSupplier',
+                meta: {
+                    title: "Ví của bạn",
+                    description: "Gizmo"
+                },
+                components: {
+                    default: usePage('supplier/wallet'),
+                    header: useComponentLayout('supplier/Header'),
+                    footer: useComponentLayout('supplier/Footer'),
+                    sidebar: useComponentLayout('supplier/Sidebar'),
+                }
+            },
+            {
+                path: 'transactions-history',
+                name: 'TransactionsHistory',
+                meta: {
+                    title: "Lịch sử giao dịch",
+                    description: " Gizmo"
+                },
+                components: {
+                    default: usePage('supplier/transactionsHistory'),
                     header: useComponentLayout('supplier/Header'),
                     footer: useComponentLayout('supplier/Footer'),
                     sidebar: useComponentLayout('supplier/Sidebar'),

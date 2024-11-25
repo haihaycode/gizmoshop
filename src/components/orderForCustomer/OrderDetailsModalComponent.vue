@@ -15,6 +15,11 @@
                         {{ order.orderStatus?.status || 'null' }}
                     </span>
                 </p>
+                <p><strong>Phương thức đặt hàng :</strong>
+                    <span class="px-3 py-1 rounded-full text-sm">
+                        {{ order.paymentMethods ? 'Thanh toán khi nhận hàng' : 'Thanh toán trực tuyến' }}
+                    </span>
+                </p>
                 <p><strong>Ghi chú :</strong>
                     <span class="px-3 py-1 rounded-full text-sm">
                         {{ order.note || 'không có' }}
@@ -29,7 +34,7 @@
                     <p v-if="order.vouchers[0].voucher.discountAmount !== 0">
                         <strong>Giảm :</strong> <span class="text-red-500 text-xl"> {{
                             formatCurrencyVN(order.vouchers[0].voucher.discountAmount)
-                        }}</span>
+                            }}</span>
                     </p>
 
                     <!-- Check if discount is a percentage, and display max discount if applicable -->
@@ -62,6 +67,7 @@
                             <th class="p-2 text-left text-gray-600 font-semibold border-b">Sản phẩm</th>
                             <th class="p-2 text-right text-gray-600 font-semibold border-b">Số lượng</th>
                             <th class="p-2 text-right text-gray-600 font-semibold border-b">Giá</th>
+                            <th class="p-2 text-right text-gray-600 font-semibold border-b">Giảm</th>
                             <th class="p-2 text-right text-gray-600 font-semibold border-b">Tổng</th>
                         </tr>
                     </thead>
@@ -69,7 +75,7 @@
                         <tr v-for="item in order.orderDetails" :key="item.id" class="border-t">
                             <td class="p-2 text-gray-700">
                                 <div class="flex items-center space-x-3">
-                                    <img :src="loadImage('product', item.product.image)" alt="product image"
+                                    <img :src="loadImage(item.product.thumbnail, 'product')" alt="product image"
                                         class="w-12 h-12 object-cover rounded-md" @error="handleImageError">
 
                                     <span class="text-sm">{{ item.product.productName || 'không có tên' }}</span>
@@ -79,7 +85,9 @@
                             </td>
                             <td class="p-2 text-right text-gray-700">{{ item.quantity || '0' }}</td>
                             <td class="p-2 text-right text-gray-700">{{ formatCurrencyVN(item.price) || '0' }}</td>
-                            <td class="p-2 text-right text-gray-700">{{ formatCurrencyVN(item.total) || '0' }}</td>
+                            <td class="p-2 text-right text-gray-700">{{ item.product.discountProduct || '0' }} %</td>
+                            <td class="p-2 text-right text-gray-700">{{ formatCurrencyVN(item.price * (1 -
+                                item.product.discountProduct / 100) * (item.quantity || 1)) || '0' }}</td>
                         </tr>
                     </tbody>
                 </table>

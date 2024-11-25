@@ -17,14 +17,15 @@ const publicRoutes = [
                 },
                 components: {
                     default: usePage('cart'),
-                    header: useComponentLayout('Header'),
+                    header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
                     // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+                    mobile: useComponentLayout('ResponsiveMobile')
 
                 }
             },
             {
-                path: '/toOrder',
+                path: '/cart/toOrder',
                 name: 'cartToOrder',
                 meta: {
                     title: "Tiến hành đặt hàng",
@@ -32,10 +33,10 @@ const publicRoutes = [
                 },
                 components: {
                     default: usePage('cartToOder'),
-                    header: useComponentLayout('Header'),
+                    header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
                     // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
-
+                    mobile: useComponentLayout('ResponsiveMobile')
                 }
             },
             {
@@ -49,7 +50,8 @@ const publicRoutes = [
                     default: usePage('productDetail'),
                     header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
-                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent'),
+                    mobile: useComponentLayout('ResponsiveMobile')
 
                 }
             },
@@ -64,6 +66,7 @@ const publicRoutes = [
                     default: usePage("builderPC"),
                     header: useComponentLayout("Header"),
                     footer: useComponentLayout("Footer"),
+                    mobile: useComponentLayout('ResponsiveMobile')
                 },
             },
             {
@@ -107,8 +110,8 @@ const publicRoutes = [
                     default: usePage('product'),
                     header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
-                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
-
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent'),
+                    mobile: useComponentLayout('ResponsiveMobile')
                 }
             },
             {
@@ -122,7 +125,8 @@ const publicRoutes = [
                     default: usePage('testthanhtoan'),
                     header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
-                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent'),
+                    mobile: useComponentLayout('ResponsiveMobile')
 
                 }
             },

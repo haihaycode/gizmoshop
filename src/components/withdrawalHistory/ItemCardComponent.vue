@@ -31,9 +31,9 @@ export default {
             switch (this.withdrawal && this.withdrawal.status) {
                 case 'PENDING':
                     return 'text-yellow-600 font-semibold';
-                case 'COMPLETED':
+                case 'COMPETED':
                     return 'text-green-600 font-semibold';
-                case 'CANCELLED':
+                case 'CANCEL':
                     return 'text-red-600 font-semibold';
                 default:
                     return 'text-gray-600 font-semibold';
@@ -47,9 +47,9 @@ export default {
             switch (status) {
                 case 'PENDING':
                     return 'Đang xét duyệt.';
-                case 'COMPLETED':
+                case 'COMPETED':
                     return 'Xét duyệt thành công.';
-                case 'CANCELLED':
+                case 'CANCEL':
                     return 'Từ chối.';
                 default:
                     return 'Không xác định';

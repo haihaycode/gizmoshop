@@ -20,6 +20,12 @@
                         {{ order.address.sdt }}
                     </p>
 
+                    <p v-if="order.warehouse" class="text-gray-700 text-sm mt-2">
+                        <span class="font-semibold">Kho :</span>
+                        {{ order.warehouse.inventoryName }} - {{ order.warehouse.inventoryName }},
+                        {{ order.warehouse.commune }}, {{ order.warehouse.district }}, {{ order.warehouse.icity }}
+                    </p>
+
                     <!-- Ghi chú -->
                     <p class="text-gray-700 text-sm mt-2">
                         <span class="font-semibold">Ghi Chú:</span> {{ order.notes }}
@@ -63,6 +69,34 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <!-- Tổng kích thước và cân nặng -->
+                        <div class="mt-4 text-gray-700 text-sm">
+                            <p><span class="font-semibold">Tổng kích thước (m3/ m2):</span> {{
+                                calculateTotalSizeM3(order)
+                            }}m3 / {{ calculateTotalSizeM2(order) }}m2
+                            </p>
+                            <p><span class="font-semibold">Tổng cân nặng:</span> {{ calculateTotalWeight(order) }} kg
+                            </p>
+                            <p><span class="font-semibold">Thời gian đăng ký cung cấp :</span> {{ order.duration }}
+                                (Ngày)
+                            </p>
+                            <p>
+                                <span class="font-semibold">Gia hạn :</span>
+                                Nếu bạn đăng ký cung cấp sản phẩm trong vòng
+                                {{ order.duration }} ngày, thì đến ngày
+                                {{ calculateRenewalDate(order.duration) }}
+                                bạn phải gia hạn nếu số lượng sản phẩm mỗi đơn hàng vẫn còn.
+                            </p>
+                            <p>
+                                <span class="font-semibold">Chi phí lưu trữ (ước tính - tính đến hiện tại) : </span>
+                                <i class="text-red-500"> {{
+                                    formatCurrencyVN(calculateStorageCost(calculateTotalSizeM2(order), order.duration))
+                                }} (VNĐ/{{ order.duration }} ngày)</i>
+
+                            </p>
+
+                        </div>
+
                     </div>
                 </div>
 
@@ -92,6 +126,7 @@
 
 
 <script>
+import { formatCurrencyVN } from '@/utils/currencyUtils';
 import VueEasyLightbox from 'vue-easy-lightbox';
 export default {
     data() {
@@ -109,19 +144,76 @@ export default {
         },
     },
     methods: {
+        formatCurrencyVN,
+        //chi phí duy trì
+        calculateStorageCost(totalSize, duration) {
+            const unitCost = 200000; // Đơn giá thuê (VNĐ/m²/tháng)
+            const dailyCost = unitCost / 30; // Đơn giá theo ngày
+            return Math.round(totalSize * dailyCost * duration).toLocaleString("vi-VN");
+        },
+        //tính ngày phải gia hạn
+        calculateRenewalDate(duration) {
+            if (!duration) return "N/A"; // Nếu chưa chọn duration, hiển thị N/A
+
+            const today = new Date();
+            const renewalDate = new Date(today);
+            renewalDate.setDate(today.getDate() + duration);
+
+            // Định dạng ngày thành DD/MM/YYYY
+            const day = String(renewalDate.getDate()).padStart(2, "0");
+            const month = String(renewalDate.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+            const year = renewalDate.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        },
+
+        // Tính tổng thể tích (m³)
+        calculateTotalSizeM3(order) {
+            const totalVolume = order.products.reduce((total, product) => {
+                const volume =
+                    (product.productWidth / 100) *
+                    (product.productHeight / 100) *
+                    (product.productLength / 100); // cm³ -> m³
+                return total + (volume * (product.quantity || 1)); // Nhân với số lượng
+            }, 0);
+            return totalVolume.toFixed(3); // Làm tròn 3 chữ số thập phân
+        },
+
+        // Tính tổng diện tích (m²)
+        calculateTotalSizeM2(order) {
+            const totalArea = order.products.reduce((total, product) => {
+                const area =
+                    (product.productWidth / 100) *
+                    (product.productLength / 100); // cm² -> m²
+                return total + (area * (product.quantity || 1)); // Nhân với số lượng
+            }, 0);
+            return totalArea.toFixed(2); // Làm tròn 2 chữ số thập phân
+        },
+
+        // Tính tổng cân nặng (kg)
+        calculateTotalWeight(order) {
+            if (!order.products || !Array.isArray(order.products)) return "0.00";
+            const totalWeight = order.products.reduce((total, product) => {
+                const weight = parseFloat(product.productWeight) || 0; // Trọng lượng của 1 sản phẩm
+                return total + (weight * (product.quantity || 1)); // Nhân với số lượng
+            }, 0);
+            return totalWeight.toFixed(2); // Làm tròn 2 chữ số thập phân
+        },
+
+
+
+        // khác
         emitUpdateOrder(order) {
             this.$emit("update-order", order);
         },
         editProduct(order, product) {
-            this.$emit("edit-product", { order, product }); // Truyền thông tin sản phẩm và đơn hàng
+            this.$emit("edit-product", { order, product });
         },
         removeProduct(order, productIndex) {
-            // Xóa sản phẩm khỏi danh sách
             order.products.splice(productIndex, 1);
-            this.emitUpdateOrder(order); // Cập nhật đơn hàng
+            this.emitUpdateOrder(order);
         },
         removeOrder(order) {
-            // Emit sự kiện để xóa đơn hàng
             this.$emit("remove-order", order.id);
         },
         sendOrder(order) {

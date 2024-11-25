@@ -18,7 +18,7 @@ const guestRoutesAuth = [
                     default: usePage('login'),
                 }
             }, {
-                path: '/signin',
+                path: 'signin',
                 name: 'signin',
                 meta: {
                     title: "Gizmo Shop",
@@ -31,7 +31,7 @@ const guestRoutesAuth = [
                 }
             },
             {
-                path: '/forgotpassword',
+                path: 'forgotpassword',
                 name: 'forgotpassword',
                 meta: {
                     title: "Gizmo Shop",

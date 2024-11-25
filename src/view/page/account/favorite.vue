@@ -9,8 +9,8 @@
         </div>
         <!-- Display products if available -->
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <ProductCard v-for="product in products" :key="product.id" :product="product.product" :deleteFavorite="true"
-                @load-product="handleLoadFavoriteProduct" />
+            <ProductCard v-for="product in products" :key="product.id" :product="product.product"
+                :deleteFavorite="false" @load-product="handleLoadFavoriteProduct" />
         </div>
     </div>
 </template>

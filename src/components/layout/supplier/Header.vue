@@ -3,7 +3,7 @@
         <header class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
             <div class="container mx-auto flex items-center justify-between py-4 px-6">
                 <!-- Logo/Title -->
-                <h1 class="text-2xl font-mono">GizmoShop - Trang đối tác</h1>
+                <h1 class="text-2xl font-mono">GizmoShop - Trang Nhà cung cấp</h1>
 
                 <!-- Mobile Menu Button -->
                 <button @click="toggleMenu" class="block md:hidden text-white focus:outline-none">
@@ -27,17 +27,20 @@
                     <router-link :to="{ name: 'SupplierHome' }"
                         :class="{ 'underline ': $route.name === 'SupplierHome' }" class="hover:underline">Trang
                         chủ</router-link>
-                    <a href="#" class="hover:underline">Liên hệ</a>
-                    <a href="#" class="hover:underline">Giới thiệu</a>
+                    <router-link :to="{ name: 'ContactUs' }" :class="{ 'underline ': $route.name === 'ContactUs' }"
+                        class="hover:underline">Liên hệ
+                    </router-link>
+                    <router-link :to="{ name: 'AboutUs' }" :class="{ 'underline ': $route.name === 'AboutUs' }"
+                        class="hover:underline">Giới Thiệu</router-link>
                 </nav>
             </div>
 
             <!-- Mobile Dropdown Navigation -->
             <div id="mobileMenu"
                 class="hidden md:hidden bg-blue-700 text-white space-y-2 px-6 py-4 transition-all duration-300">
-                <a href="#" class="block hover:underline">Home</a>
-                <a href="#" class="block hover:underline">About</a>
-                <a href="#" class="block hover:underline">Contact</a>
+                <router-link :to="{ name: 'SupplierHome' }" class="block hover:underline">Trang chủ</router-link>
+                <router-link :to="{ name: 'ContactUs' }" class="block hover:underline">Liên hệ</router-link>
+                <router-link :to="{ name: 'AboutUs' }" class="block hover:underline">Giới Thiệu</router-link>
             </div>
         </header>
 

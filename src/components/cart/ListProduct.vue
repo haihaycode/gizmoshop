@@ -1,17 +1,11 @@
 <template>
   <div
-    class="flex items-center space-x-4 bg-white rounded-lg shadow-md p-4 mb-4 hover:shadow-lg transition duration-200 border border-gray-200"
-  >
+    class="flex items-center space-x-4 bg-white rounded-lg shadow-md p-4 mb-4 hover:shadow-lg transition duration-200 border border-gray-200">
     <!-- Product Image -->
-    <img
-      :src="
-        product.productId.thumbnail
-          ? loadImage(product.productId.thumbnail, 'product')
-          : 'https://i.pinimg.com/736x/01/7c/44/017c44c97a38c1c4999681e28c39271d.jpg'
-      "
-      alt="Product Image"
-      class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-md border border-gray-300"
-    />
+    <img :src="product.productId.thumbnail
+      ? loadImage(product.productId.thumbnail, 'product')
+      : 'https://i.pinimg.com/736x/01/7c/44/017c44c97a38c1c4999681e28c39271d.jpg'
+      " alt="Product Image" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-md border border-gray-300" />
 
     <div class="flex-1 ml-4">
       <p class="text-gray-800 font-semibold text-sm md:text-base truncate">
@@ -22,10 +16,7 @@
         {{ truncateText(product.productId.productShortDescription, 70) }}
       </p>
       <div class="flex items-center space-x-2 mt-2">
-        <p
-          v-if="product.productId.discountProduct > 0"
-          class="text-gray-400 text-sm line-through"
-        >
+        <p v-if="product.productId.discountProduct > 0" class="text-gray-400 text-sm line-through">
           {{ formatCurrency(product.productId.productPrice) }}
         </p>
         <p class="text-red-500 text-sm font-semibold">
@@ -39,18 +30,10 @@
           }}
         </p>
       </div>
-      <p
-        v-if="product.productId.discountProduct > 0"
-        class="text-green-500 text-xs mt-1"
-      >
+      <p v-if="product.productId.discountProduct > 0" class="text-green-500 text-xs mt-1">
         Giảm {{ product.productId.discountProduct }}%
       </p>
 
-      <!-- Category -->
-      <p class="text-gray-400 text-xs mt-1">
-        Danh mục:
-        {{ product.productId.productCategories || "Chưa có danh mục" }}
-      </p>
     </div>
 
     <!-- Quantity Section -->

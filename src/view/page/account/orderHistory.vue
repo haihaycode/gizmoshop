@@ -22,14 +22,23 @@
         </div>
 
         <!-- Order Table or Empty State -->
-        <div v-if="orders.length">
-            <OrderTable :orders="orders" @viewOrderDetails="openOrderDetails" @cancelOrder="cancelOrder" />
-            <br>
-            <Pagination :total-items="pagination?.totalElements || 0" :items-per-page="limit" :current-page="page + 1"
-                @page-changed="handlePageChange" @limit-changed="handleLimitChange">
-            </Pagination>
+        <div>
+            <div v-if="isLoading">
+                <!-- Hiển thị skeleton -->
+                <EmptyState message="đang tải dữ liệu..." />
+            </div>
+
+            <div v-else-if="orders.length > 0">
+                <OrderTable :orders="orders" @viewOrderDetails="openOrderDetails" @cancelOrder="cancelOrder" />
+                <br />
+                <Pagination :total-items="pagination?.totalElements || 0" :items-per-page="limit"
+                    :current-page="page + 1" @page-changed="handlePageChange" @limit-changed="handleLimitChange">
+                </Pagination>
+            </div>
+
+            <EmptyState v-else message="--- Không có đơn hàng nào thỏa mãn ! ---" />
         </div>
-        <EmptyState v-else message="--- Không có đơn hàng nào thỏa mãn ! ---" />
+
 
         <!-- Order Details Modal -->
         <OrderDetailsModal :isOpen="isModalOpen" :order="selectedOrder" @close="closeOrderDetails" />

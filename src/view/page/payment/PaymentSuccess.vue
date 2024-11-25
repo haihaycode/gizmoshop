@@ -6,11 +6,12 @@
                 <i class='bx bxs-badge-check bx-tada text-blue-600 text-4xl mb-2'></i>
                 <h1 class="text-3xl font-bold text-blue-600">Thanh toán thành công !</h1>
             </div>
-            <p class="text-lg text-gray-700 mb-4">Số tiền: <span class="font-semibold">{{ formatCurrencyVN(+amount) }}
-                </span></p>
             <router-link to="/"
                 class="mt-6 inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Về
                 trang chủ</router-link>
+            <router-link :to="{ name: 'orderHistory' }"
+                class="mt-6 inline-block bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded ml-2">
+                Xem đơn hàng</router-link>
         </div>
     </div>
 </template>

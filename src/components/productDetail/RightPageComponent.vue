@@ -62,36 +62,27 @@
           </p>
         </div>
 
-        <div
-          class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-4 mt-4"
-        >
+        <div class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-4 mt-4">
           <div class="flex items-center border border-gray-300 rounded">
             <button @click="decreaseQuantity" class="px-3 py-1 md:px-4">
               <i class="bx bx-minus"></i>
             </button>
-            <input
-              type="number"
-              v-model="quantity"
-              min="1"
-              class="w-12 text-center border-l border-r border-gray-300"
-            />
+            <input type="number" v-model="quantity" min="1"
+              class="w-12 text-center border-l border-r border-gray-300" />
             <button @click="increaseQuantity" class="px-3 py-1 md:px-4">
               <i class="bx bx-plus"></i>
             </button>
           </div>
           <button
             class="bg-red-500 text-white flex items-center justify-center px-3 py-1 md:px-4 md:py-1 rounded hover:bg-red-600 w-full md:w-auto"
-            @click="handleAddToCart"
-          >
+            @click="handleAddToCart">
             <i class="bx bx-cart-add mr-1"></i>
             <span class="hidden lg:inline">Thêm Vào Giỏ Hàng</span>
             <span class="inline lg:hidden">Thêm</span>
           </button>
 
-          <button
-            @click="toggleWishlist"
-            class="bg-gray-300 text-gray-700 flex items-center justify-center px-3 py-1 md:px-4 md:py-1 rounded hover:bg-gray-400 w-full md:w-auto"
-          >
+          <button @click="toggleWishlist"
+            class="bg-gray-300 text-gray-700 flex items-center justify-center px-3 py-1 md:px-4 md:py-1 rounded hover:bg-gray-400 w-full md:w-auto">
             <i :class="isInWishlist ? 'bx bxs-heart' : 'bx bx-heart'"></i>
             <span class="hidden lg:inline ml-1">{{
               isInWishlist ? "Đã Yêu Thích" : "Thêm vào Yêu Thích"
@@ -163,6 +154,11 @@ export default {
       }
     },
     async handleAddToCart() {
+      if (!this.token) {
+        notificationService.info("Vui lòng đăng nhập");
+        return;
+      }
+
       if (!this.product || !this.product.id) {
         alert("Thông tin sản phẩm không hợp lệ!");
         return;

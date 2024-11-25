@@ -41,7 +41,7 @@ import "swiper/swiper-bundle.css";
 import ProductCard from "@/components/product/ProductCard.vue";
 import { getProduct } from "@/api/productApi";
 import ProductSkeletonComponent from "../containers/loading/ProductSkeletonComponent.vue";
-
+import { mapGetters } from "vuex";
 export default {
   components: { Swiper, SwiperSlide, ProductCard, ProductSkeletonComponent },
   data() {
@@ -51,13 +51,13 @@ export default {
       filter: {
         limit: 15,
         page: 0,
-        sortDirection: 'desc',
-        sortParams: 'discountProduct',
+        sort: 'discountProduct,desc',
         searchWith: '',
       },
     };
   },
   computed: {
+    ...mapGetters('loading', ['isLoading']),
     getSlidesPerView() {
       if (window.innerWidth >= 1024) return 4;
       if (window.innerWidth >= 768) return 3;

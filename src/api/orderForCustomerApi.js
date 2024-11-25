@@ -34,7 +34,15 @@ export const getOrders = async (filters = {}) => {
     }
 };
 
+/**
+ * Fetch an order by order code and phone number.
+ *
+ * @param {string} orderCode - The order code to search for
+ * @param {string} sdt - The phone number associated with the order
+ * @returns {Promise<Object>} - Response data from the API
+ */
 
+//tra cứu 
 export const getOrderByCodeAndPhone = async (orderCode, sdt) => {
     try {
         const response = await Axios.get(`${HOST}/api/public/orders/tracuuorder`, {
@@ -50,8 +58,12 @@ export const getOrderByCodeAndPhone = async (orderCode, sdt) => {
     }
 };
 
-
-
+/**
+ * Get the total number of orders and the total amount spent by a user.
+ *
+ * @returns {Promise<Object>} - Response data from the API
+ */
+// tổng đơn & tổng tiền của 1 người 
 export const orderSummary = async () => {
     try {
         const response = await Axios.get(`${HOST}/api/public/orders/orderSummary`);
@@ -63,12 +75,13 @@ export const orderSummary = async () => {
 };
 
 /**
- * Cancel an order for users with an optional note.
+ * Cancel an order for a user if the order is still in the "Pending Approval" state.
  *
- * @param {number} idOrder - ID of the order to be canceled
- * @param {string} note - (Optional) Reason or note for canceling the order
+ * @param {number} idOrder - The ID of the order to cancel
+ * @param {string} [note=''] - (Optional) A note explaining the cancellation reason
  * @returns {Promise<Object>} - Response data from the API
  */
+// hủy đơn hàng khi đơn hàng vẫn ở trạng thái đang chờ nhân viên xét duyệt
 export const cancelOrderForUsers = async (idOrder, note = '') => {
     try {
         const response = await Axios.get(`${HOST}/api/public/orders/cancelOrderForUsers/${idOrder}`, {
@@ -83,5 +96,25 @@ export const cancelOrderForUsers = async (idOrder, note = '') => {
     }
 };
 
+// Đặt hàng
+// api :  /api/public/orders/OrderPlace
 
-
+/**
+ * Place a new order.
+ *
+ * @param {Object} orderRequest - The order request data
+ * @param {number} orderRequest.addressId - The address ID for the order
+ * @param {boolean} orderRequest.paymentMethod - Payment method (true: COD, false: Payment)
+ * @param {number} orderRequest.walletId - The wallet ID used for payment
+ * @param {string} [orderRequest.note] - (Optional) Note for the order
+ * @param {number} [orderRequest.voucherId] - (Optional) Voucher ID applied to the order
+ * @returns {Promise<Object>} - Response data from the API
+ */
+export const placeOrder = async (orderRequest) => {
+    try {
+        const response = await Axios.post(`${HOST}/api/public/orders/OrderPlace`, orderRequest);
+        return response.data;
+    } catch (error) {
+        throw new Error(`Error creating address: ${error}`);
+    }
+};
