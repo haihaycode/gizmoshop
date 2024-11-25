@@ -9,6 +9,10 @@
 export default {
   name: 'ButtonComponent',
   props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     isLoading: {
       type: Boolean,
       default: false,
@@ -32,7 +36,7 @@ export default {
   },
   computed: {
     isDisabled() {
-      return this.isLoading; // Nút sẽ bị disabled khi loading
+      return this.isLoading || this.disabled; // Nút sẽ bị disabled khi loading
     },
     buttonClasses() {
       return `${this.isDisabled ? this.disabledColor : this.color} 

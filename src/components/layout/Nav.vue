@@ -2,9 +2,7 @@
 <template>
   <nav class="bg-white shadow-xl z-50 fixed w-full top-0 left-0 rounded-sm">
     <div class="mx-auto">
-      <div
-        class="relative max-w-7xl flex items-center mx-auto justify-between h-16"
-      >
+      <div class="relative max-w-7xl flex items-center mx-auto justify-between h-16">
         <!-- Logo (hiển thị trên màn hình từ tablet trở lên) -->
         <div class="hidden md:flex items-center justify-center flex-shrink-0">
           <a href="/" class="text-black font-serif text-2xl ml-1">GizmoShop</a>
@@ -16,19 +14,12 @@
         <!-- Search input (hiển thị trên màn hình từ tablet trở lên) -->
         <div class="hidden md:flex items-center justify-center w-3/5 px-4">
           <div class="relative w-full">
-            <input
-              type="text"
-              v-model="searchQuery"
-              @input="handleInput"
-              @keyup.enter="performSearch"
+            <input type="text" v-model="searchQuery" @input="handleInput" @keyup.enter="performSearch"
               placeholder="Tìm kiếm sản phẩm..."
-              class="w-full px-4 py-2 pr-10 rounded-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+              class="w-full px-4 py-2 pr-10 rounded-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" />
             <!-- Search icon -->
-            <span
-              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-red-500 cursor-pointer"
-              @click="performSearch"
-            >
+            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-red-500 cursor-pointer"
+              @click="performSearch">
               <i class="bx bx-search"></i>
             </span>
           </div>
@@ -38,48 +29,32 @@
         <div class="hidden sm:flex items-center justify-centergap-4 pr-4">
           <!-- Notification icon -->
           <!-- Notification icon button -->
-          <button
-            type="button"
-            class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100"
-          >
+          <button type="button"
+            class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100">
             <span class="sr-only">View notifications</span>
             <i class="bx bx-bell bx-tada bx-rotate-280"></i>
           </button>
 
           <!-- User menu icon button -->
-          <button
-            type="button"
+          <button type="button"
             class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100"
-            @click="toggleMenu"
-          >
+            @click="toggleMenu">
             <span class="sr-only">Open user menu</span>
             <i class="bx bx-user"></i>
           </button>
         </div>
 
+
+
         <!-- Mobile menu button (di chuyển sang cuối cùng bên phải) -->
         <div class="absolute right-0 flex items-center sm:hidden">
-          <button
-            type="button"
+          <button type="button"
             class="relative inline-flex items-center justify-center rounded-md p-2 text-black hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-            aria-controls="mobile-menu"
-            aria-expanded="false"
-            @click="OpenMenu"
-          >
+            aria-controls="mobile-menu" aria-expanded="false" @click="OpenMenu">
             <span class="sr-only">Open main menu</span>
-            <svg
-              class="block h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
           </button>
         </div>
@@ -90,19 +65,12 @@
           <!-- Đảm bảo phần tử bao bọc chiếm toàn bộ chiều rộng -->
           <div class="w-full px-4">
             <div class="relative w-full">
-              <input
-                type="text"
-                v-model="searchQuery"
-                @input="handleInput"
-                @keyup.enter="performSearch"
+              <input type="text" v-model="searchQuery" @input="handleInput" @keyup.enter="performSearch"
                 placeholder="Tìm kiếm sản phẩm..."
-                class="w-full px-4 py-2 pr-10 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
+                class="w-full px-4 py-2 pr-10 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" />
               <!-- Search icon -->
-              <span
-                @click="performSearch"
-                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500"
-              >
+              <span @click="performSearch"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500">
                 <i class="bx bx-search"></i>
               </span>
             </div>
@@ -130,28 +98,22 @@
                   <i class="bx bx-category mr-2 text-3xl"></i>
                   <span class="hidden lg:inline">Danh mục sản phẩm</span>
 
-                  <i
-                    :class="
-                      isDropdownOpen
-                        ? 'bx bx-chevron-up ml-2 transform rotate-180 transition-all duration-300'
-                        : 'bx bx-chevron-down ml-2 transform rotate-0 transition-all duration-300'
-                    "
-                  ></i>
+                  <i :class="isDropdownOpen
+                    ? 'bx bx-chevron-up ml-2 transform rotate-180 transition-all duration-300'
+                    : 'bx bx-chevron-down ml-2 transform rotate-0 transition-all duration-300'
+                    "></i>
                 </button>
 
                 <transition name="dropdown">
-                  <div
-                    v-show="isDropdownOpen"
-                    class="absolute top-12 left-0 bg-white border border-gray-200 shadow-lg z-10 w-full rounded-b-lg"
-                  >
+                  <div v-show="isDropdownOpen"
+                    class="absolute top-12 left-0 bg-white border border-gray-200 shadow-lg z-10 w-full rounded-b-lg">
                     <ul class="py-1">
                       <li v-for="category in categories" :key="category.id">
-                        <a
-                          href="#"
-                          class="block px-4 py-2 text-black hover:bg-gray-100 transition-all"
-                        >
+                        <div
+                            @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); }"
+                            href="#" class="block px-4 py-2 text-black hover:bg-gray-100 transition-all cursor-pointer">
                           {{ category.name }}
-                        </a>
+                        </div>
                       </li>
                     </ul>
                   </div>
@@ -213,31 +175,21 @@
     <!-- Mobile menu, show/hide based on menu state. -->
     <div class="sm:hidden" id="mobile-menu" v-if="isMenuOpen">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
-          >Doanh mục</a
-        >
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
-          >Ưu đãi</a
-        >
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
-          >Liên hệ</a
-        >
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
-          >Tra cứu</a
-        >
-        <a
-          href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black"
-          >Giỏ hàng</a
-        >
+        <a href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Doanh
+          mục</a>
+        <a href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Ưu
+          đãi</a>
+        <a href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Liên
+          hệ</a>
+        <a href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Tra
+          cứu</a>
+        <a href="#"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Giỏ
+          hàng</a>
       </div>
     </div>
     <transition name="fade">
@@ -256,136 +208,101 @@
         class="absolute top-20 right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-50"
       >
         <div class="flex items-center mb-4">
-          <div
-            class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center text-base font-bold"
-          >
-            {{ token ? "Gizmo" : "Gizmo" }}
+          <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center text-base font-bold">
+            {{ token ? 'Gizmo' : 'Gizmo' }}
           </div>
           <div class="ml-6">
             <template v-if="token">
               <p class="text-sm text-gray-500">{{ name }}</p>
-              <p
-                class="font-semibold text-red-500 cursor-pointer"
-                @click="logout"
-              >
-                Đăng xuất
-              </p>
+              <p class="font-semibold text-red-500 cursor-pointer" @click="logout">Đăng xuất</p>
             </template>
             <template v-else>
-              <router-link
-                to="/signup"
-                class="font-semibold text-red-500 cursor-pointer"
-                >Đăng ký</router-link
-              >
+              <router-link to="/signup" class="font-semibold text-red-500 cursor-pointer">Đăng ký</router-link>
               |
-              <router-link
-                to="/login"
-                class="font-semibold text-red-500 cursor-pointer"
-                >Đăng nhập</router-link
-              >
+              <router-link to="/login" class="font-semibold text-red-500 cursor-pointer">Đăng nhập</router-link>
             </template>
           </div>
         </div>
         <div class="border-t border-gray-200 my-2"></div>
         <ul>
-          <router-link
-            :to="{ name: 'profile' }"
-            v-if="token"
-            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer"
-          >
+          <router-link :to="{ name: 'profile' }" v-if="token"
+            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
             <i class="bx bx-user mr-2"></i>
             <span>Thông tin cá nhân</span>
           </router-link>
-          <router-link
-            :to="{ name: 'orderHistory' }"
-            v-if="token"
-            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer"
-          >
+          <router-link :to="{ name: 'orderHistory' }" v-if="token"
+            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
             <i class="bx bx-package mr-2"></i>
             <span>Đơn mua</span>
           </router-link>
-          <li
-            v-if="token && role.includes('ROLE_SUPPLIER')"
-            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer"
-          >
-            <i class="bx bx-package mr-2"></i>
-            <!-- Icon bx-package cho mục 'Trang Đối tác' -->
+          <router-link :to="{ name: 'SupplierHome' }" v-if="token && role.includes('ROLE_SUPPLIER')"
+            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
+            <i class="bx bx-package mr-2"></i> <!-- Icon bx-package cho mục 'Trang Đối tác' -->
             <span>Trang Đối tác</span>
-          </li>
-          <router-link
-            :to="{ name: 'searchOrder' }"
-            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer"
-          >
-            <i class="bx bx-search-alt mr-2"></i>
-            <!-- Icon bx-search-alt cho mục 'Tra cứu đơn hàng' -->
+          </router-link>
+          <router-link :to="{ name: 'searchOrder' }"
+            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
+            <i class="bx bx-search-alt mr-2"></i> <!-- Icon bx-search-alt cho mục 'Tra cứu đơn hàng' -->
             <span>Tra cứu </span>
           </router-link>
-          <li
-            v-if="!role?.includes('ROLE_SUPPLIER')"
-            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer"
-          >
-            <i class="bx bx-clipboard mr-2"></i>
-            <!-- Icon bx-clipboard cho mục 'Đăng ký nhà cung cấp' -->
+          <router-link :to="{ name: 'supplierRegister' }" v-if="!role?.includes('ROLE_SUPPLIER')"
+            class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
+            <i class="bx bx-clipboard mr-2"></i> <!-- Icon bx-clipboard cho mục 'Đăng ký nhà cung cấp' -->
             <span>Đăng ký nhà cung cấp</span>
-          </li>
+          </router-link>
         </ul>
       </div>
     </transition>
 
     <!-- tra cứu đơ hàng  -->
     <transition name="fade">
-      <div
-        v-if="modalSearchOrderIsOpen"
-        class="absolute top-30 left-0 right-0 flex items-center bg-gray-50 p-4 rounded-sm shadow-lg w-full z-50 space-x-4"
-      >
+      <div v-if="modalSearchOrderIsOpen"
+        class="absolute top-30 left-0 right-0 flex items-center bg-gray-50 p-4 rounded-sm shadow-lg w-full z-30 space-x-4">
         <!-- Phone Number Input -->
         <div class="flex-1">
           <label class="text-sm text-gray-600">Số điện thoại</label>
-          <input
-            v-model="searchOrderObject.phoneNumber"
-            type="text"
-            placeholder="Nhập số điện thoại"
-            class="w-full p-2 mt-1 border rounded-sm focus:outline-none focus:border-red-500"
-          />
+          <input v-model="searchOrderObject.phoneNumber" type="text" placeholder="Nhập số điện thoại"
+            class="w-full p-2 mt-1 border rounded-sm focus:outline-none focus:border-red-500" />
         </div>
 
         <!-- Order Code Input -->
         <div class="flex-1">
           <label class="text-sm text-gray-600">Mã đơn hàng</label>
-          <input
-            v-model="searchOrderObject.orderCode"
-            type="text"
-            placeholder="Nhập mã đơn hàng"
-            class="w-full p-2 mt-1 border rounded-sm focus:outline-none focus:border-red-500"
-          />
+          <input v-model="searchOrderObject.orderCode" type="text" placeholder="Nhập mã đơn hàng"
+            class="w-full p-2 mt-1 border rounded-sm focus:outline-none focus:border-red-500" />
         </div>
 
         <!-- Search Button -->
         <div class="flex-none">
-          <button
-            @click="searchOrder"
-            class="mt-5 p-2 bg-red-500 text-white font-semibold rounded-sm hover:bg-red-600 transition-colors whitespace-nowrap"
-          >
+          <button @click="searchOrder"
+            class="mt-5 p-2 bg-red-500 text-white font-semibold rounded-sm hover:bg-red-600 transition-colors whitespace-nowrap">
             Tìm kiếm
           </button>
         </div>
       </div>
     </transition>
+
+
   </nav>
+
+
+
+
 </template>
 
 <script>
 import { getCategories } from "@/api/categoryApi";
 import notificationService from "@/services/notificationService";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 import ListProductComponent from "../cart/cartNavHomeComponent.vue";
+
 
 export default {
   data() {
     return {
       searchOrderObject: {
-        phoneNumber: "",
-        orderCode: "",
+        phoneNumber: '',
+        orderCode: ''
       },
       categories: [],
       isProfileOpen: false,
@@ -416,15 +333,12 @@ export default {
   },
   methods: {
     searchOrder() {
-      if (
-        !this.searchOrderObject.phoneNumber ||
-        !this.searchOrderObject.orderCode
-      ) {
-        notificationService.warning("Vui lòng nhập đầy đủ thông tin.");
+      if (!this.searchOrderObject.phoneNumber || !this.searchOrderObject.orderCode) {
+        notificationService.warning('Vui lòng nhập đầy đủ thông tin.')
         return;
       }
       this.$router.push({
-        name: "searchOrder",
+        name: 'searchOrder',
         params: {
           phoneNumber: this.searchOrderObject.phoneNumber,
           orderCode: this.searchOrderObject.orderCode,
@@ -433,10 +347,8 @@ export default {
     },
     performSearch() {
       if (this.searchQuery.trim()) {
-        this.$router.push({
-          name: "product",
-          query: { keyword: this.searchQuery.trim() },
-        });
+        // Navigate to the product route with the query parameter
+        this.$router.push({ name: 'product', query: { keyword: this.searchQuery.trim() } });
       }
     },
     toggleCartModal() {
@@ -454,11 +366,11 @@ export default {
     handleScroll() {
       this.isVisible = window.scrollY < window.innerHeight / 2;
     },
-    ...mapActions("auth", ["logout"]),
+    ...mapActions('auth', ['logout']),
   },
   computed: {
-    ...mapGetters("auth", ["token", "user", "name", "role"]),
-  },
+    ...mapGetters('auth', ['token', 'user', 'name', 'role']),
+  }
 };
 </script>
 

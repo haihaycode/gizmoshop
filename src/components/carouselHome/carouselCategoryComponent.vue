@@ -12,12 +12,11 @@
 
     <!-- Right Section: Categories with Swiper -->
     <div class="md:w-2/3 w-full bg-white">
-      <!-- Swiper for Categories with Multiple Slides -->
       <swiper :slides-per-view="1" :loop="false" class="categories-swiper">
         <swiper-slide v-for="(slideCategories, index) in paginatedCategories" :key="index">
-          <!-- Dynamic Grid Layout: 2x3 on mobile, 3x4 on desktop -->
           <div :class="gridLayoutClass">
             <div v-for="(category, idx) in slideCategories" :key="idx"
+              @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); }"
               class="flex flex-col items-center text-center p-2 border border-gray-200 rounded-md">
               <img :src="loadImage(category.image, 'category')" alt="Category" @error="onImageError"
                 class="w-12 h-12 object-contain bg-white rounded-full p-1 border border-gray-200" />

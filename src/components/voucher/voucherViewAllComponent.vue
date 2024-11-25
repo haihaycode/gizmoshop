@@ -121,7 +121,6 @@ export default {
                 const response = await getVoucherPage(data);
                 this.vouchers = response.data.content;
                 this.pagination = response.data;
-                console.log(this.pagination);
             } catch (error) {
                 console.error(error);
             }

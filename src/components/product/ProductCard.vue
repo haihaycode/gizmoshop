@@ -2,31 +2,32 @@
   <div
     class="w-full sm:max-w-xs md:max-w-sm  rounded-lg overflow-hidden transition-transform transform hover:scale-105 duration-300 relative">
     <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-72 overflow-hidden rounded-t-lg cursor-pointer ">
-      <img :src="loadImage(product.thumbnail, 'product')" :alt="product.productName"
+      <img :src="loadImage(product?.thumbnail, 'product')" :alt="product.productName"
         class="w-full h-full object-cover transition-opacity duration-300 hover:opacity-90" @error="handleImageError" />
       <div @click="handleForwardProductDetail"
         class="absolute inset-0 bg-black bg-opacity-20 opacity-0 hover:opacity-100 flex items-center justify-center text-white font-semibold text-xs sm:text-sm transition-opacity duration-300">
         Xem chi tiết
       </div>
-      <div v-if="product.discountProduct"
+      <div v-if="product?.discountProduct"
         class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-sm shadow">
-        -{{ product.discountProduct }}%
+        -{{ product?.discountProduct }}%
       </div>
 
-      <div v-if="product.productBrand"
+      <div v-if="product?.productBrand"
         class="absolute bottom-0 right-0 bg-blue-400 text-white text-xs font-semibold px-2 py-1  ">
-        {{ product.productBrand.name }}
+        {{ product?.productBrand.name }}
       </div>
     </div>
 
     <div class="p-4 space-y-2">
-      <h3 class="text-sm sm:text-base md:text-lg font-semibold text-gray-800  overflow-hidden">
-        {{ product.productName }}
+      <h3
+        class="text-sm sm:text-base md:text-lg font-semibold text-gray-800 overflow-hidden text-ellipsis line-clamp-2">
+        {{ product?.productName }}
       </h3>
 
       <div class="flex items-center space-x-2">
         <span class="text-base md:text-lg font-bold text-red-600">{{ formatCurrency(product.productPrice) }}</span>
-        <span v-if="product.discountProduct" class="text-xs md:text-sm line-through text-gray-400">
+        <span v-if="product?.discountProduct" class="text-xs md:text-sm line-through text-gray-400">
           {{ formatCurrency(calculateOldPrice(product.productPrice, product.discountProduct)) }}
         </span>
       </div>
@@ -41,7 +42,7 @@
       <div class="flex items-center justify-between w-full mt-2">
         <div class="flex items-center space-x-1">
           <span class="text-xs sm:text-sm font-thin text-gray-700">
-            {{ product.soldProduct ? product.soldProduct : 0 }} Đã bán
+            {{ product?.soldProduct ? product?.soldProduct : 0 }} Đã bán
           </span>
         </div>
         <button @click="toggleFavorite"
@@ -67,6 +68,7 @@ export default {
     product: {
       type: Object,
       required: true,
+      default: () => ({}),
     },
     deleteFavorite: {
       type: Boolean,
@@ -130,5 +132,10 @@ export default {
 </script>
 
 <style scoped>
-/* Optional custom styles */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 </style>

@@ -3,6 +3,7 @@
     class="fixed top-1/2 left-0 ml-2.5 w-[56px] max-h-[75vh] bg-white shadow-lg z-50 transform -translate-y-1/2 rounded-lg border border-gray-200 overflow-hidden hidden sm:block lg:block">
     <ul :class="['flex flex-col items-center p-2', dynamicHeightClass]">
       <li v-for="item in menuItems.slice(0, 12)" :key="item.id"
+        @click="() => { this.$router.push({ name: 'product', query: { idThuongHieu: item.id } }); }"
         class="relative group w-full py-2 flex justify-center items-center border-b last:border-b-0 border-gray-200 cursor-pointer text-gray-800 hover:bg-gray-100 transition-all ease-in-out">
         <img :src="item.image" alt="icon" class="w-6 h-6 group-hover:scale-125 transition-transform duration-300" />
         <span

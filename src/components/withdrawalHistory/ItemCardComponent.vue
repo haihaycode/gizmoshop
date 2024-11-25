@@ -1,37 +1,60 @@
 <template>
     <div @click="$emit('click')"
-        class="p-6 border rounded-sm shadow-md  cursor-pointer hover:shadow-sm hover:bg-gray-50 transition-all duration-200 ease-in-out transform hover:scale-101">
+        class="p-6 border rounded-sm shadow-md cursor-pointer hover:shadow-sm hover:bg-gray-50 transition-all duration-200 ease-in-out transform hover:scale-101">
         <div class="flex items-center justify-between mb-3">
-            <h3 class="text-xl font-semibold text-gray-800">Rút {{ withdrawal.amount }} VND</h3>
-            <span class="text-sm text-gray-500">{{ withdrawal.date }}</span>
+            <h3 v-if="withdrawal && withdrawal.amount" class="text-xl font-semibold text-gray-800"> {{
+                formatCurrencyVN(withdrawal.amount) }}
+            </h3>
+            <span class="text-sm text-gray-500">{{ formatDay(withdrawal.withdrawalDate) }}</span>
         </div>
         <p class="text-sm text-gray-600">
-            Trạng thái: <span :class="statusClass">{{ withdrawal.status }}</span>
+            Trạng thái : <span :class="statusClass">{{ getShortStatus(withdrawal && withdrawal.status) }}</span>
         </p>
     </div>
 </template>
 
 <script>
+import { formatCurrencyVN, formatDay } from '@/utils/currencyUtils';
+
 export default {
     name: 'ItemCardComponent',
     props: {
         withdrawal: {
             type: Object,
             required: true,
+            default: () => ({}),
         },
     },
     computed: {
+
         statusClass() {
-            return this.withdrawal.status === 'Completed'
-                ? 'text-green-600 font-semibold'
-                : this.withdrawal.status === 'Pending'
-                    ? 'text-yellow-600 font-semibold'
-                    : 'text-red-600 font-semibold';
+            switch (this.withdrawal && this.withdrawal.status) {
+                case 'PENDING':
+                    return 'text-yellow-600 font-semibold';
+                case 'COMPLETED':
+                    return 'text-green-600 font-semibold';
+                case 'CANCELLED':
+                    return 'text-red-600 font-semibold';
+                default:
+                    return 'text-gray-600 font-semibold';
+            }
+        },
+    },
+    methods: {
+        formatCurrencyVN,
+        formatDay,
+        getShortStatus(status) {
+            switch (status) {
+                case 'PENDING':
+                    return 'Đang xét duyệt.';
+                case 'COMPLETED':
+                    return 'Xét duyệt thành công.';
+                case 'CANCELLED':
+                    return 'Từ chối.';
+                default:
+                    return 'Không xác định';
+            }
         },
     },
 };
 </script>
-
-<style scoped>
-/* Additional styling for smooth transitions and rounded edges */
-</style>

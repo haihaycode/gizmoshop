@@ -1,8 +1,10 @@
-<!-- SortOptions.vue -->
 <template>
     <div class="flex justify-start space-x-4 mb-4">
-        <button v-for="option in sortOptions" :key="option.value" @click="selectSort(option.value)"
-            :class="['px-4 py-2 rounded-sm', selectedSort === option.value ? 'bg-gray-300' : 'bg-gray-200 bg-opacity-35']">
+        <!-- Sort buttons with dynamic classes based on selection -->
+        <button v-for="option in sortOptions" :key="option.value" @click="selectSort(option.value)" :class="[
+            'px-4 py-2 rounded-sm text-white',
+            selectedSort === option.value ? 'bg-red-500' : 'bg-gray-500 bg-opacity-35'
+        ]">
             {{ option.label }}
         </button>
     </div>
@@ -19,22 +21,22 @@ export default {
     },
     data() {
         return {
-            selectedSort: this.initialSort, // Set initial sort selection
+            selectedSort: this.initialSort,
             sortOptions: [
-                { label: 'Liên Quan', value: 'relevance' },
-                { label: 'Mới Nhất', value: 'newest' },
-                { label: 'Bán Chạy', value: 'best_seller' },
-                { label: 'Giá Thấp Tới Cao', value: 'price_asc' },
-                { label: 'Giá Cao Tới Thấp', value: 'price_desc' },
-                { label: 'Xem Nhiều Nhất', value: 'most_viewed' }
-
+                { label: 'Mới Nhất', value: 'id,desc' },
+                { label: 'Giá Thấp Tới Cao', value: 'price,asc' },
+                { label: 'Giá Cao Tới Thấp', value: 'price,desc' },
+                { label: 'Xem Nhiều Nhất', value: 'view,desc' }
             ]
         };
+    },
+    mounted() {
+        this.selectedSort = this.initialSort;
     },
     methods: {
         selectSort(sortType) {
             this.selectedSort = sortType;
-            this.$emit('sortSelected', sortType); // Emit the selected sort option
+            this.$emit('sortSelected', sortType);
         }
     }
 };

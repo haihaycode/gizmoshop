@@ -7,12 +7,15 @@ import AuthRoutes from '@/router/modules/AuthRoutes';
 import PublicRoutes from '@/router/modules/publicRoutes';
 import ErrorRoutes from '@/router/modules/errorRoutes';
 import paymentRoutes from './modules/paymentRoutes';
+import SupplierRoutes from './modules/SupplierRoutes';
+
 
 export const routes = [
     ...AuthRoutes,
     ...PublicRoutes,
     ...ErrorRoutes,
     ...paymentRoutes,
+    ...SupplierRoutes,
     { path: '/:pathMatch(.*)*', redirect: { name: 'NotFound' } }
 ];
 
@@ -50,13 +53,42 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach(async (to, from, next) => {
     const isAuthenticated = store.getters['auth/token'];
+
+    // Chuyển đến đăng nhập nếu chưa đăng nhập mà truy cập các route /account
     if (!isAuthenticated && to.path.includes('/account')) {
         return next('/login');
     }
-    if (isAuthenticated && to.path === 'supplier' && !SUPPLIER()) {
-        return next('/403');
+
+    // Chuyển đến đăng nhập nếu chưa đăng nhập mà truy cập các route bắt đầu với /supplier
+    if (!isAuthenticated && to.path.startsWith('/supplier')) {
+        return next('/login');
     }
+
+    // Nếu đã đăng nhập và đang ở /supplier/register
+    if (isAuthenticated && to.path === '/supplier/register') {
+        if (!SUPPLIER()) {
+            // Chưa là nhà cung cấp -> Cho phép truy cập trang đăng ký
+            return next();
+        } else {
+            // Đã là nhà cung cấp -> Chuyển hướng
+            return next('/supplier/dashboard');
+        }
+    }
+
+    // Nếu đã đăng nhập và truy cập các route /supplier/t/*
+    if (isAuthenticated && to.path.startsWith('/supplier/t/')) {
+        if (!SUPPLIER()) {
+            // Chưa là nhà cung cấp -> Chuyển đến trang đăng ký
+            return next('/supplier/register');
+        } else {
+            // Đã là nhà cung cấp -> Cho phép tiếp tục
+            return next();
+        }
+    }
+
+    // Mặc định cho phép đi tiếp
     return next();
 });
+
 
 export default router;

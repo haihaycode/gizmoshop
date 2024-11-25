@@ -14,11 +14,12 @@ export default {
         async handlePayment() {
             try {
                 const amount = 3000000;
-                const idWallet = '123';      // ID ví (thay bằng giá trị thực tế)
-                const idAddress = '123';    // ID địa chỉ (thay bằng giá trị thực tế)
-                const type = 'ORDER_PAYMENT';      // Loại giao dịch, sử dụng enum 'ORDER_PAYMENT' hoặc 'ACCOUNT_TOPUP'
+                const idWallet = '123';
+                const idAddress = '123';
+                const idVoucher = '-1';
+                const type = 'order_payment';
 
-                const response = await createPaymentForOrderCustumer(amount, idWallet, idAddress, type);
+                const response = await createPaymentForOrderCustumer(amount, idWallet, idVoucher, idAddress, type);
                 if (response && response.data.paymentUrl) {
                     window.location.href = response.data.paymentUrl;
                 } else {

@@ -22,7 +22,6 @@
                     :value="category.id" />
             </el-select>
         </div>
-
         <!-- Brand Filter -->
         <div class="mb-6">
             <label class="block text-sm font-medium text-gray-600 mb-2">Thương Hiệu</label>
@@ -30,7 +29,6 @@
                 <el-option v-for="brand in brands" :key="brand.id" :label="brand.name" :value="brand.id" />
             </el-select>
         </div>
-
         <!-- Price Range Filter -->
         <div class="mb-6">
             <label class="block text-sm font-medium text-gray-600 mb-2">Khoảng Giá</label>
@@ -40,9 +38,15 @@
         </div>
 
         <!-- Apply Filter Button -->
-        <div @click="applyFilter"
-            class="w-full text-center mt-4 bg-red-500 px-3 py-1 text-white rounded-sm cursor-pointer">
-            Áp Dụng bộ lọc
+        <div class="flex justify-between mt-4">
+            <button @click="applyFilter"
+                class="w-full text-center bg-red-500 px-3 py-1 text-white rounded-sm cursor-pointer">
+                Áp Dụng bộ lọc
+            </button>
+            <button @click="clearFilters"
+                class="w-full text-center bg-gray-300 px-3 py-1 text-gray-700 rounded-sm cursor-pointer ml-2">
+                Xóa tất cả
+            </button>
         </div>
     </div>
 </template>
@@ -64,18 +68,18 @@ export default {
         return {
             keyword: this.$route.query.keyword || '',
             sortOption: `${param}_${direction}`,
-            selectedCategory: '', // Will be set after fetching categories
-            selectedBrand: '',    // Will be set after fetching brands
+            selectedCategory: this.$route.query.category || '',
+            selectedBrand: this.$route.query.brand || '',
             selectedPriceRange: this.$route.query.sort || '',
             categories: [],
             brands: [],
             priceOptions: [
-                { id: "under_1000000", name: "Dưới 1,000,000" },
-                { id: "1000000_to_5000000", name: "1,000,000 - 5,000,000" },
-                { id: "5000000_to_10000000", name: "5,000,000 - 10,000,000" },
-                { id: "15000000_to_20000000", name: "15,000,000 - 20,000,000" },
-                { id: "20000000_to_25000000", name: "20,000,000 - 25,000,000" },
-                { id: "above_25000000", name: "Trên 25,000,000" }
+                { id: "under_1000000", name: "Dưới 1,000,000", min: 100, max: 1000000 },
+                { id: "1000000_to_5000000", name: "1,000,000 - 5,000,000", min: 1000000, max: 5000000 },
+                { id: "5000000_to_10000000", name: "5,000,000 - 10,000,000", min: 5000000, max: 10000000 },
+                { id: "15000000_to_20000000", name: "15,000,000 - 20,000,000", min: 15000000, max: 20000000 },
+                { id: "20000000_to_25000000", name: "20,000,000 - 25,000,000", min: 20000000, max: 25000000 },
+                { id: "above_25000000", name: "Trên 25,000,000", min: 25000000, max: 10000000000 }
             ]
         };
     },
@@ -105,20 +109,30 @@ export default {
             }
         },
         applyFilter() {
+            const selectedPrice = this.priceOptions.find(price => price.id === this.selectedPriceRange);
+            const price1 = selectedPrice ? selectedPrice.min : undefined;
+            const price2 = selectedPrice ? selectedPrice.max : undefined;
+
             this.$emit('filterProducts', {
-                keyword: this.keyword,
-                selectedCategory: this.selectedCategory,
-                selectedBrand: this.selectedBrand,
-                selectedPriceRange: this.selectedPriceRange,
-                sortParam: this.sortParam,
-                sortDirection: this.sortDirection
+                keyword: this.keyword || undefined,
+                category: this.selectedCategory || undefined,
+                brand: this.selectedBrand || undefined,
+                price1,
+                price2,
             });
+        },
+        clearFilters() {
+            this.keyword = '';
+            this.selectedCategory = '';
+            this.selectedBrand = '';
+            this.selectedPriceRange = '';
+            // Apply the cleared filters
+            this.applyFilter();
         }
     },
     async mounted() {
         await this.handleFetchCategory();
         await this.handleFetchBrand();
-
         this.applyFilter();
     }
 };

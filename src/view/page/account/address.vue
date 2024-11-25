@@ -3,8 +3,6 @@
         <div>
             <h2 class="text-xl font-semibold text-gray-600 mb-4">Địa chỉ giao hàng</h2>
         </div>
-
-        <!-- List of Addresses -->
         <div v-if="addresses.length" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <AddressBoxComponent v-for="address in addresses.filter(address => !address.deleted)" :key="address?.id"
                 :address="address" @edit="openEditModal(address)" />
@@ -16,8 +14,6 @@
         <p v-else class="text-gray-500 text-sm sm:text-base lg:text-lg text-center italic">
             Không có địa chỉ nào. Nhấn "Thêm mới" để thêm địa chỉ.
         </p>
-
-        <!-- Address Modal for Adding and Editing -->
         <AddressNewModalComponent :isOpen="isModalOpen" :address="selectedAddress" @close="closeModal"
             @save="handleSaveAddress" />
     </div>
@@ -74,7 +70,6 @@ export default {
             this.selectedAddress = null;
         },
         handleSaveAddress(address) {
-            // Map fields to match the backend DTO structure
             const addressDTO = {
                 id: address.id || null,
                 fullname: address.fullname,
@@ -82,29 +77,25 @@ export default {
                 sdt: address.sdt,
                 city: address.city,
                 district: address.district,
-                commune: address.ward, // Map `ward` to `commune`
-                longitude: address.lon, // Map `lon` to `longitude`
-                latitude: address.lat, // Map `lat` to `latitude`
+                commune: address.ward,
+                longitude: address.lon,
+                latitude: address.lat,
                 deleted: address.deleted,
             };
 
             if (address.id) {
-                // Update existing address
                 updateAddress(address.id, addressDTO)
                     .then((response) => {
                         console.log("Address updated successfully:", response);
                     })
                     .catch((error) => console.error("Error updating address:", error));
             } else {
-                // Create new address
                 createAddress(addressDTO)
                     .then((response) => {
                         console.log("Address created successfully:", response);
                     })
                     .catch((error) => console.error("Error creating address:", error));
             }
-
-
             this.closeModal();
         }
 
