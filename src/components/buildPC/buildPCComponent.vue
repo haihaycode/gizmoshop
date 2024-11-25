@@ -3,9 +3,7 @@
     <!-- Header -->
     <header class="p-6 bg-white shadow-sm sticky top-0 z-10">
       <div class="flex justify-between items-center container mx-auto">
-        <div
-          class="text-3xl font-extrabold text-gray-800 tracking-tight cursor-pointer"
-        >
+        <div class="text-3xl font-extrabold text-gray-800 tracking-tight">
           PC Builder
         </div>
         <div class="w-1/3">
@@ -21,112 +19,19 @@
     </header>
 
     <div
-      class="flex flex-col lg:flex-row container mx-auto space-y-6 lg:space-y-0 lg:space-x-8"
+      class="container mx-auto flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-8 mt-6"
     >
       <!-- Sidebar -->
       <div class="w-full lg:w-1/4 bg-gray-50 p-6 rounded-xl shadow-sm">
-        <div class="space-y-2">
-          <!-- CPU -->
-          <div>
-            <h4 class="text-md font-medium mb-2">CPU</h4>
-            <select
-              v-model="selectedCpu"
-              class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
+        <div class="space-y-4">
+          <div v-for="(component, key) in components" :key="key">
+            <h4 class="text-md font-medium mb-2">{{ component.label }}</h4>
+            <button
+              @click="openModal(component.categoryId, key)"
+              class="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition"
             >
-              <option v-for="cpu in filteredCpus" :key="cpu.id" :value="cpu">
-                {{ cpu.name }}
-              </option>
-            </select>
-          </div>
-
-          <!-- GPU -->
-          <div>
-            <h4 class="text-md font-medium mb-2">GPU</h4>
-            <select
-              v-model="selectedGpu"
-              class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
-            >
-              <option v-for="gpu in filteredGpus" :key="gpu.id" :value="gpu">
-                {{ gpu.name }}
-              </option>
-            </select>
-          </div>
-
-          <!-- RAM -->
-          <div>
-            <h4 class="text-md font-medium mb-2">RAM</h4>
-            <select
-              v-model="selectedRam"
-              class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
-            >
-              <option v-for="ram in filteredRams" :key="ram.id" :value="ram">
-                {{ ram.name }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Storage -->
-          <div>
-            <h4 class="text-md font-medium mb-2">Storage</h4>
-            <select
-              v-model="selectedStorage"
-              class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
-            >
-              <option
-                v-for="storage in filteredStorages"
-                :key="storage.id"
-                :value="storage"
-              >
-                {{ storage.name }}
-              </option>
-            </select>
-          </div>
-
-          <!-- PSU -->
-          <div>
-            <h4 class="text-md font-medium mb-2">PSU</h4>
-            <select
-              v-model="selectedPsu"
-              class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
-            >
-              <option v-for="psu in filteredPsus" :key="psu.id" :value="psu">
-                {{ psu.name }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Case -->
-          <div>
-            <h4 class="text-md font-medium mb-2">Vỏ Case</h4>
-            <select
-              v-model="selectedCase"
-              class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
-            >
-              <option
-                v-for="caseItem in filteredCases"
-                :key="caseItem.id"
-                :value="caseItem"
-              >
-                {{ caseItem.name }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Cooling -->
-          <div>
-            <h4 class="text-md font-medium mb-2">Tản Nhiệt</h4>
-            <select
-              v-model="selectedCooling"
-              class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
-            >
-              <option
-                v-for="cooling in filteredCoolings"
-                :key="cooling.id"
-                :value="cooling"
-              >
-                {{ cooling.name }}
-              </option>
-            </select>
+              Chọn {{ component.label }}
+            </button>
           </div>
         </div>
       </div>
@@ -136,432 +41,237 @@
         <div class="bg-gray-50 p-6 rounded-xl shadow-sm">
           <h3 class="text-lg font-semibold mb-2">Cấu hình của bạn</h3>
           <div class="space-y-2">
-            <!-- Selected CPU -->
             <div
-              :class="[
-                'flex items-center justify-between p-2 rounded-lg',
-                selectedCpu.name ? 'bg-green-100' : '',
-              ]"
+              v-for="(component, key) in components"
+              :key="key"
+              class="flex items-center justify-between p-2 rounded-lg"
+              :class="{ 'bg-green-100': component.selected.name }"
             >
               <div class="flex items-center space-x-4">
                 <div
-                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg relative"
+                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg"
                 >
                   <img
-                    v-if="selectedCpu.image"
-                    :src="selectedCpu.image"
-                    alt="CPU"
+                    v-if="component.selected.image"
+                    :src="loadImage(component.selected.image, 'product')"
+                    :alt="component.label"
                     class="w-full h-full object-cover rounded-lg"
                   />
-                  <div
-                    v-if="selectedCpu.name"
-                    class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  >
-                    <i class="bx bx-check bx-tada"></i>
-                  </div>
                 </div>
                 <div>
-                  <p class="text-md font-medium">CPU</p>
+                  <p class="text-md font-medium">{{ component.label }}</p>
                   <p class="text-sm text-gray-500">
-                    {{ selectedCpu.name || "Chưa chọn" }}
-                  </p>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500">Số lượng: 1</p>
-            </div>
-
-            <!-- Selected GPU -->
-            <div
-              :class="[
-                'flex items-center justify-between p-2 rounded-lg',
-                selectedGpu.name ? 'bg-green-100' : '',
-              ]"
-            >
-              <div class="flex items-center space-x-4">
-                <div
-                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg relative"
-                >
-                  <img
-                    v-if="selectedGpu.image"
-                    :src="selectedGpu.image"
-                    alt="GPU"
-                    class="w-full h-full object-cover rounded-lg"
-                  />
-                  <div
-                    v-if="selectedGpu.name"
-                    class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  >
-                    <i class="bx bx-check bx-tada"></i>
-                  </div>
-                </div>
-                <div>
-                  <p class="text-md font-medium">GPU</p>
-                  <p class="text-sm text-gray-500">
-                    {{ selectedGpu.name || "Chưa chọn" }}
-                  </p>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500">Số lượng: 1</p>
-            </div>
-
-            <!-- Selected RAM -->
-            <div
-              :class="[
-                'flex items-center justify-between p-2 rounded-lg',
-                selectedRam.name ? 'bg-green-100' : '',
-              ]"
-            >
-              <div class="flex items-center space-x-4">
-                <div
-                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg relative"
-                >
-                  <img
-                    v-if="selectedRam.image"
-                    :src="selectedRam.image"
-                    alt="RAM"
-                    class="w-full h-full object-cover rounded-lg"
-                  />
-                  <div
-                    v-if="selectedRam.name"
-                    class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  >
-                    <i class="bx bx-check bx-tada"></i>
-                  </div>
-                </div>
-                <div>
-                  <p class="text-md font-medium">RAM</p>
-                  <p class="text-sm text-gray-500">
-                    {{ selectedRam.name || "Chưa chọn" }}
-                  </p>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500">Số lượng: 1</p>
-            </div>
-
-            <!-- Selected Storage -->
-            <div
-              :class="[
-                'flex items-center justify-between p-2 rounded-lg',
-                selectedStorage.name ? 'bg-green-100' : '',
-              ]"
-            >
-              <div class="flex items-center space-x-4">
-                <div
-                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg relative"
-                >
-                  <img
-                    v-if="selectedStorage.image"
-                    :src="selectedStorage.image"
-                    alt="Storage"
-                    class="w-full h-full object-cover rounded-lg"
-                  />
-                  <div
-                    v-if="selectedStorage.name"
-                    class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  >
-                    <i class="bx bx-check bx-tada"></i>
-                  </div>
-                </div>
-                <div>
-                  <p class="text-md font-medium">Storage</p>
-                  <p class="text-sm text-gray-500">
-                    {{ selectedStorage.name || "Chưa chọn" }}
-                  </p>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500">Số lượng: 1</p>
-            </div>
-
-            <!-- Selected PSU -->
-            <div
-              :class="[
-                'flex items-center justify-between p-2 rounded-lg',
-                selectedPsu.name ? 'bg-green-100' : '',
-              ]"
-            >
-              <div class="flex items-center space-x-4">
-                <div
-                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg relative"
-                >
-                  <img
-                    v-if="selectedPsu.image"
-                    :src="selectedPsu.image"
-                    alt="PSU"
-                    class="w-full h-full object-cover rounded-lg"
-                  />
-                  <div
-                    v-if="selectedPsu.name"
-                    class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  >
-                    <i class="bx bx-check bx-tada"></i>
-                  </div>
-                </div>
-                <div>
-                  <p class="text-md font-medium">PSU</p>
-                  <p class="text-sm text-gray-500">
-                    {{ selectedPsu.name || "Chưa chọn" }}
-                  </p>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500">Số lượng: 1</p>
-            </div>
-
-            <!-- Selected Case -->
-            <div
-              :class="[
-                'flex items-center justify-between p-2 rounded-lg',
-                selectedCase.name ? 'bg-green-100' : '',
-              ]"
-            >
-              <div class="flex items-center space-x-4">
-                <div
-                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg relative"
-                >
-                  <img
-                    v-if="selectedCase.image"
-                    :src="selectedCase.image"
-                    alt="Case"
-                    class="w-full h-full object-cover rounded-lg"
-                  />
-                  <div
-                    v-if="selectedCase.name"
-                    class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  >
-                    <i class="bx bx-check bx-tada"></i>
-                  </div>
-                </div>
-                <div>
-                  <p class="text-md font-medium">Vỏ Case</p>
-                  <p class="text-sm text-gray-500">
-                    {{ selectedCase.name || "Chưa chọn" }}
-                  </p>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500">Số lượng: 1</p>
-            </div>
-
-            <!-- Selected Cooling -->
-            <div
-              :class="[
-                'flex items-center justify-between p-2 rounded-lg',
-                selectedCooling.name ? 'bg-green-100' : '',
-              ]"
-            >
-              <div class="flex items-center space-x-4">
-                <div
-                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg relative"
-                >
-                  <img
-                    v-if="selectedCooling.image"
-                    :src="selectedCooling.image"
-                    alt="Cooling"
-                    class="w-full h-full object-cover rounded-lg"
-                  />
-                  <div
-                    v-if="selectedCooling.name"
-                    class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                  >
-                    <i class="bx bx-check bx-tada"></i>
-                  </div>
-                </div>
-                <div>
-                  <p class="text-md font-medium">Tản Nhiệt</p>
-                  <p class="text-sm text-gray-500">
-                    {{ selectedCooling.name || "Chưa chọn" }}
+                    {{ component.selected.name || "Chưa chọn" }}
                   </p>
                 </div>
               </div>
               <p class="text-sm text-gray-500">Số lượng: 1</p>
             </div>
           </div>
+          <button
+            @click="finalizeBuild"
+            :disabled="isLoading"
+            class="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition flex items-center justify-center"
+          >
+            <span v-if="isLoading" class="loader"></span>
+            <!-- Hiển thị spinner khi loading -->
+            <span v-else>Hoàn tất cấu hình</span>
+          </button>
         </div>
+      </div>
+    </div>
+
+    <div
+      v-if="isModalOpen"
+      class="fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center"
+    >
+      <div
+        class="bg-white p-6 rounded-lg w-full max-w-lg max-h-[500px] h-auto flex flex-col overflow-hidden"
+      >
+        <h3 class="text-lg font-semibold mb-4">Chọn {{ modalLabel }}</h3>
+        <div class="space-y-4 flex-1 overflow-auto" v-if="!isLoadingModal">
+          <div
+            v-for="item in modalItems"
+            :key="item.id"
+            class="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+          >
+            <div class="flex items-center space-x-4">
+              <img
+                v-if="item.image"
+                :src="loadImage(item.image, 'product')"
+                alt=""
+                class="w-16 h-16 object-cover"
+              />
+              <p class="text-md font-medium">{{ item.name }}</p>
+            </div>
+
+            <!-- Hiển thị số lượng còn lại trong kho -->
+            <p class="text-sm text-gray-500">
+              Số lượng còn lại: {{ item.stockQuantity }}
+            </p>
+
+            <button
+              @click="selectComponent(item)"
+              class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
+            >
+              Chọn
+            </button>
+          </div>
+        </div>
+        <div v-else class="text-center text-gray-500">Đang tải...</div>
+
+        <button
+          @click="closeModal"
+          class="bottom-0 w-full mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-400 transition"
+        >
+          Đóng
+        </button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { getProductByCategoryInventory } from "@/api/productApi";
+import { loadImage } from "@/services/imageService";
+import notificationService from "@/services/notificationService";
+import { addProductToCart } from "@/api/CartApi";
 export default {
   data() {
     return {
+      isLoading: false,
       searchQuery: "",
-      cpus: [
-        {
-          id: 1,
-          name: "Intel i9-13900K",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          name: "AMD Ryzen 9 7950X",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 3,
-          name: "Intel i7-12700K",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 4,
-          name: "AMD Ryzen 5 5600X",
-          image: "https://via.placeholder.com/150",
-        },
+      isModalOpen: false,
+      isLoadingModal: false,
+      modalItems: [],
+      modalLabel: "",
+      modalKey: "",
+      components: [
+        { label: "CPU", categoryId: 77, selected: {} },
+        { label: "SSD", categoryId: 76, selected: {} },
+        { label: "RAM", categoryId: 2, selected: {} },
+        { label: "Main", categoryId: 59, selected: {} },
+        { label: "PSU", categoryId: 78, selected: {} },
+        { label: "Vỏ Case", categoryId: 80, selected: {} },
+        { label: "Tản Nhiệt", categoryId: 82, selected: {} },
       ],
-      gpus: [
-        {
-          id: 1,
-          name: "NVIDIA RTX 4090",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          name: "AMD Radeon RX 7900 XT",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 3,
-          name: "NVIDIA RTX 3080",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 4,
-          name: "NVIDIA RTX 3070",
-          image: "https://via.placeholder.com/150",
-        },
-      ],
-      rams: [
-        {
-          id: 1,
-          name: "Corsair Vengeance 16GB",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          name: "G.SKILL Trident Z 32GB",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 3,
-          name: "Kingston HyperX 16GB",
-          image: "https://via.placeholder.com/150",
-        },
-      ],
-      storages: [
-        {
-          id: 1,
-          name: "Samsung 970 Evo 1TB",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          name: "Western Digital 2TB",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 3,
-          name: "Seagate FireCuda 1TB",
-          image: "https://via.placeholder.com/150",
-        },
-      ],
-      psus: [
-        {
-          id: 1,
-          name: "Corsair RM850X 850W",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          name: "EVGA SuperNOVA 750 G5",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 3,
-          name: "Seasonic Focus GX-750W",
-          image: "https://via.placeholder.com/150",
-        },
-      ],
-      cases: [
-        { id: 1, name: "NZXT H510", image: "https://via.placeholder.com/150" },
-        {
-          id: 2,
-          name: "Fractal Design Meshify C",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 3,
-          name: "Corsair 4000D",
-          image: "https://via.placeholder.com/150",
-        },
-      ],
-      coolings: [
-        {
-          id: 1,
-          name: "Cooler Master Hyper 212",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          name: "NZXT Kraken X63",
-          image: "https://via.placeholder.com/150",
-        },
-        {
-          id: 3,
-          name: "Corsair iCUE H150i Elite",
-          image: "https://via.placeholder.com/150",
-        },
-      ],
-      filteredCpus: [],
-      filteredGpus: [],
-      filteredRams: [],
-      filteredStorages: [],
-      filteredPsus: [],
-      filteredCases: [],
-      filteredCoolings: [],
-      selectedCpu: {},
-      selectedGpu: {},
-      selectedRam: {},
-      selectedStorage: {},
-      selectedPsu: {},
-      selectedCase: {},
-      selectedCooling: {},
     };
   },
-  created() {
-    this.filteredCpus = this.cpus;
-    this.filteredGpus = this.gpus;
-    this.filteredRams = this.rams;
-    this.filteredStorages = this.storages;
-    this.filteredPsus = this.psus;
-    this.filteredCases = this.cases;
-    this.filteredCoolings = this.coolings;
-  },
   methods: {
-    filterComponents() {
-      const query = this.searchQuery.toLowerCase();
-      this.filteredCpus = this.cpus.filter((cpu) =>
-        cpu.name.toLowerCase().includes(query)
-      );
-      this.filteredGpus = this.gpus.filter((gpu) =>
-        gpu.name.toLowerCase().includes(query)
-      );
-      this.filteredRams = this.rams.filter((ram) =>
-        ram.name.toLowerCase().includes(query)
-      );
-      this.filteredStorages = this.storages.filter((storage) =>
-        storage.name.toLowerCase().includes(query)
-      );
-      this.filteredPsus = this.psus.filter((psu) =>
-        psu.name.toLowerCase().includes(query)
-      );
-      this.filteredCases = this.cases.filter((caseItem) =>
-        caseItem.name.toLowerCase().includes(query)
-      );
-      this.filteredCoolings = this.coolings.filter((cooling) =>
-        cooling.name.toLowerCase().includes(query)
-      );
+    loadImage,
+    async addProductToCart(productId, quantity) {
+      if (!productId || quantity <= 0) {
+        notificationService.error(
+          "Thông tin sản phẩm hoặc số lượng không hợp lệ!"
+        );
+        console.error("Thông tin không hợp lệ:", { productId, quantity });
+        return;
+      }
+
+      try {
+        const response = await addProductToCart(productId, quantity);
+        this.$emit("cart-updated", response);
+        return response; // Trả về kết quả nếu cần dùng
+      } catch (error) {
+        notificationService.error(
+          "Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng!"
+        );
+        throw error; // Ném lỗi nếu cần xử lý thêm ở nơi khác
+      }
     },
-    finalizeBuild() {
-      alert("Cấu hình PC của bạn đã hoàn thành!");
+    async openModal(categoryId, key) {
+      try {
+        this.isLoadingModal = true;
+        this.isModalOpen = true;
+        this.modalKey = key;
+        this.modalLabel = this.components[key].label;
+
+        const response = await getProductByCategoryInventory(categoryId);
+        if (response.data && Array.isArray(response.data.content)) {
+          this.modalItems = response.data.content.map((item) => ({
+            id: item.id,
+            name: item.productName,
+            image: item.thumbnail
+              ? item.thumbnail
+              : "IMG_20241115231421_716.jpg",
+            stockQuantity:
+              item.productInventoryResponse?.quantity || "Chưa có thông tin", // Đảm bảo lấy thumbnail
+          }));
+        } else {
+          console.error("Dữ liệu không hợp lệ:", response);
+          this.modalItems = [];
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+        this.modalItems = [];
+      } finally {
+        this.isLoadingModal = false;
+      }
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
+    selectComponent(item) {
+      this.components[this.modalKey].selected = item;
+      this.closeModal();
+    },
+    async finalizeBuild() {
+      const allSelected = this.components.every(
+        (component) => component.selected && component.selected.name
+      );
+
+      if (allSelected) {
+        this.isLoading = true;
+        const addPromises = []; // Danh sách các promise để thêm sản phẩm
+
+        for (const component of this.components) {
+          if (component.selected.id) {
+            const promise = this.addProductToCart(component.selected.id, 1)
+              .then(() => {
+                console.log(`Đã thêm ${component.selected.name} vào giỏ hàng`);
+              })
+              .catch((error) => {
+                console.error(
+                  `Lỗi khi thêm ${component.selected.name}:`,
+                  error
+                );
+              });
+            addPromises.push(promise);
+          }
+        }
+
+        try {
+          await Promise.all(addPromises); // Đợi tất cả yêu cầu hoàn tất
+          notificationService.success(
+            "Tất cả sản phẩm đã được thêm vào giỏ hàng!"
+          );
+        } catch (error) {
+          notificationService.error(
+            "Có lỗi xảy ra khi thêm một số sản phẩm vào giỏ hàng!"
+          );
+        }
+      } else {
+        notificationService.error("Vui lòng chọn đầy đủ cấu hình!");
+      }
     },
   },
 };
 </script>
+<style scoped>
+.loader {
+  border: 2px solid transparent;
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>

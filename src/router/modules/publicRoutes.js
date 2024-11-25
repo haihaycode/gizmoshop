@@ -12,12 +12,12 @@ const publicRoutes = [
         path: "/cart",
         name: "yourCart",
         meta: {
-          title: "...Updating...",
+          title: "Cart",
           description: " ",
         },
         components: {
           default: usePage("cart"),
-          header: useComponentLayout("Header"),
+          header: useComponentLayout("Nav"),
           footer: useComponentLayout("Footer"),
           // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
         },
@@ -26,12 +26,12 @@ const publicRoutes = [
         path: "/toOrder",
         name: "cartToOrder",
         meta: {
-          title: "...Updating...",
+          title: "Cart to Order",
           description: " ",
         },
         components: {
           default: usePage("cartToOder"),
-          header: useComponentLayout("Header"),
+          header: useComponentLayout("Nav"),
           footer: useComponentLayout("Footer"),
           // sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
         },
@@ -46,7 +46,7 @@ const publicRoutes = [
         },
         components: {
           default: usePage("productDetail"),
-          header: useComponentLayout("Header"),
+          header: useComponentLayout("Nav"),
           footer: useComponentLayout("Footer"),
           sidebar: useComponentLayout("NavigationLeftCategoryAsideComponent"),
         },
@@ -55,12 +55,12 @@ const publicRoutes = [
         path: "/builder",
         name: "builder",
         meta: {
-          title: "Đồ công nghệ rẻ",
+          title: "Build PC",
           description: " ",
         },
         components: {
           default: usePage("builderPC"),
-          header: useComponentLayout("Header"),
+          header: useComponentLayout("Nav"),
           footer: useComponentLayout("Footer"),
         },
       },
