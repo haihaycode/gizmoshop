@@ -56,20 +56,6 @@ const publicRoutes = [
                 }
             },
             {
-                path: "/builder",
-                name: "builder",
-                meta: {
-                    title: "Đồ công nghệ rẻ",
-                    description: "Gizmo",
-                },
-                components: {
-                    default: usePage("builderPC"),
-                    header: useComponentLayout("Header"),
-                    footer: useComponentLayout("Footer"),
-                    mobile: useComponentLayout('ResponsiveMobile')
-                },
-            },
-            {
                 path: '',
                 name: 'home',
                 meta: {
@@ -125,10 +111,22 @@ const publicRoutes = [
                     default: usePage('testthanhtoan'),
                     header: useComponentLayout('Nav'),
                     footer: useComponentLayout('Footer'),
-                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent'),
-                    mobile: useComponentLayout('ResponsiveMobile')
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent')
 
                 }
+            },
+            {
+                path: "/builder",
+                name: "builder",
+                meta: {
+                    title: "Build PC",
+                    description: " ",
+                },
+                components: {
+                    default: usePage("builderPC"),
+                    header: useComponentLayout("Nav"),
+                    footer: useComponentLayout("Footer"),
+                },
             },
 
 

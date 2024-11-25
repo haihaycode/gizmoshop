@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap w-full" ref="content">
     <!-- Thành phần danh sách sản phẩm chiếm 7 phần -->
-    <div class="w-full">
+    <div class="w-full  mt-6">
       <ListProduct />
     </div>
 
