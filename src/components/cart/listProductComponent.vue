@@ -89,11 +89,10 @@
         </div>
 
         <div class="flex items-center space-x-2">
-          <!-- Giảm số lượng -->
           <button
             class="text-gray-500 border border-gray-300 rounded-full w-8 h-8 items-center justify-center hover:bg-gray-100 transition duration-200"
             @click="updateQuantity(index, -1)"
-            :disabled="isLoading"
+            :disabled="isLoading || product.quantity <= 1"
           >
             -
           </button>
@@ -354,18 +353,20 @@ export default {
       const product = this.cartItems[index];
       const currentQuantity = product.quantity;
       const newQuantity = currentQuantity + delta;
+
       this.isLoading = true; // Bắt đầu loading
       try {
-        if (newQuantity > currentQuantity) {
-          const addQuantity = newQuantity - currentQuantity;
-          await addProductToCart(product.productId.id, addQuantity);
+        if (newQuantity < 1) {
+          // Gọi hàm xóa sản phẩm nếu số lượng mới nhỏ hơn 1
+          await this.removeProduct(index);
+          notificationService.success("Sản phẩm đã được xóa khỏi giỏ hàng");
+        } else {
+          // Cập nhật số lượng sản phẩm
+          const quantityChange = newQuantity - currentQuantity;
+          await addProductToCart(product.productId.id, quantityChange);
           notificationService.success("Số lượng sản phẩm đã được cập nhật");
-        } else if (newQuantity < currentQuantity) {
-          const TruQuantity = currentQuantity - newQuantity;
-          await addProductToCart(product.productId.id, -TruQuantity);
-          notificationService.success("Số lượng sản phẩm đã được cập nhật");
+          this.cartItems[index].quantity = newQuantity;
         }
-        this.cartItems[index].quantity = newQuantity;
       } catch (error) {
         if (error.response?.data?.message) {
           alert(`Lỗi: ${error.response.data.message}`);
