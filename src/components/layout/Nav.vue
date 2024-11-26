@@ -111,7 +111,7 @@
               </div>
 
               <!-- Các link menu khác -->
-              <a href="#"
+              <a href="/builder"
                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i class="bx bx-notepad mr-2"></i>
                 <span class="hidden lg:inline">Xây dựng cấu hình</span>

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-1">
+  <div class="p-1 max-scroll-container">
     <!-- Tiêu đề -->
     <div
       class="flex items-center justify-between mb-2 border-b rounded border-gray-200 pb-2 hover:border-red-600 transition duration-300"
@@ -13,7 +13,6 @@
         class="flex items-center text-red-600 hover:text-red-800 transition duration-300 relative group"
       >
         <i class="bx bx-cart text-2xl"></i>
-
         <span
           class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition"
         >
@@ -40,10 +39,11 @@
         Tiếp tục mua sắm
       </a>
     </div>
+
     <!-- Danh sách sản phẩm -->
     <div v-else>
       <div
-        v-for="(product) in cartItems"
+        v-for="product in cartItems"
         :key="product.id"
         class="bg-white p-2 mb-2 flex items-center justify-between hover:shadow transition duration-200 border-b"
       >
@@ -65,7 +65,7 @@
             <p class="text-gray-600 text-xs mt-1">
               {{
                 truncateDescription(
-                  product.productId.productLongDescription,
+                  product.productId.productShortDescription,
                   20
                 )
               }}"
@@ -80,15 +80,12 @@
         </div>
 
         <div class="flex items-center">
-    
-
           <!-- Input số lượng sản phẩm -->
           <input
             type="text"
             v-model.number="product.quantity"
             class="w-8 h-4 text-center border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none text-xs"
           />
-
         </div>
       </div>
 
@@ -127,8 +124,17 @@ export default {
     this.getViewCart();
   },
   methods: {
-    truncateDescription(text, length) {
-      return text.length > length ? text.substring(0, length) + "..." : text;
+   truncateDescription(text, maxLength) {
+      if (!text || typeof text !== "string") {
+        return "";
+      }
+      const bracketIndex = text.indexOf("[");
+
+      if (bracketIndex !== -1 && bracketIndex <= maxLength) {
+        text = text.slice(0, bracketIndex);
+      }
+
+      return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
     },
     async getViewCart() {
       this.isLoading = true; // Bắt đầu loading
@@ -162,6 +168,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .loader {
   border: 4px solid #f3f3f3;
@@ -179,5 +186,32 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Class to enable scroll only on Y-axis and hide X-axis scroll */
+
+.max-scroll-container {
+  max-height: 500px;
+  overflow-y: auto; /* Cho phép cuộn dọc */
+  overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+}
+
+/* Tùy chỉnh thanh cuộn dọc */
+.max-scroll-container::-webkit-scrollbar {
+  width: 3px; /* Độ rộng của thanh cuộn */
+}
+
+.max-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #f1f1f1; /* Màu sắc của phần thanh cuộn có thể kéo */
+  border-radius: 4px; /* Bo tròn góc thanh cuộn */
+}
+
+.max-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: #f1f1f1; /* Màu sắc khi hover lên thanh cuộn */
+}
+
+.max-scroll-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Màu nền của đường trượt thanh cuộn */
+  border-radius: 4px; /* Bo tròn đường trượt */
 }
 </style>
