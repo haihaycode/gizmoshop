@@ -324,6 +324,10 @@ export default {
       }
     },
     toggleCartModal() {
+      if (!this.token) {
+        notificationService.info('Vui lòng đăng nhập');
+        return;
+      }
       this.isCartModalOpen = !this.isCartModalOpen;
     },
     toggleMenu() {

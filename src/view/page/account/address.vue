@@ -1,7 +1,10 @@
 <template>
     <div class="p-6  min-h-screen space-y-6">
-        <div>
+        <div class="flex justify-between">
             <h2 class="text-xl font-semibold text-gray-600 mb-4">Địa chỉ giao hàng</h2>
+            <span class="text-sm font-semibold text-gray-600 mb-4 cursor-pointer" @click="openEditModal(null)">+ Thêm
+                địa chỉ
+            </span>
         </div>
         <div v-if="addresses.length" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <AddressBoxComponent v-for="address in addresses.filter(address => !address.deleted)" :key="address?.id"

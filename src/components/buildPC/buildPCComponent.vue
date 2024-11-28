@@ -7,29 +7,21 @@
           PC Builder
         </div>
         <div class="w-1/3">
-          <input
-            v-model="searchQuery"
-            @input="filterComponents"
-            type="text"
+          <input v-model="searchQuery" @input="filterComponents" type="text"
             class="w-full p-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
-            placeholder="Tìm kiếm linh kiện..."
-          />
+            placeholder="Tìm kiếm linh kiện..." />
         </div>
       </div>
     </header>
 
-    <div
-      class="container mx-auto flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-8 mt-6"
-    >
+    <div class="container mx-auto flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-8 mt-6">
       <!-- Sidebar -->
       <div class="w-full lg:w-1/4 bg-gray-50 p-6 rounded-xl shadow-sm">
         <div class="space-y-4">
           <div v-for="(component, key) in components" :key="key">
             <h4 class="text-md font-medium mb-2">{{ component.label }}</h4>
-            <button
-              @click="openModal(component.categoryId, key)"
-              class="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition"
-            >
+            <button @click="openModal(component.categoryId, key)"
+              class="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition">
               Chọn {{ component.label }}
             </button>
           </div>
@@ -41,22 +33,13 @@
         <div class="bg-gray-50 p-6 rounded-xl shadow-sm">
           <h3 class="text-lg font-semibold mb-2">Cấu hình của bạn</h3>
           <div class="space-y-2">
-            <div
-              v-for="(component, key) in components"
-              :key="key"
+            <div v-for="(component, key) in components" :key="key"
               class="flex items-center justify-between p-2 rounded-lg"
-              :class="{ 'bg-green-100': component.selected.name }"
-            >
+              :class="{ 'bg-green-100': component.selected.name }">
               <div class="flex items-center space-x-4">
-                <div
-                  class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg"
-                >
-                  <img
-                    v-if="component.selected.image"
-                    :src="loadImage(component.selected.image, 'product')"
-                    :alt="component.label"
-                    class="w-full h-full object-cover rounded-lg"
-                  />
+                <div class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-lg">
+                  <img v-if="component.selected.image" :src="loadImage(component.selected.image, 'product')"
+                    :alt="component.label" class="w-full h-full object-cover rounded-lg" />
                 </div>
                 <div>
                   <p class="text-md font-medium">{{ component.label }}</p>
@@ -68,11 +51,8 @@
               <p class="text-sm text-gray-500">Số lượng: 1</p>
             </div>
           </div>
-          <button
-            @click="finalizeBuild"
-            :disabled="isLoading"
-            class="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition flex items-center justify-center"
-          >
+          <button @click="finalizeBuild" :disabled="isLoading"
+            class="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition flex items-center justify-center">
             <span v-if="isLoading" class="loader"></span>
             <!-- Hiển thị spinner khi loading -->
             <span v-else>Hoàn tất cấu hình</span>
@@ -81,27 +61,14 @@
       </div>
     </div>
 
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center"
-    >
-      <div
-        class="bg-white p-6 rounded-lg w-full max-w-lg max-h-[500px] h-auto flex flex-col overflow-hidden"
-      >
+    <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center">
+      <div class="bg-white p-6 rounded-lg w-full max-w-lg max-h-[500px] h-auto flex flex-col overflow-hidden">
         <h3 class="text-lg font-semibold mb-4">Chọn {{ modalLabel }}</h3>
         <div class="space-y-4 flex-1 overflow-auto" v-if="!isLoadingModal">
-          <div
-            v-for="item in modalItems"
-            :key="item.id"
-            class="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
-          >
+          <div v-for="item in modalItems" :key="item.id"
+            class="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
             <div class="flex items-center space-x-4">
-              <img
-                v-if="item.image"
-                :src="loadImage(item.image, 'product')"
-                alt=""
-                class="w-16 h-16 object-cover"
-              />
+              <img v-if="item.image" :src="loadImage(item.image, 'product')" alt="" class="w-16 h-16 object-cover" />
               <p class="text-md font-medium">{{ item.name }}</p>
             </div>
 
@@ -110,20 +77,16 @@
               Số lượng còn lại: {{ item.stockQuantity }}
             </p>
 
-            <button
-              @click="selectComponent(item)"
-              class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
-            >
+            <button @click="selectComponent(item)"
+              class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
               Chọn
             </button>
           </div>
         </div>
         <div v-else class="text-center text-gray-500">Đang tải...</div>
 
-        <button
-          @click="closeModal"
-          class="bottom-0 w-full mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-400 transition"
-        >
+        <button @click="closeModal"
+          class="bottom-0 w-full mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-400 transition">
           Đóng
         </button>
       </div>
@@ -135,7 +98,11 @@ import { getProductByCategoryInventory } from "@/api/productApi";
 import { loadImage } from "@/services/imageService";
 import notificationService from "@/services/notificationService";
 import { addProductToCart } from "@/api/CartApi";
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters('auth', ['token', 'user', 'name', 'role']),
+  },
   data() {
     return {
       isLoading: false,
@@ -215,6 +182,10 @@ export default {
       this.closeModal();
     },
     async finalizeBuild() {
+      if (!this.token) {
+        notificationService.info("Vui lòng đăng nhập");
+        return;
+      }
       const allSelected = this.components.every(
         (component) => component.selected && component.selected.name
       );
@@ -270,6 +241,7 @@ export default {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

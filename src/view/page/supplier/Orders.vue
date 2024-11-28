@@ -16,7 +16,7 @@
             <button class="px-4 py-2 border-b-2 hover:bg-blue-200 "
                 :class="currentTab === 'inProgress' ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-600'"
                 @click="setTab('inProgress')">
-                Đơn hàng đang giao dịch
+                Đơn hàng gần đây (mới)
             </button>
             <button class="px-4 py-2 border-b-2 hover:bg-green-200 "
                 :class="currentTab === 'completed' ? 'border-green-500 text-green-500' : 'border-transparent text-gray-600'"
@@ -116,27 +116,33 @@
                 <!-- Description Section -->
                 <div class="mb-6 text-gray-700">
                     <p class="mb-4">Quy trình xử lý đơn hàng gồm 3 giai đoạn:</p>
-                    <ol class="list-decimal pl-6 space-y-2">
+                    <ol class="list-decimal pl-6 space-y-4">
                         <li>
-                            <strong>Giai đoạn 1:</strong> Nhà cung cấp gửi đơn hàng qua.
+                            <div class="font-semibold mb-2">Giai đoạn 1:</div>
+                            <p>Nhà cung cấp gửi đơn hàng qua.</p>
                         </li>
                         <li>
-                            <strong>Giai đoạn 2:</strong> Nhân viên xem xét đơn hàng và sản phẩm:
-                            <ul class="list-disc pl-6">
-                                <li>Nếu chấp nhận: Đơn hàng được gửi lại nhà cung cấp để xác nhận.</li>
-                                <li>Nếu từ chối: Đơn hàng sẽ bị từ chối.</li>
+                            <div class="font-semibold mb-2">Giai đoạn 2:</div>
+                            <p>Nhân viên xem xét đơn hàng và sản phẩm:</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li><span class="font-bold text-green-600">Nếu chấp nhận:</span> Đơn hàng được gửi lại
+                                    nhà cung cấp để xác nhận.</li>
+                                <li><span class="font-bold text-red-600">Nếu từ chối:</span> Đơn hàng sẽ bị từ chối.
+                                </li>
                             </ul>
                         </li>
                         <li>
-                            <strong>Giai đoạn 3:</strong> Nhà cung cấp xác nhận:
-                            <ul class="list-disc pl-6">
-                                <li>Nếu từ chối: Đơn hàng sẽ bị từ chối bởi nhà cung cấp.</li>
-                                <li>Nếu đồng ý: Nhân viên thêm sản phẩm vào cửa hàng.</li>
+                            <div class="font-semibold mb-2">Giai đoạn 3:</div>
+                            <p>Nhà cung cấp xác nhận:</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li><span class="font-bold text-red-600">Nếu từ chối:</span> Đơn hàng sẽ bị từ chối bởi
+                                    nhà cung cấp.</li>
+                                <li><span class="font-bold text-green-600">Nếu đồng ý:</span> Nhân viên thêm sản phẩm
+                                    vào cửa hàng.</li>
                             </ul>
                         </li>
                     </ol>
                 </div>
-
                 <!-- Diagram Section -->
                 <div id="diagramContainer" class="border p-4 bg-gray-50 rounded-sm h-96 overflow-auto"></div>
 
@@ -158,9 +164,10 @@
 <script>
 import CardOrder from "@/components/orderForSupplier/CardOrder.vue";
 import ModalOrderDetail from "@/components/orderForSupplier/ModalOrderDetail.vue";
-import { findAllOrderForSupplier } from "@/api/orderForSupplierApi";
+import { findAllOrderForSupplier, approveOrderBySupplier } from "@/api/orderForSupplierApi";
 import Pagination from "@/components/containers/pagination/Pagination.vue";
 import flowchart from "flowchart.js";
+import Swal from "sweetalert2";
 export default {
     name: "OrdersPage",
     components: {
@@ -201,20 +208,35 @@ export default {
         openProcessDiagram() {
             this.showProcessModal = true;
             const diagramCode = `
-                st=>start: Giai đoạn 1: Nhà cung cấp gửi đơn hàng qua
-                e=>end: Kết thúc
-                op1=>operation: Nhân viên xem xét đơn hàng & sản phẩm
-                cond1=>condition: Đơn hàng được chấp nhận?
-                op2=>operation: Nhà cung cấp xác nhận đơn hàng
-                cond2=>condition: Nhà cung cấp từ chối?
-                op3=>operation: Nhân viên thêm sản phẩm vào cửa hàng
+    st=>start: Đối tác gửi order
+    e=>end: Kết thúc
 
-                st->op1->cond1
-                cond1(yes)->op2->cond2
-                cond1(no)->e
-                cond2(yes)->e
-                cond2(no)->op3->e
-            `;
+    op1=>operation: Nhân viên xét duyệt
+    cond1=>condition: Xác nhận hay từ chối?
+
+    op2=>operation: OrderStatus: 9\nLưu vào sản phẩm mà admin muốn xóa
+    op3=>operation: OrderStatus: 26\nAll Product: 3
+
+    op4=>operation: Đối tác xác nhận
+    cond2=>condition: Chấp nhận hay từ chối?
+
+    op5=>operation: Trừ điểm\nOrderStatus: 9
+    op6=>operation: OrderStatus: 19\nChuyển toàn bộ sản phẩm thành status: 3
+
+    op7=>operation: Nhân viên xác nhận
+    op8=>operation: Xác nhận\nOrderStatus: 10\nToàn bộ sản phẩm StatusProduct: 1
+    op9=>operation: Từ chối\nOrderStatus: 28\nTạo giao dịch chuyển tiền và báo lỗi về nhà cung cấp
+
+    st->op1->cond1
+    cond1(yes)->op2->e
+    cond1(no)->op3->op4
+    op4->cond2
+    cond2(yes)->op5->e
+    cond2(no)->op6->op7
+    op7->op8->e
+    op7->op9->e
+`;
+
             const diagram = flowchart.parse(diagramCode);
             setTimeout(() => {
                 diagram.drawSVG("diagramContainer");
@@ -316,6 +338,65 @@ export default {
                 28: "Đơn hàng bị từ chối bởi cửa hàng",
             };
             return statuses[statusId] || "Không xác định";
+        },
+        async approveOrder(idOrder) {
+            const result = await Swal.fire({
+                title: "Xác nhận chấp nhận đơn hàng?",
+                text: "Bạn có chắc chắn muốn chấp nhận đơn hàng này?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Xác nhận",
+                cancelButtonText: "Hủy",
+                reverseButtons: true,
+            });
+            if (result.isConfirmed) {
+                try {
+                    await approveOrderBySupplier(idOrder, true);
+                    this.fetchOrders(this.currentTab);
+                    Swal.fire(
+                        "Thành công!",
+                        "Đơn hàng đã được chấp nhận.",
+                        "success"
+                    );
+                } catch (err) {
+                    console.error(err);
+                    Swal.fire(
+                        "Thất bại!",
+                        "Không thể chấp nhận đơn hàng. Vui lòng thử lại.",
+                        "error"
+                    );
+                }
+            }
+        },
+        async rejectOrder(idOrder) {
+            const result = await Swal.fire({
+                title: "Xác nhận từ chối đơn hàng?",
+                text: "Bạn có chắc chắn muốn từ chối đơn hàng này?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Xác nhận",
+                cancelButtonText: "Hủy",
+                reverseButtons: true,
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    await approveOrderBySupplier(idOrder, false);
+                    Swal.fire(
+                        "Thành công!",
+                        "Đơn hàng đã bị từ chối.",
+                        "success"
+                    );
+                    this.fetchOrders(this.currentTab);
+                } catch (err) {
+                    console.error(err);
+                    Swal.fire(
+                        "Thất bại!",
+                        "Không thể từ chối đơn hàng. Vui lòng thử lại.",
+                        "error"
+                    );
+                }
+            }
         },
     },
 };

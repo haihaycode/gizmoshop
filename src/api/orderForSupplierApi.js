@@ -43,3 +43,23 @@ export const findAllOrderForSupplier = async (filter = {}) => {
         throw error;
     }
 };
+
+
+//từ chối đơn hàng
+//chấp nhận đơn hàng 
+
+export const approveOrderBySupplier = async (orderId, accept) => {
+    try {
+        const response = await Axios.post(
+            `${HOST}/api/public/supplier/t/approve-order/${orderId}`,
+            null,
+            {
+                params: { accept },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};

@@ -151,13 +151,10 @@ export default {
                 const price = item.price || 0;
                 const quantity = item.quantity || 0;
                 const discount = item.product?.discountProduct || 0; // Giảm giá theo %
-
                 // Tính tổng giá trị của sản phẩm trước giảm giá
                 const originalTotal = price * quantity;
-
                 // Tính giá trị sau giảm giá
                 const discountedTotal = originalTotal * (1 - discount / 100);
-
                 // Cộng dồn vào tổng
                 return total + discountedTotal;
             }, 0);

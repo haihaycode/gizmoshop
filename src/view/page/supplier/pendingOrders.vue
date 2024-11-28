@@ -160,10 +160,9 @@ export default {
             this.orders = this.orders.filter((order) => order.id !== orderId);
             localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
         },
-        sendOrder(orderId) {
+        async sendOrder(orderId) {
             const orderToSend = this.orders.find((order) => order.id === orderId);
-            console.log(orderToSend)
-            this.sendOrderFinalToShop(orderToSend)
+            await this.sendOrderFinalToShop(orderToSend)
             // thực hiện logic trước khi xóas đơn hàng
             this.orders = this.orders.filter((order) => order.id !== orderId);
             localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
@@ -231,11 +230,11 @@ export default {
 
             //tạo order
             const resOrder = await createOrderBySupplier(dataOrder)
-            this.handleCreateProduct(resOrder.data, data);
+            await this.handleCreateProduct(resOrder.data, data);
             notificationService.success("Gửi đơn hàng Thành công tiến hàng giao dịch ");
         },
         async handleCreateProduct(resDataOrder, reqData) {
-            reqData.products.map(async (item) => {
+            await reqData.products.map(async (item) => {
                 const transformedSpecifications = item.specifications
                     ? item.specifications.reduce((acc, spec) => {
                         if (spec && spec.key != null && spec.value != null) {
@@ -265,7 +264,6 @@ export default {
                     orderRequest: null
                 }
                 const res = await createProductBySupplier(data, resDataOrder.id);
-
                 if (item.selectedImages && Array.isArray(item.selectedImages)) {
                     let listImage = item.selectedImages.map((img) => convertBase64ToFile(img.base64));
                     console.log(listImage)
