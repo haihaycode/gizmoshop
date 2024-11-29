@@ -13,7 +13,7 @@
             <BankAccountComponent v-for="account in bankAccounts.filter(bank => !bank?.deleted)"
                 :key="account?.accountId" :account="account" @edit="openEditModal(account)" />
             <div class="flex items-center justify-center bg-white h-[100px] border border-gray-300 rounded-2xl shadow-sm cursor-pointer hover:bg-gray-100 transition duration-200"
-                @click="isModalOpen = true">
+                @click="() => { isModalOpen = true, toggleNav(false) }">
                 <span class="text-4xl text-gray-500">+</span>
             </div>
         </div>
@@ -33,7 +33,7 @@ import { addWallet, getWallet, updateWallet, deleteWallet } from '@/api/auth/wal
 import BankAccountComponent from '@/components/bankAccount/BankAccountComponent.vue';
 import BankAccountModal from '@/components/bankAccount/BankAccountModal.vue';
 import notificationService from '@/services/notificationService';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'BankPage',
     components: {
@@ -59,6 +59,10 @@ export default {
         ...mapGetters('loading', ['isLoading']),
     },
     methods: {
+        ...mapActions('nav', ['setNavMenuOpen']),
+        toggleNav(isOpen) {
+            this.setNavMenuOpen(isOpen);
+        },
         async handleFetchWallet() {
             try {
                 const res = await getWallet();
@@ -68,14 +72,17 @@ export default {
             }
         },
         openNewBankAccountModal() {
+            this.toggleNav(false)
             this.selectedAccount = null;
             this.isModalOpen = true;
         },
         openEditModal(account) {
+            this.toggleNav(false)
             this.selectedAccount = { ...account };
             this.isModalOpen = true;
         },
         closeModal() {
+            this.toggleNav(true)
             this.selectedAccount = null;
             this.isModalOpen = false;
         },

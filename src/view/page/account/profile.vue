@@ -54,7 +54,8 @@
                 <div class="flex flex-col items-center">
                     <img :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/100'"
                         alt="User avatar" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4" />
-                    <Button @click="modalUpdateImageIsOpen = true" type="button" :text="'Chọn Ảnh '"
+                    <Button @click="() => { modalUpdateImageIsOpen = true, toggleNav(false) }" type="button"
+                        :text="'Chọn Ảnh '"
                         class="bg-red-500 font-semibold px-4 py-2 rounded-sm hover:bg-gray-300 focus:outline-none">
                         Chọn Ảnh
                     </Button>
@@ -67,9 +68,10 @@
         </form>
 
         <!-- Modals -->
-        <updateAvatarForUserComponent :isOpen="modalUpdateImageIsOpen" @close="modalUpdateImageIsOpen = false"
-            :currentImage="user?.image" :account="user" @update-success="handleFetchInfo" />
-        <ChangeEmail :isOpen="modalUpdateEmailIsOpen" @close="modalUpdateEmailIsOpen = false"
+        <updateAvatarForUserComponent :isOpen="modalUpdateImageIsOpen"
+            @close="modalUpdateImageIsOpen = false, toggleNav(true)" :currentImage="user?.image" :account="user"
+            @update-success="handleFetchInfo" />
+        <ChangeEmail :isOpen="modalUpdateEmailIsOpen" @close="modalUpdateEmailIsOpen = false, toggleNav(true)"
             @update-success="handleFetchInfo" />
     </div>
 </template>
@@ -84,7 +86,7 @@ import ChangeEmail from '@/components/yourAccount/changeEmail.vue';
 // import BreadcrumbComponent from '@/components/containers/breadcrumb/BreadcrumbComponent.vue';
 import CustomInputComponent from '@/components/containers/input/CustomInputComponent.vue';
 import Button from '@/components/containers/buttons/button.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'ProfilePage',
     components: {
@@ -124,6 +126,10 @@ export default {
     },
     methods: {
         loadImage,
+        ...mapActions('nav', ['setNavMenuOpen']),
+        toggleNav(isOpen) {
+            this.setNavMenuOpen(isOpen);
+        },
         async handleFetchInfo() {
             try {
                 const response = await getinfo();
@@ -187,6 +193,7 @@ export default {
             } catch (error) {
                 console.error("Failed to update account:", error);
             }
+            this.toggleNav(true)
         }
     }
 };

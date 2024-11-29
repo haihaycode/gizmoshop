@@ -21,17 +21,20 @@
             </div>
         </div>
         <div v-else>
-            <p class="text-lg text-gray-500">Vui lòng quay lại trang thông tin cá nhân để thêm ngân hàng và quay lại đây
-                đăng ký </p>
+            <p class="text-sm text-gray-500">(*) Vui lòng quay lại trang thông tin cá nhân để thêm ngân hàng và quay lại
+                đây
+                đăng ký <router-link :to="{ name: 'bank' }" class="text-blue-500 underline">
+                    Quay lại thêm ngân hàng
+                </router-link> </p>
         </div>
 
-        <p class="mb-4 mt-4">
+        <p v-if="banks.length > 0" class="mb-4 mt-4">
             B2: Để hoàn tất quá trình đăng ký, vui lòng chọn tài khoản ngân hàng của bạn. Trong trường hợp đăng ký không
             thành công, số tiền
             <b>200.000 VND</b> sẽ được hoàn trả về tài khoản đã đăng ký.
         </p>
 
-        <p class="text-gray-400 text-sm md:text-base mt-4 text-center italic">
+        <p v-if="banks.length > 0" class="text-gray-400 text-sm md:text-base mt-4 text-center italic">
             <Button :disabled="!banks.length || !selectedBank" @click="submitPayment"
                 :text="banks.length ? (selectedBank ? 'Tiến hành thanh toán' : 'Chọn ngân hàng để tiếp tục') : 'Vui lòng quay lại trang thông tin cá nhân để thêm ngân hàng'"
                 class="hover:bg-red-500" />
@@ -43,6 +46,7 @@
 import { getWallet } from '@/api/auth/walletApi';
 import BankAccountComponent from '@/components/bankAccount/BankAccountComponent.vue';
 import Button from '@/components/containers/buttons/button.vue';
+import notificationService from '@/services/notificationService';
 
 export default {
     data() {
@@ -65,13 +69,14 @@ export default {
             }
         },
         handleSelectBank(bank) {
-            this.selectedBank = bank; // Lưu ngân hàng được chọn
+            this.selectedBank = bank;
         },
         submitPayment() {
+
             if (this.selectedBank) {
                 this.$emit('complete', this.selectedBank);
             } else {
-                alert('Vui lòng chọn ngân hàng trước khi thanh toán.');
+                notificationService.info('Vui lòng chọn ngân hàng trước khi thanh toán.');
             }
         },
     },

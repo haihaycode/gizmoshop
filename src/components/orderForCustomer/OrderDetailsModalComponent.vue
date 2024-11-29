@@ -34,7 +34,7 @@
                     <p v-if="order.vouchers[0].voucher.discountAmount !== 0">
                         <strong>Giảm :</strong> <span class="text-red-500 text-xl"> {{
                             formatCurrencyVN(order.vouchers[0].voucher.discountAmount)
-                            }}</span>
+                        }}</span>
                     </p>
 
                     <!-- Check if discount is a percentage, and display max discount if applicable -->
@@ -158,5 +158,23 @@ export default {
 
 .table img {
     object-fit: cover;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #88888800;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f12c;
 }
 </style>

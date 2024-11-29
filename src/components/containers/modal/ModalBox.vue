@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isOpen" class="z-50 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
+    <div v-if="isOpen" class="z-50 fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 ">
         <div class="relative max-h-screen overflow-y-auto p-6 bg-white shadow-lg md:p-8 rounded-sm">
             <!-- Loading state -->
             <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">

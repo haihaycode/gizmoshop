@@ -1,14 +1,21 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <nav class="bg-white shadow-xl z-50 fixed w-full top-0 left-0 rounded-sm">
+  <nav v-if="isNavOpen" class="bg-white shadow-xl z-30 fixed w-full top-0 left-0 rounded-sm">
     <div class="mx-auto">
       <div class="relative max-w-7xl flex items-center mx-auto justify-between h-16">
         <!-- Logo (hiển thị trên màn hình từ tablet trở lên) -->
         <div class="hidden md:flex items-center justify-center flex-shrink-0">
-          <a href="/" class="text-black font-serif text-2xl ml-1">GizmoShop</a>
+          <a href="/" class="text-black font-serif font-bold text-2xl ml-1">Gizmo<span class="text-red-500 underline">
+              Shop
+            </span>
+          </a>
         </div>
+        <!-- Logo (hiển thị trên màn hình điện thoại) -->
         <div class="block sm:hidden items-center justify-center flex-shrink-0">
-          <a href="/" class="text-black font-serif text-2xl ml-1">GizmoShop</a>
+          <a href="/" class="text-black font-serif font-bold text-2xl ml-3">Gizmo<span class="text-red-500 underline">
+              Shop
+            </span>
+          </a>
         </div>
 
         <!-- Search input (hiển thị trên màn hình từ tablet trở lên) -->
@@ -172,13 +179,13 @@
     </div>
     <transition name="fade">
       <div v-if="isCartModalOpen" v-show="isVisible"
-        class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-50">
+        class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-30">
         <ListProductComponent></ListProductComponent>
       </div>
     </transition>
 
     <transition name="fade" @click="isProfileOpen = false">
-      <div v-if="isProfileOpen" class="absolute top-20 right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-50">
+      <div v-if="isProfileOpen" class="absolute top-20 right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-30">
         <div class="flex items-center mb-4">
           <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center text-base font-bold">
             {{ token ? 'Gizmo' : 'Gizmo' }}
@@ -256,10 +263,6 @@
 
 
   </nav>
-
-
-
-
 </template>
 
 <script>
@@ -347,6 +350,7 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['token', 'user', 'name', 'role']),
+    ...mapGetters('nav', ['isNavOpen']),
   }
 };
 </script>

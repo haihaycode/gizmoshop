@@ -40,7 +40,7 @@
 import * as yup from 'yup';
 import ModalBox from '@/components/containers/modal/ModalBox.vue';
 import CustomInputComponent from '@/components/containers/input/CustomInputComponent.vue';
-
+import { mapActions } from 'vuex';
 export default {
     name: 'BankAccountModal',
     components: {
@@ -73,7 +73,12 @@ export default {
         }
     },
     methods: {
+        ...mapActions('nav', ['setNavMenuOpen']),
+        toggleNav(isOpen) {
+            this.setNavMenuOpen(isOpen);
+        },
         closeModal() {
+            this.toggleNav(true)
             this.$emit('close');
         },
         validateAndSave() {

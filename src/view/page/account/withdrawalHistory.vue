@@ -22,13 +22,14 @@
         <p v-else class="text-gray-500 text-center italic mt-6 p-3">Không có giao dịch rút tiền nào.</p>
 
         <!-- Withdrawal Details Modal -->
-        <WithdrawalDetailsModal :isOpen="isModalOpen" :withdrawal="selectedWithdrawal" @close="isModalOpen = false" />
+        <WithdrawalDetailsModal :isOpen="isModalOpen" :withdrawal="selectedWithdrawal"
+            @close="isModalOpen = false; toggleNav(true)" />
     </div>
 </template>
 
 <script>
 import { getWithdrawalHistory } from '@/api/auth/withDrawalHistoryApi';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import ItemCardComponent from '@/components/withdrawalHistory/ItemCardComponent.vue';
 import WithdrawalDetailsModal from '@/components/withdrawalHistory/WithdrawalDetailsModalComponent.vue';
 import DateFilter from '@/components/orderForCustomer/DateFilterComponent.vue';
@@ -66,7 +67,12 @@ export default {
         this.handleFetchWithdrawals();
     },
     methods: {
+        ...mapActions('nav', ['setNavMenuOpen']),
+        toggleNav(isOpen) {
+            this.setNavMenuOpen(isOpen);
+        },
         openModal(withdrawal) {
+            this.toggleNav(false);
             this.selectedWithdrawal = withdrawal;
             this.isModalOpen = true;
         },
