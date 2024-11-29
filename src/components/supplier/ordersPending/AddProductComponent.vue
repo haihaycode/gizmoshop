@@ -12,6 +12,7 @@
         <CustomInputComponent v-model="form.discountProduct" label="Giảm Giá (%)" type="number"
             :error="!!errors.discountProduct" :message="errors.discountProduct" />
 
+
         <CustomInputComponent v-model="form.quantity" label="Số lượng" type="number" :error="!!errors.quantity"
             :message="errors.quantity" />
 
@@ -42,6 +43,7 @@
         <ckeditor v-model="form.productLongDescription" :editor="editor" @ready="onEditorReady"
             @change="onEditorChange">
         </ckeditor>
+        <p v-if="errors.productLongDescription" class="text-red-500 text-sm">{{ errors.productLongDescription }}</p>
         <!-- Kích thước và cân nặng -->
         <div class="grid grid-cols-3 gap-4">
             <CustomInputComponent v-model="form.productWidth" label="Chiều Rộng (cm)" type="number"
@@ -80,8 +82,6 @@
                 :listImages="form?.selectedImages ? form.selectedImages : []">
             </uploadImageComponent>
         </div>
-
-
 
 
         <!-- Nút hành động -->
@@ -201,10 +201,13 @@ export default {
                     .min(1, "Giá phải lớn hơn 0"),
                 productPrice: yup
                     .number()
+                    .min(5000, "Số tiền phải lớn hơn >=5.000VND")
+                    .transform((value) => parseFloat(value))
                     .required("Giá sản phẩm là bắt buộc")
                     .min(1, "Giá phải lớn hơn 0"),
                 discountProduct: yup
                     .number()
+                    .required("Số lượng sản phẩm là bắt buộc")
                     .min(0, "Giảm giá không hợp lệ")
                     .max(100, "Giảm giá không được vượt quá 100%"),
                 productCategory: yup

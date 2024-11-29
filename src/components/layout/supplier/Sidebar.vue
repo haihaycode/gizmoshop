@@ -49,15 +49,16 @@
             <a href="/" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                 <span>Quay lại cửa hàng</span>
             </a>
-            <a href="#" class="flex items-center px-4 py-2 text-blue-600 hover:bg-red-50 rounded-lg">
-                <span>Logout</span>
-            </a>
         </nav>
     </aside>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
     name: "SidebarComponent",
+    methods: {
+        ...mapActions('auth', ['logout']),
+    }
 };
 </script>

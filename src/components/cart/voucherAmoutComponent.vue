@@ -1,26 +1,14 @@
 <template>
   <div class="bg-white w-full p-4 rounded-lg shadow-lg border border-gray-200">
     <h2 class="text-lg font-bold mb-4">Tổng kết giỏ hàng</h2>
-
     <div class="mb-4">
-      <label class="block text-gray-700 font-medium mb-2">Voucher gợi ý</label>
-      <div
-        class="border p-4 rounded-lg cursor-pointer bg-orange-50 border-orange-500 text-orange-800"
-      >
+      <div class="border p-4 rounded-lg cursor-pointer bg-orange-50 border-orange-500 text-orange-800">
         <div class="flex items-center">
           <div class="w-1/3 mr-4">
-            <img
-              v-if="selectedVoucher && selectedVoucher.image"
-              :src="loadImage(selectedVoucher.image, 'voucher')"
-              alt="Voucher Image"
-              class="w-full h-20 object-cover rounded-lg"
-            />
-            <img
-              v-else
-              src="https://i.pinimg.com/736x/0d/b3/96/0db3963e06b67499f517d7074229f1a9.jpg"
-              alt="Voucher Default Image"
-              class="w-full h-20 object-cover rounded-lg"
-            />
+            <img v-if="selectedVoucher && selectedVoucher.image" :src="loadImage(selectedVoucher.image, 'voucher')"
+              alt="Voucher Image" class="w-full h-20 object-cover rounded-lg" />
+            <img v-else src="https://i.pinimg.com/736x/0d/b3/96/0db3963e06b67499f517d7074229f1a9.jpg"
+              alt="Voucher Default Image" class="w-full h-20 object-cover rounded-lg" />
           </div>
           <div class="w-2/3">
             <h3 class="text-sm font-bold">
@@ -29,58 +17,35 @@
             <p v-if="selectedVoucher" class="text-gray-500">
               Giảm {{ selectedVoucher.discountPercent }}%
             </p>
-            <button
-              class="mt-2 text-sm underline text-orange-600"
-              @click="showModal = true"
-            >
+            <button class="mt-2 text-sm underline text-orange-600" @click="showModal = true">
               Chọn voucher khác
             </button>
           </div>
         </div>
       </div>
     </div>
-
-    <div
-      v-if="showModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-    >
-      <div
-        class="bg-white w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg"
-      >
-        <!-- Tiêu đề Modal -->
-        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-4 text-center">
-          Chọn voucher
-        </h3>
+    <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
+        <div class="flex justify-end mt-6">
+          <button class="px-4 py-2  text-red-500 text-sm sm:text-base rounded-sm" @click="showModal = false">
+            X
+          </button>
+        </div>
         <!-- Danh sách voucher -->
-        <div
-          v-if="vouchers.length > 0"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-        >
-          <div
-            v-for="voucher in vouchers"
-            :key="voucher.id"
-            @click="selectVoucher(voucher)"
-            class="border p-4 rounded-lg cursor-pointer hover:bg-orange-100 border-gray-300 text-gray-700 transition-transform transform hover:scale-105"
+        <div v-if="vouchers.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div v-for="voucher in vouchers" :key="voucher.id" @click="selectVoucher(voucher)"
+            class="border p-4 rounded-lg cursor-pointer hover:bg-gray-100 border-gray-300 text-gray-700 transition-transform transform hover:scale-105"
             :class="{
               'border-orange-500 bg-orange-50':
                 selectedVoucher && selectedVoucher.id === voucher.id,
-            }"
-          >
+            }">
             <div class="flex items-center space-x-4">
               <!-- Hình ảnh voucher -->
               <div class="w-1/3">
-                <img
-                  v-if="voucher.image"
-                  :src="loadImage(voucher.image, 'voucher')"
-                  alt="Voucher Image"
-                  class="w-full h-20 object-cover rounded-lg"
-                />
-                <img
-                  v-else
-                  src="https://i.pinimg.com/736x/0d/b3/96/0db3963e06b67499f517d7074229f1a9.jpg"
-                  alt="Voucher Default Image"
-                  class="w-full h-20 object-cover rounded-lg"
-                />
+                <img v-if="voucher.image" :src="loadImage(voucher.image, 'voucher')" alt="Voucher Image"
+                  class="w-full h-20 object-cover rounded-lg" />
+                <img v-else src="https://i.pinimg.com/736x/0d/b3/96/0db3963e06b67499f517d7074229f1a9.jpg"
+                  alt="Voucher Default Image" class="w-full h-20 object-cover rounded-lg" />
               </div>
 
               <!-- Nội dung voucher -->
@@ -102,16 +67,6 @@
 
         <div v-else class="text-gray-500 text-center">
           Không có voucher khả dụng
-        </div>
-
-        <!-- Nút đóng -->
-        <div class="flex justify-center mt-6">
-          <button
-            class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm sm:text-base rounded-lg"
-            @click="showModal = false"
-          >
-            Đóng
-          </button>
         </div>
       </div>
     </div>
@@ -137,10 +92,7 @@
       <label class="block text-gray-700 font-medium mb-2">
         Chọn địa chỉ giao hàng
       </label>
-      <div
-        @click="toggleAddressList"
-        class="border p-4 rounded-lg cursor-pointer hover:bg-gray-100"
-      >
+      <div @click="toggleAddressList" class="border p-4 rounded-lg cursor-pointer hover:bg-gray-100">
         <p v-if="selectedAddress">
           {{ selectedAddress.city }} - {{ selectedAddress.specificAddress }}
         </p>
@@ -151,23 +103,15 @@
         Bạn chưa thêm địa chỉ nhận hàng
       </div>
 
-      <div
-        v-if="showAddressList && userAddresses.length > 0"
-        class="mt-4 max-h-60 overflow-y-auto"
-      >
-        <div
-          v-for="address in userAddresses"
-          :key="address.id"
-          @click="selectAddress(address)"
-          class="border p-4 rounded-lg mb-2 cursor-pointer hover:bg-orange-50"
-          :class="{
+      <div v-if="showAddressList && userAddresses.length > 0" class="mt-4 max-h-60 overflow-y-auto">
+        <div v-for="address in userAddresses" :key="address.id" @click="selectAddress(address)"
+          class="border p-4 rounded-lg mb-2 cursor-pointer hover:bg-orange-50" :class="{
             'bg-orange-50 border-orange-500':
               selectedAddress && selectedAddress.id === address.id,
             'bg-white border-gray-300': !(
               selectedAddress && selectedAddress.id === address.id
             ),
-          }"
-        >
+          }">
           <p>{{ address.city }} - {{ address.specificAddress }}</p>
           <p class="text-sm text-gray-500">
             {{ address.district }}, {{ address.commune }}
@@ -179,23 +123,15 @@
 
     <div class="mt-2">
       <div class="flex items-center justify-between">
-        <label class="text-gray-700 font-medium"
-          >Chọn ngân hàng (hoàn trả)</label
-        >
-        <button
-          v-if="!showBankList"
-          class="text-red-500 hover:text-red-600 font-sans text-sm"
-          @click="toggleBankList"
-        >
+        <label class="text-gray-700 font-medium">Chọn ngân hàng (hoàn trả)</label>
+        <button v-if="!showBankList" class="text-red-500 hover:text-red-600 font-sans text-sm" @click="toggleBankList">
           Thay đổi <i class="bx bx-edit-alt"></i>
         </button>
       </div>
 
-      <div
-        v-if="selectedBank"
+      <div v-if="selectedBank"
         class="bank-card p-4 bg-white border border-gray-300 w-full rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-transform transform hover:scale-105"
-        @click="toggleBankList"
-      >
+        @click="toggleBankList">
         <div class="bank-info text-center">
           <div class="bank-name text-lg font-semibold text-gray-800">
             {{ selectedBank.bankName }}
@@ -209,12 +145,9 @@
         Bạn chưa liên kết ngân hàng nào.
       </div>
       <div v-if="showBankList && userBanks.length > 0" class="grid gap-4 mt-4">
-        <div
-          v-for="(bank, index) in userBanks"
-          :key="index"
+        <div v-for="(bank, index) in userBanks" :key="index"
           class="bank-card p-4 bg-white border border-gray-300 w-full rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-transform transform hover:scale-105"
-          @click="selectBank(bank)"
-        >
+          @click="selectBank(bank)">
           <div class="bank-info text-center">
             <div class="bank-name text-lg font-semibold text-gray-800">
               {{ bank.bankName }}
@@ -230,25 +163,17 @@
           Chọn phương thức thanh toán
         </label>
         <div class="grid grid-cols-2 gap-4">
-          <div
-            class="payment-method border p-4 rounded-lg cursor-pointer text-center hover:bg-gray-100"
-            :class="{
-              'border-green-500 bg-green-50': selectedPaymentMethod === 'cash',
-              'border-gray-300 bg-white': selectedPaymentMethod !== 'cash',
-            }"
-            @click="selectPaymentMethod('cash')"
-          >
+          <div class="payment-method border p-4 rounded-lg cursor-pointer text-center hover:bg-gray-100" :class="{
+            'border-green-500 bg-green-50': selectedPaymentMethod === 'cash',
+            'border-gray-300 bg-white': selectedPaymentMethod !== 'cash',
+          }" @click="selectPaymentMethod('cash')">
             <i class="bx bx-money text-green-500 text-2xl"></i>
             <p class="mt-2 text-gray-700 font-medium">Thanh toán trực tiếp</p>
           </div>
-          <div
-            class="payment-method border p-4 rounded-lg cursor-pointer text-center hover:bg-gray-100"
-            :class="{
-              'border-green-500 bg-green-50': selectedPaymentMethod === 'bank',
-              'border-gray-300 bg-white': selectedPaymentMethod !== 'bank',
-            }"
-            @click="selectPaymentMethod('bank')"
-          >
+          <div class="payment-method border p-4 rounded-lg cursor-pointer text-center hover:bg-gray-100" :class="{
+            'border-green-500 bg-green-50': selectedPaymentMethod === 'bank',
+            'border-gray-300 bg-white': selectedPaymentMethod !== 'bank',
+          }" @click="selectPaymentMethod('bank')">
             <i class="bx bx-credit-card text-blue-500 text-2xl"></i>
             <p class="mt-2 text-gray-700 font-medium">
               Thanh toán qua ngân hàng
@@ -258,11 +183,8 @@
       </div>
     </div>
 
-    <button
-      v-if="isPurchaseReady"
-      class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 mt-3 rounded w-full"
-      @click="handlePurchase"
-    >
+    <button v-if="isPurchaseReady"
+      class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 mt-3 rounded w-full" @click="handlePurchase">
       Mua Ngay
     </button>
   </div>
@@ -276,7 +198,7 @@ import { getAddressUser } from "@/api/addressApi";
 import { placeOrder } from "@/api/orderForCustomerApi";
 import notificationService from "@/services/notificationService";
 import { createPaymentForOrderCustumer } from "@/api/vnpayApi";
-
+import { mapGetters } from "vuex";
 export default {
   props: {
     totalPrice: {
@@ -301,6 +223,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('auth', ['token', 'user', 'name', 'role']),
     isPurchaseReady() {
       return (
         this.selectedAddress !== null &&
@@ -310,13 +233,13 @@ export default {
     },
     discountAmount() {
       if (this.selectedVoucher) {
-    
+
         if (this.selectedVoucher.discountPercent > 0) {
           const discount =
             (this.totalPrice * this.selectedVoucher.discountPercent) / 100;
           return discount > this.selectedVoucher.maxDiscountAmount
             ? this.selectedVoucher.maxDiscountAmount
-            : discount; 
+            : discount;
         }
         // Nếu voucher có discountAmount cố định
         else if (this.selectedVoucher.discountAmount > 0) {
@@ -331,6 +254,10 @@ export default {
   },
   methods: {
     handlePurchase() {
+      if (!this.token) {
+        notificationService.info("Vui lòng đăng nhập");
+        return
+      }
       console.log("Thông tin mua hàng:");
       console.log("Địa chỉ đã chọn:", this.selectedAddress);
       console.log("Ngân hàng đã chọn:", this.selectedBank);
@@ -465,11 +392,19 @@ export default {
     },
   },
   mounted() {
+    if (!this.token) {
+      notificationService.info("Vui lòng đăng nhập");
+      return;
+    }
     this.handleFetchVoucher();
     this.handleFetchAddress();
     this.handleFetchWallet();
   },
   created() {
+    if (!this.token) {
+      notificationService.info("Vui lòng đăng nhập");
+      return;
+    }
     this.handleFetchWallet();
   },
 };

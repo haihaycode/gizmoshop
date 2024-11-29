@@ -1,43 +1,27 @@
 <template>
     <div class="container mx-auto p-4 flex mt-[130px]">
-        <!-- Left Sidebar Filter (Fixed Position) -->
+        <!-- Left Sidebar Filter -->
         <aside class="w-1/4">
             <SideFilterComponent @filterProducts="updateFilter" />
         </aside>
 
-        <!-- Main Product Display Area -->
+        <!-- Main  -->
         <div class="w-3/4 px-2">
             <BreadcrumbComponent :items="breakCrumb"></BreadcrumbComponent>
-            <!-- Top Sorting Options -->
             <SortOptionsComponent @sortSelected="updateSort" :initialSort="filter.sort"></SortOptionsComponent>
-
-            <!-- Product Grid -->
-
-            <!-- Loading Spinner -->
-
-            <!-- Placeholder for product cards when no products are found -->
             <div v-if="!isLoading && products.length === 0" class="text-center text-gray-500">
                 <p>không có sản phẩm nào</p>
             </div>
-
-            <!-- Display products if available -->
-            <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 min-h-[500px]">
+            <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 ">
                 <ProductCard v-for="product in products" :key="product.id" :product="product" />
-
             </div>
-            <div v-if="isLoading" class="flex justify-center items-center py-10">
-                <svg class="animate-spin h-10 w-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                </svg>
+            <div v-if="isLoading" class="flex justify-center items-center py-10 text-red-500">
+                Đang tải dữ liệu ...
             </div>
-            <Pagination :total-items="pagination?.totalElements || 1" :items-per-page="filter?.limit"
-                :current-page="filter?.page + 1" @page-changed="handlePageChange" @limit-changed="handleLimitChange">
+            <Pagination v-if="!isLoading && products.length > 0" :total-items="pagination?.totalElements || 1"
+                :items-per-page="filter?.limit" :current-page="filter?.page + 1" @page-changed="handlePageChange"
+                @limit-changed="handleLimitChange">
             </Pagination>
-
-
-
         </div>
     </div>
 </template>
@@ -120,7 +104,3 @@ export default {
 
 };
 </script>
-
-<style scoped>
-/* Fixed sidebar styling */
-</style>

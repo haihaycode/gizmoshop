@@ -13,9 +13,11 @@
         <ModalBox :isOpen="isModalOpen" :header="'Rút tiền'" :loading="isLoading"
             :closeModal="() => { isModalOpen = false }">
             <template #body>
-                <form @submit.prevent="submitWithdraw">
-                    <CustomInputComponent label="Số tiền rút" v-model="withdrawData.amount" :error="!!errors.amount"
-                        :message="errors.amount" type="number" />
+                <form @submit.prevent="submitWithdraw" class="min-w-[300px]">
+
+                    <CustomInputComponent @input="handleCaculatorVND(withdrawData.amount)"
+                        :label="'Số tiền rút' + ' (~ ' + amountVietNamDong + ')'" v-model="withdrawData.amount"
+                        :error="!!errors.amount" :message="errors.amount" type="number" />
 
                     <div>
                         <label class="block text-gray-700 font-medium mb-2">Ngân Hàng</label>
@@ -26,23 +28,30 @@
                         </el-select>
                         <p v-if="errors.bank" class="text-red-500 text-sm">{{ errors.bank }}</p>
                     </div>
-
+                    <p class="text-gray-400 font-mono mt-2">(*) Sau khi rút tiền thành công hãy chú ý lịch sử giao dịch
+                    </p>
                     <div class="flex justify-end space-x-2 mt-4">
                         <button type="submit"
                             class="px-4 py-2 bg-green-500 text-white rounded-sm mt-2 hover:bg-green-600">
                             Xác nhận rút tiền
                         </button>
                     </div>
+
+
                 </form>
             </template>
         </ModalBox>
 
         <!-- modal nạp tiền  -->
-        <ModalBox :isOpen="isDepositModalOpen" :header="'Nạp tiền'" :loading="false"
+        <ModalBox :isOpen="isDepositModalOpen" :header="'Nạp tiền '" :loading="false"
             :closeModal="() => { isDepositModalOpen = false }">
             <template #body>
-                <form @submit.prevent="submitDeposit">
-                    <CustomInputComponent label="Số tiền nạp" v-model="depositData.amount"
+                <p class="text-gray-400 mb-2 font-mono">(*)Nạp tiền và duy trì số dư trong tài khoản để khi giao dịch sẽ
+                    dùng
+                    tiền này để thanh toán </p>
+                <form @submit.prevent="submitDeposit" class="min-w-[300px]">
+                    <CustomInputComponent @input="handleCaculatorVND(depositData.amount)" l
+                        :label="'Số tiền nạp ' + ' (~ ' + amountVietNamDong + ')'" v-model="depositData.amount"
                         :error="!!depositErrors.amount" :message="depositErrors.amount" type="number" />
 
                     <div class="flex justify-end space-x-2 mt-4">
@@ -82,6 +91,7 @@ export default {
     },
     data() {
         return {
+            amountVietNamDong: '',
             wallet: {},
             banks: [],
             isModalOpen: false,//nút
@@ -105,6 +115,14 @@ export default {
         this.handleFetchWallet();
     },
     methods: {
+
+        handleCaculatorVND(amount) {
+            this.amountVietNamDong = new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+            }).format(amount);
+        },
+
         async handleFetchWallet() {
             try {
                 const resWallet = await getInfoSuplier();
@@ -135,8 +153,10 @@ export default {
             const schema = yup.object().shape({
                 amount: yup
                     .number()
+                    .transform((value) => parseFloat(value))
                     .required("Số tiền không được để trống")
                     .positive("Số tiền phải lớn hơn 0")
+                    .min(50000, "Số tiền nạp và rút phải lớn hơn >= 50.000VND")
                     .max(this.wallet.balance, "Số tiền không được vượt quá số dư hiện tại"),
                 bank: yup.number().required("Ngân hàng là bắt buộc"),
             });
@@ -175,8 +195,11 @@ export default {
             const schema = yup.object().shape({
                 amount: yup
                     .number()
+                    .transform((value) => parseFloat(value)) // Chuyển đổi giá trị sang kiểu số
                     .required("Số tiền không được để trống")
-                    .positive("Số tiền phải lớn hơn 0"),
+                    .positive("Số tiền phải lớn hơn 0")
+                    .min(50000, "Số tiền nạp và rút phải lớn hơn >= 50.000VND")
+                    .max(this.wallet.balance, "Số tiền không được vượt quá số dư hiện tại")
             });
 
             return schema

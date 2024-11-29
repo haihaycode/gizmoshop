@@ -205,6 +205,13 @@ export default {
         this.fetchOrders("inProgress");
     },
     methods: {
+        currencyFormat(value) {
+            if (!value) return "0 đ";
+            return new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+            }).format(value);
+        },
         openProcessDiagram() {
             this.showProcessModal = true;
             const diagramCode = `
@@ -339,19 +346,19 @@ export default {
             };
             return statuses[statusId] || "Không xác định";
         },
-        async approveOrder(idOrder) {
+        async approveOrder(order) {
             const result = await Swal.fire({
-                title: "Xác nhận chấp nhận đơn hàng?",
-                text: "Bạn có chắc chắn muốn chấp nhận đơn hàng này?",
+                title: "Xác nhận chấp nhận đơn hàng (*)?",
+                text: "Khi xác nhận đơn hàng bạn sẽ bị trừ phí duy trì là" + this.currencyFormat(order.contractresponse?.contractMaintenanceFee) + '- Hãy chắc chắn rằng bạn đã nạp tiền để chuẩn bị thanh toán cho lần giao dịch này ! (sau khi chấp nhận nhân viên bên cửa hàng sẽ nhanh chóng đến lấy hàng bạn hãy đóng gói chuẩn bị hàng)',
                 icon: "question",
                 showCancelButton: true,
-                confirmButtonText: "Xác nhận",
+                confirmButtonText: "Xác nhận giao dịch",
                 cancelButtonText: "Hủy",
                 reverseButtons: true,
             });
             if (result.isConfirmed) {
                 try {
-                    await approveOrderBySupplier(idOrder, true);
+                    await approveOrderBySupplier(order.id, true);
                     this.fetchOrders(this.currentTab);
                     Swal.fire(
                         "Thành công!",
@@ -368,7 +375,7 @@ export default {
                 }
             }
         },
-        async rejectOrder(idOrder) {
+        async rejectOrder(order) {
             const result = await Swal.fire({
                 title: "Xác nhận từ chối đơn hàng?",
                 text: "Bạn có chắc chắn muốn từ chối đơn hàng này?",
@@ -381,7 +388,7 @@ export default {
 
             if (result.isConfirmed) {
                 try {
-                    await approveOrderBySupplier(idOrder, false);
+                    await approveOrderBySupplier(order.id, false);
                     Swal.fire(
                         "Thành công!",
                         "Đơn hàng đã bị từ chối.",

@@ -15,14 +15,12 @@
 
             </div>
             <div v-if="!isViewOnly" class="flex space-x-2">
-                <button v-if="isApprovable(order.status || order.orderStatus.id)"
-                    @click="$emit('approve-order', order.id)" @click.stop
-                    class="px-4 py-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600">
+                <button v-if="isApprovable(order.status || order.orderStatus.id)" @click="$emit('approve-order', order)"
+                    @click.stop class="px-4 py-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600">
                     Chấp nhận
                 </button>
-                <button v-if="isRejectable(order.status || order.orderStatus.id)"
-                    @click="$emit('reject-order', order.id)" @click.stop
-                    class="px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600">
+                <button v-if="isRejectable(order.status || order.orderStatus.id)" @click="$emit('reject-order', order)"
+                    @click.stop class="px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600">
                     Từ chối
                 </button>
             </div>
@@ -123,11 +121,32 @@ export default {
         },
     },
     methods: {
+
         isExpired(expirationDate) {
-            if (!expirationDate) return false;
+            // Duyệt qua tất cả các orderDetails
+            for (let orderDetail of this.order.orderDetails) {
+                const product = orderDetail.product;
+                const quantity = product.productInventoryResponse.quantity;
+
+                if (quantity > 0 && this.isNearExpiration(expirationDate)) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+        isNearExpiration(expirationDate) {
+            if (!expirationDate) return false; // Nếu không có ngày hết hạn, trả về false
+
             const currentDate = new Date();
             const expDate = new Date(expirationDate);
-            return currentDate > expDate;
+
+            // Tính toán sự khác biệt giữa ngày hết hạn và ngày hiện tại
+            const timeDifference = expDate - currentDate;
+            const daysToExpire = timeDifference / (1000 * 3600 * 24);  // Chuyển đổi từ ms sang ngày
+
+            // Nếu ngày hiện tại cách ngày hết hạn <= 2 ngày (nghĩa là trong vòng 2 ngày nữa)
+            return daysToExpire <= 2 && daysToExpire >= 0;
         },
         renewContract(contractId) {
             if (!contractId) return;

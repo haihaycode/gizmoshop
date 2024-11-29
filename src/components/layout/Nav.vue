@@ -111,39 +111,39 @@
               </div>
 
               <!-- Các link menu khác -->
-              <a href="/builder"
+              <router-link :to="{ name: 'builder' }"
                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i class="bx bx-notepad mr-2"></i>
                 <span class="hidden lg:inline">Xây dựng cấu hình</span>
-              </a>
+              </router-link>
 
-              <a href="#" @click="modalSearchOrderIsOpen = !modalSearchOrderIsOpen"
+              <p @click="modalSearchOrderIsOpen = !modalSearchOrderIsOpen"
                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
-                <i class="bx bx-search-alt mr-2"></i>
-                <span class="hidden lg:inline">Tra cứu đơn hàng</span>
-              </a>
+                <i v-if="!modalSearchOrderIsOpen" class="bx bx-search-alt mr-2"></i>
+                <i v-else class="bx bx-x mr-2"></i>
+                <span class="hidden lg:inline"> {{ !modalSearchOrderIsOpen ? 'Tra cứu đơn hàng' : 'Đóng tra cứu '
+                  }}</span>
+              </p>
 
-              <a href="#"
+              <router-link :to="{ name: 'product' }"
                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i class="bx bx-gift mr-2"></i>
-                <span class="hidden lg:inline">Khuyến mãi</span>
-              </a>
+                <span class="hidden lg:inline">Sản phẩm</span>
+              </router-link>
 
               <a href="#"
                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i class="bx bx-phone mr-2"></i>
                 <span class="hidden lg:inline">Liên hệ</span>
               </a>
-              <a href="#" @click.prevent="toggleCartModal"
+              <router-link :to="{ name: 'yourCart' }" @click.prevent="toggleCartModal"
                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i v-if="!isCartModalOpen" class="bx bx-cart mr-2"></i>
                 <i v-else class="bx bx-x mr-2"></i>
-                <!-- Thay đổi icon khi mở -->
                 <span class="hidden lg:inline">
                   {{ isCartModalOpen ? "Đóng giỏ hàng" : "Giỏ hàng" }}
-                  <!-- Thay đổi text -->
                 </span>
-              </a>
+              </router-link>
             </div>
           </div>
         </div>
@@ -177,7 +177,7 @@
       </div>
     </transition>
 
-    <transition name="fade">
+    <transition name="fade" @click="isProfileOpen = false">
       <div v-if="isProfileOpen" class="absolute top-20 right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-50">
         <div class="flex items-center mb-4">
           <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center text-base font-bold">
@@ -209,7 +209,7 @@
           </router-link>
           <router-link :to="{ name: 'SupplierHome' }" v-if="token && role.includes('ROLE_SUPPLIER')"
             class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
-            <i class="bx bx-package mr-2"></i> <!-- Icon bx-package cho mục 'Trang Đối tác' -->
+            <i class="bx bx-universal-access mr-2"></i>
             <span>Trang Đối tác</span>
           </router-link>
           <router-link :to="{ name: 'searchOrder' }"
@@ -309,6 +309,7 @@ export default {
         notificationService.warning('Vui lòng nhập đầy đủ thông tin.')
         return;
       }
+      this.modalSearchOrderIsOpen = !this.modalSearchOrderIsOpen
       this.$router.push({
         name: 'searchOrder',
         params: {

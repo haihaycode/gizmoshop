@@ -28,7 +28,7 @@
                     <p><strong class="text-gray-700">Số điện thoại:</strong> {{ searchResult.addressAccount.sdt }}</p>
                     <p><strong class="text-gray-700">Địa chỉ giao hàng :</strong> {{
                         searchResult.addressAccount.specificAddress
-                        }} -
+                    }} -
                         {{ searchResult.addressAccount.city }}
                         -
                         {{ searchResult.addressAccount.district }} - {{ searchResult.addressAccount.commune }} - VN </p>
@@ -106,8 +106,14 @@ export default {
     created() {
         const url = window.location.href;
         const urlParts = url.split('/');
-        this.phoneNumber = urlParts[urlParts.length - 2] || '';
-        this.orderCode = urlParts[urlParts.length - 1] || '';
+
+        if (urlParts[urlParts.length - 2].includes('localhost:8083') && urlParts[urlParts.length - 1].includes('search-order')) {
+            this.phoneNumber = '0';
+            this.orderCode = 'ORD_';
+        } else {
+            this.phoneNumber = urlParts[urlParts.length - 2] || '';
+            this.orderCode = urlParts[urlParts.length - 1] || '';
+        }
     },
     data() {
         return {
