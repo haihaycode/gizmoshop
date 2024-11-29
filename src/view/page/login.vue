@@ -1,76 +1,50 @@
 <template>
-  <div
-    class="flex h-screen bg-gray-100"
-    style="
+  <div class="flex h-screen bg-gray-100" style="
       background-image: url('https://i.pinimg.com/736x/41/60/7d/41607d7cc517513f13d335087de68d71.jpg');
       background-size: cover;
       background-position: center;
-    "
-  >
-    <div
-      class="w-5/6 h-5/6 flex items-center justify-center mx-auto my-auto rounded-lg"
-    >
+    ">
+    <div class="w-5/6 h-5/6 flex items-center justify-center mx-auto my-auto rounded-lg">
       <div
-        class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg"
-      >
+        class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg">
         <h1 class="text-5xl font-extrabold mb-6 text-red-600">Gizmo</h1>
         <p class="text-lg text-gray-700 mb-8">
           Chào mừng trở lại! Nhập thông tin để tiếp tục.
         </p>
 
-        <Form
-          @submit="handleLogin"
-          :validation-schema="schema"
-          v-slot="{ errors }"
-          class="w-full max-w-sm"
-        >
+        <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }" class="w-full max-w-sm">
           <div class="mb-4">
-            <Field
-              name="email"
-              type="email"
-              placeholder="Email"
-              required
+            <Field name="email" type="email" placeholder="Email" required
               class="w-full p-4 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md"
-              :class="errors.email ? 'border-red-500' : ''"
-            />
+              :class="errors.email ? 'border-red-500' : ''" />
             <p class="text-sm text-red-500">{{ errors.email }}</p>
           </div>
           <div class="mb-4">
             <div class="relative">
-              <Field
-                name="password"
-                :type="passwordType"
-                placeholder="Mật khẩu"
-                required
+              <Field name="password" :type="passwordType" placeholder="Mật khẩu" required
                 class="w-full p-4 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md"
-                :class="errors.password ? 'border-red-500' : ''"
-              />
-              <i
-                class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
-                @click="togglePassword"
-                :class="
-                  passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'
-                "
-              ></i>
+                :class="errors.password ? 'border-red-500' : ''" />
+              <i class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                @click="togglePassword" :class="passwordType === 'password' ? 'bx bx-hide' : 'bx bx-show'
+                  "></i>
             </div>
             <p class="text-sm text-red-500">{{ errors.password }}</p>
           </div>
 
           <div>
-            <BUTTON
-              :isLoading="isLoading"
-              color="bg-red-600"
-              disabledColor="bg-red-300"
-              text="Đăng nhập"
-              class="w-full p-4 font-bold rounded-lg hover:bg-red-700 transition duration-200 shadow-lg"
-            ></BUTTON>
+            <BUTTON :isLoading="isLoading" color="bg-red-600" disabledColor="bg-red-300" text="Đăng nhập"
+              class="w-full p-4 font-bold rounded-lg hover:bg-red-700 transition duration-200 shadow-lg"></BUTTON>
           </div>
         </Form>
 
         <a href="/forgotpassword" class="text-red-600 mt-4 hover:underline">Quên mật khẩu?</a>
         <p class="mt-4 text-sm text-gray-600">
           Chưa có tài khoản?
-          <a href="#" class="text-red-600 hover:underline">Đăng ký ngay</a>
+          <a href="/signin" class="text-red-600 hover:underline">Đăng ký ngay</a>
+
+        </p>
+        <p class=" text-sm text-gray-600 text-center">
+          <a href="/" class="text-blue-600 underline text-center">Đi đến trang chủ</a>
         </p>
       </div>
 
@@ -81,8 +55,7 @@
           background-image: url('https://i.pinimg.com/564x/53/91/15/539115966ea3c25b220d23ed23ee5848.jpg');
           background-size: cover;
           background-position: center;
-        "
-      >
+        ">
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black opacity-50"></div>
 
@@ -94,8 +67,7 @@
           </p>
           <router-link to="/signin">
             <button
-              class="py-3 px-10 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-red-600 transition duration-200 shadow-lg"
-            >
+              class="py-3 px-10 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-red-600 transition duration-200 shadow-lg">
               Đăng ký
             </button>
           </router-link>
@@ -104,13 +76,8 @@
     </div>
 
     <!-- Notification Modal -->
-    <NotificationModal
-      :isOpen="isModalOpen"
-      :title="'Thông báo'"
-      :message="message"
-      :type="messageType"
-      @close="isModalOpen = false"
-    />
+    <NotificationModal :isOpen="isModalOpen" :title="'Thông báo'" :message="message" :type="messageType"
+      @close="isModalOpen = false" />
   </div>
 </template>
 

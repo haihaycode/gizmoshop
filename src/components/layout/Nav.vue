@@ -74,7 +74,7 @@
             <div class="relative w-full">
               <input type="text" v-model="searchQuery" @input="handleInput" @keyup.enter="performSearch"
                 placeholder="Tìm kiếm sản phẩm..."
-                class="w-full px-4 py-2 pr-10 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" />
+                class="w-full px-4 py-2 pr-10 rounded-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500" />
               <!-- Search icon -->
               <span @click="performSearch"
                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500">
@@ -157,26 +157,47 @@
       </div>
     </div>
 
-    <!-- Mobile menu, show/hide based on menu state. -->
+    <!-- Mobile menu -->
     <div class="sm:hidden" id="mobile-menu" v-if="isMenuOpen">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Doanh
-          mục</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Ưu
-          đãi</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Liên
-          hệ</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Tra
-          cứu</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Giỏ
-          hàng</a>
+        <!-- Personal Information Link with Icon -->
+        <router-link :to="{ name: 'builder' }"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-menu"></i> <!-- Personal Information Icon -->
+          <span>Xây dựng cấu hình</span>
+        </router-link>
+
+        <!-- Offers Link with Icon -->
+        <router-link :to="{ name: 'searchOrder' }"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-search"></i> <!-- Offers Icon -->
+          <span>Tra cứu đơn hàng</span>
+        </router-link>
+
+        <!-- Contact Link with Icon -->
+        <router-link :to="{ name: 'contactUs' }"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-phone"></i> <!-- Contact Icon -->
+          <span>Liên hệ</span>
+        </router-link>
+
+        <!-- Track Order Link with Icon -->
+        <a href="/forgotpassword"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-search"></i> <!-- Track Order Icon -->
+          <span>Quên mật khẩu</span>
+        </a>
+
+        <!-- Cart Link with Icon -->
+        <router-link :to="{ name: 'yourCart' }"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-cart"></i> <!-- Cart Icon -->
+          <span>Giỏ hàng</span>
+        </router-link>
       </div>
+
     </div>
+
     <transition name="fade">
       <div v-if="isCartModalOpen" v-show="isVisible"
         class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-30">

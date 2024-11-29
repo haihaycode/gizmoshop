@@ -162,7 +162,7 @@
       </div>
     </div>
     <div v-if="cartItems.length <= 0 && !isLoading" class="flex justify-center  ">
-      <p>Không có sản phẩm nào trong giỏ hàng
+      <p class="px-2">Không có sản phẩm nào trong giỏ hàng
         <router-link :to="{ name: 'product' }">
           <span class="text-red-500 underline hover:text-blue-500">Tiếp tục mua sắm</span>
         </router-link>

@@ -1,9 +1,9 @@
 <template>
-    <div class="flex justify-start space-x-4 mb-4">
-        <!-- Sort buttons with dynamic classes based on selection -->
+    <div class="flex flex-wrap justify-start space-x-2 sm:space-x-4 mb-4">
         <button v-for="option in sortOptions" :key="option.value" @click="selectSort(option.value)" :class="[
-            'px-4 py-2 rounded-sm text-white',
-            selectedSort === option.value ? 'bg-red-500' : 'bg-gray-500 bg-opacity-35'
+            'px-4 py-2 my-2 rounded-sm text-white',
+            selectedSort === option.value ? 'bg-red-500' : 'bg-gray-500 bg-opacity-35',
+            'mb-2 md:mb-0'
         ]">
             {{ option.label }}
         </button>
