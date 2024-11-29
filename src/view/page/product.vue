@@ -16,7 +16,7 @@
                 <ProductCard v-for="product in products" :key="product.id" :product="product" />
             </div>
             <div v-if="isLoading" class="flex justify-center items-center py-10 text-red-500">
-                Đang tải dữ liệu ...
+                <i class='bx bx-loader bx-spin'></i> &nbsp; Đang tải dữ liệu ...
             </div>
             <Pagination v-if="!isLoading && products.length > 0" :total-items="pagination?.totalElements || 1"
                 :items-per-page="filter?.limit" :current-page="filter?.page + 1" @page-changed="handlePageChange"

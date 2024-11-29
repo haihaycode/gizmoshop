@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div class="text-red-500 " v-if="isLoading">
-      Đang tải dữ liệu ...
+    <div class="text-red-500 text-center" v-if="isLoading">
+      <p class="text-red-500"> <i class='bx bx-loader bx-spin'></i> &nbsp; Đang tải dữ liệu ...</p>
+      <img class="w-[400px] mx-auto" :src="require('@/assets/gizmoImageLoading/gizmo.gif')" alt="">
     </div>
     <div v-if="cartItems.length > 0" class="flex flex-wrap w-full" ref="content">
       <div v-if="isLoading" class="fixed inset-0 flex justify-center items-center z-50 bg-opacity-50 bg-gray-800">

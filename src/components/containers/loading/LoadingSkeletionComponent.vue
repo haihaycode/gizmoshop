@@ -2,21 +2,19 @@
     <div v-if="isLoading"
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 bg-opacity-75 backdrop-blur-md">
         <div class="animate-pulse  rounded-lg p-6 max-w-md w-full space-y-6">
-            <!-- Title Placeholder -->
-            <div :class="`h-8 ${titleWidth} bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-md`"></div>
+            <!-- <div :class="`h-8 ${titleWidth} bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-md`"></div>
 
-            <!-- Text Placeholder Lines -->
             <div class="space-y-3 mt-4">
                 <div v-for="index in textLines" :key="index"
                     :class="`h-4 ${getTextWidth(index)} bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-md`">
                 </div>
             </div>
 
-            <!-- Circular Icons or Avatars Placeholder -->
             <div class="flex space-x-4 mt-4 justify-center">
                 <div v-for="index in circles" :key="index"
                     class="w-12 h-12 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-full"></div>
-            </div>
+            </div> -->
+            <img class="w-[400px]  mx-auto" :src="require('@/assets/gizmoImageLoading/gizmo.png')" alt="">
         </div>
     </div>
 </template>
