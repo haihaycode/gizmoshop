@@ -4,12 +4,6 @@
         <div v-if="isSidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden" @click="toggleSidebar">
         </div>
 
-        <!-- Toggle Button for Sidebar on Mobile -->
-        <!-- <div v-if="!isSidebarOpen" class="md:hidden text-end pr-2 top-4 left-4 z-20 bg-white text-blue-500 rounded-full"
-            @click="toggleSidebar">
-            <i class='bx bxs-user-account text-2xl text-blue-500'></i>
-        </div> -->
-
         <div class="flex">
             <!-- Sidebar - hidden on mobile by default, visible on desktop -->
             <aside :class="[
@@ -20,7 +14,7 @@
                 <!-- User Profile Section -->
                 <div class="flex items-center space-x-3 p-4 border-b border-gray-200">
                     <img :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/40'"
-                        alt="User avatar" class="w-10 h-10 rounded-full" />
+                        @error="onImageError" alt="User avatar" class="w-10 h-10 rounded-full" />
                     <div>
                         <p class="text-gray-700 font-semibold">{{ user.fullname ? user.fullname : 'Người dùng Gizmo'
                             }}
@@ -142,6 +136,9 @@ export default {
         loadImage,
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
+        },
+        onImageError(event) {
+            event.target.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcbE6u36DvNqhRgUJtDR3MQDBcPkC3n83uXw&s';
         },
         async fetchUserInfo() {
             try {
