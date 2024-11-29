@@ -1,11 +1,16 @@
 <template>
   <div class="md:m-0" ref="content">
-    <carouselVoucherComponent></carouselVoucherComponent>
-    <ScrollingVoucherComponent></ScrollingVoucherComponent>
-    <voucherHomeComponent></voucherHomeComponent>
-    <TopDiscountedProductsComponent></TopDiscountedProductsComponent>
-    <CarouselCategoryComponent></CarouselCategoryComponent>
-    <FeaturedProductsComponent></FeaturedProductsComponent>
+    <div v-if="isLoading">
+      <LoadingSkeletionComponent />
+    </div>
+    <div v-else>
+      <carouselVoucherComponent></carouselVoucherComponent>
+      <ScrollingVoucherComponent></ScrollingVoucherComponent>
+      <voucherHomeComponent></voucherHomeComponent>
+      <TopDiscountedProductsComponent></TopDiscountedProductsComponent>
+      <CarouselCategoryComponent></CarouselCategoryComponent>
+      <FeaturedProductsComponent></FeaturedProductsComponent>
+    </div>
   </div>
 </template>
 
@@ -16,6 +21,7 @@ import voucherHomeComponent from "@/components/carouselHome/voucherHomeComponent
 import TopDiscountedProductsComponent from "@/components/product/TopDiscountedProductsComponent.vue";
 import ScrollingVoucherComponent from "@/components/carouselHome/ScrollingVoucherComponent.vue";
 import FeaturedProductsComponent from "@/components/product/FeaturedProductsComponent.vue";
+import LoadingSkeletionComponent from "@/components/containers/loading/LoadingSkeletionComponent.vue";
 
 export default {
   name: "demoTestDev",
@@ -26,14 +32,21 @@ export default {
     TopDiscountedProductsComponent,
     FeaturedProductsComponent,
     ScrollingVoucherComponent,
+    LoadingSkeletionComponent
 
   },
   data() {
     return {
       hoveredProduct: null,
+      isLoading: true,
     };
   },
   methods: {
+  },
+  mounted() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1500);
   },
 };
 </script>
