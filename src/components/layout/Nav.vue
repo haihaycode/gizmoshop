@@ -138,11 +138,11 @@
                 <span class="hidden lg:inline">Sản phẩm</span>
               </router-link>
 
-              <a href="#"
+              <router-link :to="{ name: 'contactUs' }"
                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i class="bx bx-phone mr-2"></i>
                 <span class="hidden lg:inline">Liên hệ</span>
-              </a>
+              </router-link>
               <router-link :to="{ name: 'yourCart' }" @click.prevent="toggleCartModal"
                 class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i v-if="!isCartModalOpen" class="bx bx-cart mr-2"></i>

@@ -72,6 +72,22 @@ const publicRoutes = [
                 }
             },
             {
+                path: '/contact-us',
+                name: 'contactUs',
+                meta: {
+                    title: "Gizmo Shop",
+                    description: "Giới thiệu & Liên hệ "
+                },
+                components: {
+                    default: usePage('contactUs'),
+                    header: useComponentLayout('Nav'),
+                    footer: useComponentLayout('Footer'),
+                    sidebar: useComponentLayout('NavigationLeftCategoryAsideComponent'),
+                    mobile: useComponentLayout('ResponsiveMobile')
+
+                }
+            },
+            {
                 path: '/search-order/:phoneNumber?/:orderCode?',
                 name: 'searchOrder',
                 meta: {
