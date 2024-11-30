@@ -1,7 +1,7 @@
 <template>
     <div class="p-6 min-h-screen space-y-2 bg-gray-50">
         <!-- User Order Stats -->
-        <OrderStats :orderCount="orders.length" :totalPoints="totalPoints" />
+        <OrderStats :orderCount="orderCount" :totalPoints="totalPoints" />
 
         <!-- Filters Section -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -53,7 +53,7 @@ import OrderDetailsModal from '@/components/orderForCustomer/OrderDetailsModalCo
 import { getOrders, cancelOrderForUsers } from '@/api/orderForCustomerApi';
 import { mapGetters, mapActions } from 'vuex';
 import Pagination from '@/components/containers/pagination/Pagination.vue';
-
+import { orderSummary } from '@/api/orderForCustomerApi';
 
 export default {
     name: 'OrderHistoryPage',
@@ -68,6 +68,7 @@ export default {
     },
     data() {
         return {
+            orderCount: 0,
             orders: [],
             totalPoints: 0,
             activeStatus: null,
@@ -81,7 +82,7 @@ export default {
         };
     },
     mounted() {
-        this.fetchOrders();
+        this.fetchOrderSummary();
     },
     computed: {
         ...mapGetters('loading', ['isLoading']),
@@ -107,6 +108,13 @@ export default {
             this.page = 0;
             this.fetchOrders();
         },
+        async fetchOrderSummary() {
+            const response = await orderSummary();
+            this.orderCount = response.data.totalQuantityOrder;
+            this.totalPoints = response.data.totalAmountOrder;
+
+            this.fetchOrders();
+        },
         async fetchOrders() {
             try {
                 const filters = {
@@ -119,6 +127,7 @@ export default {
                 const response = await getOrders(filters);
                 this.orders = response.data.content;
                 this.pagination = response.data;
+
             } catch (error) {
                 console.error("Error fetching orders:", error);
             }
