@@ -10,6 +10,8 @@
             <DateFilter @date-range-selected="setDateRange" />
         </div>
 
+        <div v-if="isLoading" class="text-blue-500 text-center"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                style='color:#1257c0'></i> Đang tải dữ liệu...</div>
         <!-- List of Withdrawals -->
         <div v-if="withdrawals.length" class="space-y-1 p-3">
             <ItemCardComponent v-for="withdrawal in withdrawals" :key="withdrawal.id" :withdrawal="withdrawal"
@@ -19,7 +21,8 @@
             </Pagination>
 
         </div>
-        <p v-else class="text-gray-500 text-center italic mt-6 p-3">Không có giao dịch rút tiền nào.</p>
+        <p v-if="!isLoading && withdrawals.length <= 0" class="text-gray-500 text-center italic mt-6 p-3">Không có giao
+            dịch rút tiền nào.</p>
 
         <!-- Withdrawal Details Modal -->
         <WithdrawalDetailsModal :isOpen="isModalOpen" :withdrawal="selectedWithdrawal" @close="isModalOpen = false" />
@@ -34,7 +37,6 @@ import WithdrawalDetailsModal from '@/components/withdrawalHistory/WithdrawalDet
 import DateFilter from '@/components/orderForCustomer/DateFilterComponent.vue';
 import { formatDateToISO } from '@/utils/currencyUtils';
 import Pagination from '@/components/containers/pagination/Pagination.vue';
-
 export default {
     name: 'WithdrawalHistoryPage',
     components: {

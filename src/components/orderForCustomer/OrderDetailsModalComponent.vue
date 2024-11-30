@@ -34,7 +34,7 @@
                     <p v-if="order.vouchers[0].voucher.discountAmount !== 0">
                         <strong>Giảm :</strong> <span class="text-red-500 text-xl"> {{
                             formatCurrencyVN(order.vouchers[0].voucher.discountAmount)
-                        }}</span>
+                            }}</span>
                     </p>
 
                     <!-- Check if discount is a percentage, and display max discount if applicable -->
@@ -61,7 +61,7 @@
             <!-- Product Details Table -->
             <div class="mt-6">
                 <h4 class="text-lg font-semibold text-gray-700 mb-2">Chi tiết sản phẩm</h4>
-                <table class="min-w-full border-collapse">
+                <table class="min-w-full border-collapse overflow-auto">
                     <thead>
                         <tr class="bg-gray-100">
                             <th class="p-2 text-left text-gray-600 font-semibold border-b">Sản phẩm</th>

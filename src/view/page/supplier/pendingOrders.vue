@@ -7,7 +7,8 @@
 
             <!-- Danh sách đơn hàng -->
             <OrderList :orders="orders" @open-modal="openProductModal" @update-order="updateOrder"
-                @edit-product="editProduct" @remove-order="removeOrder" @send-order="sendOrder" />
+                @edit-product="editProduct" @remove-order="removeOrder" @send-order="sendOrder"
+                :isLoadingSendOrder="isLoadingSendOrder" />
 
 
 
@@ -70,6 +71,7 @@ export default {
             selectedProduct: null,
             showModal: false,
             isEditingProduct: false,
+            isLoadingSendOrder: false
         };
     },
     mounted() {
@@ -161,11 +163,17 @@ export default {
             localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
         },
         async sendOrder(orderId) {
-            const orderToSend = this.orders.find((order) => order.id === orderId);
-            await this.sendOrderFinalToShop(orderToSend)
-            // thực hiện logic trước khi xóas đơn hàng
-            this.orders = this.orders.filter((order) => order.id !== orderId);
-            localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
+            this.isLoadingSendOrder = !this.isLoadingSendOrder
+            try {
+                const orderToSend = this.orders.find((order) => order.id === orderId);
+                await this.sendOrderFinalToShop(orderToSend)
+                this.orders = this.orders.filter((order) => order.id !== orderId);
+                localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
+            } catch (error) {
+                console.error(error)
+            } finally {
+                this.isLoadingSendOrder = !this.isLoadingSendOrder
+            }
         },
         async convertBase64ToBlobs(base64Strings) {
             const blobPromises = base64Strings.map(async (base64) => {
