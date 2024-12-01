@@ -70,3 +70,22 @@ export const getSupplierProducts = async (params) => {
         throw error;
     }
 };
+
+//Đăng ký hủy bỏ tư cách 
+export const cancelSupplier = async (idWallet, idAddress) => {
+    try {
+        if (!idWallet || !idAddress) {
+            throw new Error("ID Wallet và ID Address là bắt buộc");
+        }
+        const response = await Axios.post(`${HOST}/api/public/supplier/t/register-cancel-Supplier`, null, {
+            params: {
+                idwallet: idWallet,
+                idAddress: idAddress,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};

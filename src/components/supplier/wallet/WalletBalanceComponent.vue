@@ -24,9 +24,9 @@
             </p>
             <br>
 
-            <Button @click="showModal = true" class=" text-blue-600 hover:underline rounded-sm px-2 py-1">
+            <button @click="showModal = true" class=" text-blue-600 hover:underline rounded-sm px-2 py-1">
                 <i class="bx bx-user-x"></i> Đăng ký hủy bỏ tư cách nhà cung cấp
-            </Button>
+            </button>
         </div>
     </div>
 
@@ -70,8 +70,8 @@
                     <p v-if="errors.address" class="text-red-500 text-sm">{{ errors.address }}</p>
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mr-2">Từ
-                        chối</button>
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mr-2">Đăng ký
+                        từ chối</button>
                     <button @click="showModal = false"
                         class="bg-gray-300 hover:bg-gray-50 text-gray-800 px-4 py-2 rounded">Hủy bỏ</button>
                 </div>
@@ -82,11 +82,11 @@
 </template>
 
 <script>
-
-import notificationService from '@/services/notificationService';
 import * as yup from "yup";
 import { ElSelect, ElOption } from "element-plus";
 import 'element-plus/dist/index.css';
+import { cancelSupplier } from '@/api/supplierApi';
+import notificationService from "@/services/notificationService";
 export default {
     data() {
         return {
@@ -129,14 +129,13 @@ export default {
                 currency: "VND",
             }).format(amount);
         },
-        async validateOrder() {
+        async validate() {
             const schema = yup.object().shape({
                 bank: yup.number().required("Ngân hàng là bắt buộc"),
                 address: yup.number().required("Địa chỉ là bắt buộc"),
             });
             try {
                 await schema.validate(this.reject, { abortEarly: false });
-                this.reject = {};
                 return true;
             } catch (error) {
                 this.errors = {};
@@ -146,12 +145,18 @@ export default {
                 return false;
             }
         },
-        rejectAction() {
-            if (!(this.validateOrder())) {
-                notificationService.warning('Vui lòng kiểm tra lại thông tin địa chỉ và ngân hàng.');
+        async rejectAction() {
+            if (!(await this.validate())) {
                 return;
             }
-            console.log('Tư cách nhà cung cấp đã bị từ chối.');
+            const selectedBank = this.bankAccounts.find(bank => bank.id === this.reject.bank);
+            const selectedAddress = this.addresses.find(address => address.id === this.reject.address);
+            try {
+                await cancelSupplier(selectedBank.id, selectedAddress.id)
+                notificationService.info('Đăng ký hủy bỏ tư cách nhà cung cấp thành công , nhân viên bên cửa hàng sẽ xem sét và xét duyệt cho bạn ')
+            } catch (error) {
+                console.error(error)
+            }
 
         }
     },
