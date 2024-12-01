@@ -6,11 +6,11 @@
                     voucherData.code }}</span></h2>
             </template>
             <template #body>
-                <div class="bg-white shadow-lg rounded-lg p-6 space-y-6 max-w-md mx-auto relative overflow-x">
+                <div
+                    class="bg-white shadow-sm rounded-sm p-1 space-y-2 min-w-[600px] max-w-[1000px] mx-auto relative overflow-x">
                     <!-- Discount Banner -->
-                    <!-- <img :src="voucherData.image ? loadImage(voucherData.image, 'voucher') : imageDefault" -->
-                    <img :src="imageDefault" alt="Promotion Image"
-                        class="w-full h-24 rounded-lg object-cover shadow-md mb-4 transition-transform transform hover:scale-105" />
+                    <img :src="voucherData.image ? loadImage(voucherData.image, 'voucher') : imageDefault"
+                        class="w-full h-full rounded-sm  shadow-md mb-4 transition-transform transform " />
 
 
                     <div class="border-t border-gray-300 pt-4">
@@ -88,7 +88,7 @@ export default {
     data() {
         return {
             imageBgDefault: require('@/assets/image/bg-voucher-2.png'),
-            imageDefault: require('@/assets/image/bg-voucher.png'),
+            imageDefault: 'https://thumb.ac-illust.com/73/7387030e5a5600726e5309496353969a_t.jpeg',
             voucherData: {},
         };
     },

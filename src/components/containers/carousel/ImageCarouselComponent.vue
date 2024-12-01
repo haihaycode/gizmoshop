@@ -19,7 +19,7 @@
 
       <div class="flex transition-transform duration-500" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
         <div v-for="(item, index) in itemsToDisplay" :key="index"
-          class="flex-shrink-0 w-[100%] relative h-[150px] sm:h-80 md:h-[300px] lg:h-[300px] xl:h-[400px]">
+          class="flex-shrink-0 w-[100%] relative h-[150px] sm:h-80 md:h-[300px] lg:h-[350px] xl:h-[450px]">
           <img :src="loadImage(item.image, 'voucher')" alt="đang tải" class="w-full h-full "
             @error="imageError($event)" />
         </div>

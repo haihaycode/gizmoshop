@@ -6,7 +6,7 @@
             </template>
             <template #body>
                 <div class="w-full max-w-[1000px] mt-2">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
                         <div v-for="(voucher, index) in vouchers" :key="index"
                             class="voucher-ticket flex rounded-sm overflow-hidden bg-white relative">
                             <div class="bg-red-500 flex items-center justify-center w-1/4 p-3 relative">
@@ -79,7 +79,7 @@ export default {
             code: null,
             status: null,
             page: 0,
-            limit: 5,
+            limit: 8,
             sortt: 'id,desc',
             isOpenModalVoucherDetail: false,
             voucherSelected: null,
