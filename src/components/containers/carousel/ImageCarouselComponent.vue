@@ -4,13 +4,15 @@
       class="relative w-full mx-auto overflow-hidden rounded-none sm:rounded-md md:rounded-md lg:rounded-md mt-[130px]"
       @touchstart="startSwipe" @touchmove="swiping" @touchend="endSwipe">
 
-      <div class="text-red-500">
+      <div class="text-white">
         <p
-          class="text-sm font-semibold hover:text-red-700 transition-colors duration-300 ease-in-out transform tracking-wider shadow-md p-4 rounded-sm  bg-red-50 bg-opacity-20">
-          <i class='bx bx-trip bx-tada'></i> Cơ sở chính : <span class="text-red-600 ">137 Nguyễn Thị Thập, Thanh Khê
+          class="text-sm font-semibold transition-colors duration-300 ease-in-out transform tracking-wider shadow-md p-4 rounded-sm  bg-red-500 ">
+          <i class='bx bx-trip bx-tada'></i> Cơ sở chính : <span class="text-white">137 Nguyễn Thị Thập, Thanh Khê
             Tây, Liên Chiểu, Đà Nẵng</span>
           <br />
-          Liên hệ công việc : <span class="text-blue-500"> <i class='bx bx-phone'></i> 0349748529 - 0999006677</span>
+          <span class="hidden sm:block">Liên hệ công việc : <span class="text-white"> <i class='bx bx-phone'></i>
+              0349748529 -
+              0999006677</span></span>
         </p>
       </div>
 
