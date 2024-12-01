@@ -338,26 +338,20 @@ export default {
     async handleFetchVoucher() {
       try {
         const response = await getVoucherForUser();
-        // Lọc các voucher
+        console.log(response)
         this.vouchers = response.data.filter((voucher) => {
           let isValid = false;
           const totalPrice = this.totalPrice;
-          if (voucher.discountAmount > 0) {
-            if (totalPrice >= voucher.minimumOrderValue) {
-              isValid = true;
-            }
-          } else if (voucher.discountPercent > 0) {
-            const discount = (voucher.discountPercent / 100) * totalPrice;
-            if (discount <= voucher.maxDiscountAmount) {
-              isValid = true;
-            }
+          if (totalPrice >= voucher.minimumOrderValue) {
+            isValid = true;
           }
-
           return isValid;
-        });
+        }
+        );
       } catch (error) {
         console.error("Failed to load vouchers:", error?.message || error);
       }
+
     },
     async handleFetchWallet() {
       try {
