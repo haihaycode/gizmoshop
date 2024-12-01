@@ -6,7 +6,7 @@
                     <WalletActions @deposit="handleDeposit" @withdraw="handleWithdraw" />
                     <WalletBalance :walletData="wallet" :bankAccounts="bankAccounts" :addresses="addresses" />
                 </div>
-                <div class="w-full md:w-1/2 flex  justify-center">
+                <div class="hidden md:flex w-full md:w-1/2   justify-center">
                     <img src="https://omisell.com/vi-vn/wp-content/uploads/sites/2/2021/12/Screenshot_2.jpg"
                         alt="Mô tả ảnh" class="w-full h-[450px]" />
                 </div>

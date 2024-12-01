@@ -1,8 +1,20 @@
 <template>
   <div>
     <div
-      class="relative  w-full mx-auto overflow-hidden rounded-none sm:rounded-md md:rounded-md lg:rounded-md mt-[130px]"
+      class="relative w-full mx-auto overflow-hidden rounded-none sm:rounded-md md:rounded-md lg:rounded-md mt-[130px]"
       @touchstart="startSwipe" @touchmove="swiping" @touchend="endSwipe">
+
+      <div class="text-red-500">
+        <p
+          class="text-sm font-semibold hover:text-red-700 transition-colors duration-300 ease-in-out transform tracking-wider shadow-md p-4 rounded-sm  bg-red-50 bg-opacity-20">
+          <i class='bx bx-trip bx-tada'></i> Cơ sở chính : <span class="text-red-600 ">137 Nguyễn Thị Thập, Thanh Khê
+            Tây, Liên Chiểu, Đà Nẵng</span>
+          <br />
+          Liên hệ công việc : <span class="text-blue-500"> <i class='bx bx-phone'></i> 0349748529 - 0999006677</span>
+        </p>
+      </div>
+
+
       <div class="flex transition-transform duration-500" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
         <div v-for="(item, index) in itemsToDisplay" :key="index"
           class="flex-shrink-0 w-[100%] relative h-[150px] sm:h-80 md:h-[300px] lg:h-[300px] xl:h-[400px]">
@@ -57,6 +69,9 @@ export default {
         ? this.items
         : this.$options.props.items.default();
     },
+  },
+  mounted() {
+    setInterval(this.nextSlide, 2000);  // 2000ms = 2 seconds
   },
   methods: {
     loadImage,

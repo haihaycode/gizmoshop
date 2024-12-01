@@ -13,6 +13,20 @@
       </li>
     </ul>
   </div>
+
+
+  <div>
+    <!-- Fixed Phone Icon -->
+    <div class="fixed bottom-20 right-6  z-50  hidden md:block">
+      <router-link :to="{ name: 'contactUs' }"
+        class="rounded-full hover:shadow-lg w-10 h-10 flex items-center justify-center">
+        <i class='bx bx-phone-call bx-tada text-4xl text-blue-700'></i>
+      </router-link>
+      <div class="rounded-full hover:shadow-lg w-10 h-10 flex items-center justify-center">
+        <i class='bx bx-gift bx-tada text-4xl text-red-700'></i>
+      </div>
+    </div>
+  </div>
 </template>
 
 

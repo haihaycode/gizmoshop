@@ -6,7 +6,7 @@
 
     <main class="w-full mx-auto container min-h-screen transition-all main relative mt-[80px]">
       <router-view name="sidebar"></router-view>
-      <section class="main xl:max-w-7xl mx-auto mt-[155px] md:mt-[165px]">
+      <section class="main xl:max-w-7xl mx-auto mt-[155px] md:mt-[125px]">
         <router-view></router-view>
       </section>
       <ScrollToTopComponent />
