@@ -89,6 +89,7 @@ import { loginApi } from "@/api/auth/loginApi";
 import { handleAuthentication } from "@/services/authService";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
+import { saveNotifications } from "@/services/notiServiceC";
 
 export default {
   name: "LoginForm",
@@ -138,15 +139,8 @@ export default {
         this.isModalOpen = true;
 
         if (isAdmin) {
-          const notification = {
-            note: "Đăng nhập thành công ",
-            timestamp: Date.now()
-          };
-          var notifications = [];
-          notifications.push(notification);
-
           setTimeout(() => {
-            localStorage.setItem('notifications', JSON.stringify(notifications));
+            saveNotifications("Đăng nhập thành công")
             this.$router.push("/");
           }, 1000);
         }

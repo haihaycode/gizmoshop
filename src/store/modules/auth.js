@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';// Import js-cookie để thao tác với cookie
 import { jwtDecode } from 'jwt-decode'; // Import jwt-decode để giải mã JWT
 import router from '@/router'; // Đảm bảo bạn đã import router
+import { deleteAllNotifications } from '@/services/notiServiceC';
 
 const state = {
     token: Cookies.get('tokenU') || null, // Đọc token từ cookie nếu có
@@ -51,6 +52,9 @@ const mutations = {
         state.user = user; // Lưu thông tin người dùng từ token
     },
     LOGOUT(state) {
+        //xóa notification
+        deleteAllNotifications();
+        //setNullForAll
         state.token = null;
         state.refreshToken = null;
         state.user = null;

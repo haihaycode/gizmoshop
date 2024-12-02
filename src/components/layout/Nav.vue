@@ -308,6 +308,7 @@ import { getCategories } from "@/api/categoryApi";
 import notificationService from "@/services/notificationService";
 import { mapGetters, mapActions } from 'vuex';
 import ListProductComponent from "../cart/cartNavHomeComponent.vue";
+import { getNotifications } from "@/services/notiServiceC";
 
 
 export default {
@@ -352,8 +353,7 @@ export default {
       return date.toLocaleString();
     },
     handleGetNotificationFromLocalStorage() {
-      const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
-      this.notifications = notifications;
+      this.notifications = getNotifications();
     },
     searchOrder() {
       if (!this.searchOrderObject.phoneNumber || !this.searchOrderObject.orderCode) {
