@@ -29,20 +29,22 @@
                                 <td class="border border-gray-300 px-4 py-2">
                                     {{ item.product.productStatusResponse?.name || "Không xác định" }}
                                 </td>
+
                                 <td class="border border-gray-300 px-4 py-2 text-right">{{ item.quantity }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-right">
-                                    {{ currencyFormat(item.price) }}
+                                    {{ currencyFormat(item.product.productPrice) }}
                                 </td>
                                 <td class="border border-gray-300 px-4 py-2 text-right">
                                     {{ item.product.discountProduct }}%
                                 </td>
                                 <td class="border border-gray-300 px-4 py-2 text-right">
-                                    {{ currencyFormat(calculateDiscountedPrice(item.price,
+                                    {{ currencyFormat(calculateDiscountedPrice(item.product.productPrice,
                                         item.product.discountProduct)) }}
                                 </td>
                                 <td class="border border-gray-300 px-4 py-2 text-right">
                                     {{ currencyFormat(
-                                        calculateDiscountedPrice(item.price, item.product.discountProduct) * item.quantity
+                                        calculateDiscountedPrice(item.product.productPrice, item.product.discountProduct) *
+                                        item.quantity
                                     ) }}
                                 </td>
                             </tr>

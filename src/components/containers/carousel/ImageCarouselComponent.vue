@@ -73,7 +73,7 @@ export default {
     },
   },
   mounted() {
-    setInterval(this.nextSlide, 2000);  // 2000ms = 2 seconds
+    setInterval(this.nextSlide, 4000);
   },
   methods: {
     loadImage,

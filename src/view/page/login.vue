@@ -136,8 +136,17 @@ export default {
         this.messageType = isAdmin ? "success" : "warning";
         this.message = isAdmin ? response.message : "Không đủ quyền";
         this.isModalOpen = true;
+
         if (isAdmin) {
+          const notification = {
+            note: "Đăng nhập thành công ",
+            timestamp: Date.now()
+          };
+          var notifications = [];
+          notifications.push(notification);
+
           setTimeout(() => {
+            localStorage.setItem('notifications', JSON.stringify(notifications));
             this.$router.push("/");
           }, 1000);
         }

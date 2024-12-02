@@ -17,7 +17,7 @@
           <div :class="gridLayoutClass">
             <div v-for="(category, idx) in slideCategories" :key="idx"
               @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); }"
-              class="flex flex-col items-center text-center p-2 border border-gray-200 rounded-md">
+              class="flex flex-col items-center text-center p-2 hover:scale-110 hover:shadow-lg transform ease-in border border-gray-200 rounded-md">
               <img :src="loadImage(category.image, 'category')" alt="Category" @error="onImageError"
                 class="w-12 h-12 object-contain bg-white rounded-full p-1 border border-gray-200" />
               <p class="text-xs text-gray-700 mt-1 truncate w-16">

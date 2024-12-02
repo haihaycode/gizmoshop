@@ -34,19 +34,16 @@
 
         <!-- User icon and notification icon (hiển thị trên màn hình từ tablet trở lên) -->
         <div class="hidden sm:flex items-center justify-centergap-4 pr-4">
-          <!-- Notification icon -->
-          <!-- Notification icon button -->
-          <button type="button"
+          <button type="button" @click="() => { isProfileOpen = false, isNoticationOpen = !isNoticationOpen }"
+            :class="isNoticationOpen ? 'text-red-500 bg-gray-50' : ''"
             class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100">
-            <span class="sr-only">View notifications</span>
+            <span class="sr-only">notifications user</span>
             <i class="bx bx-bell bx-tada bx-rotate-280"></i>
           </button>
-
-          <!-- User menu icon button -->
-          <button type="button"
+          <button type="button" :class="isProfileOpen ? 'text-red-500 bg-gray-50' : ''"
             class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100"
             @click="toggleMenu">
-            <span class="sr-only">Open user menu</span>
+            <span class="sr-only">menu user</span>
             <i class="bx bx-user"></i>
           </button>
         </div>
@@ -282,6 +279,26 @@
       </div>
     </transition>
 
+    <transition name="fade">
+      <div v-if="isNoticationOpen"
+        class="absolute top-20  bg-gray-50 p-4 rounded-sm shadow-lg w-full sm:w-64 md:w-full z-30">
+        <div v-if="notifications.length === 0" class="text-center text-gray-500">
+          Không có thông báo
+        </div>
+        <div v-else>
+          <ul>
+            <li v-for="(notification, index) in notifications" :key="index"
+              class="p-2 border-b flex flex-col sm:flex-row sm:items-center">
+              <p class="text-sm text-gray-500 sm:w-1/3 sm:text-left">Thời gian : {{ formatDate(notification.timestamp)
+                }}
+              </p>
+              <p class="font-semibold text-gray-800 sm:w-2/3 sm:text-right">{{ notification.note }}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </transition>
+
 
   </nav>
 </template>
@@ -308,16 +325,18 @@ export default {
       modalSearchOrderIsOpen: false,
       searchQuery: "",
       isCartModalOpen: false,
+      isNoticationOpen: false,
+      notifications: [],
     };
   },
   components: {
-    ListProductComponent, // Khai báo component
+    ListProductComponent,
   },
   async mounted() {
     try {
       const response = await getCategories();
       this.categories = response.data;
-      console.log(this.categories);
+      this.handleGetNotificationFromLocalStorage()
     } catch (error) {
       console.error("Lỗi khi lấy danh mục:", error.message);
     }
@@ -328,6 +347,14 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleString();
+    },
+    handleGetNotificationFromLocalStorage() {
+      const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+      this.notifications = notifications;
+    },
     searchOrder() {
       if (!this.searchOrderObject.phoneNumber || !this.searchOrderObject.orderCode) {
         notificationService.warning('Vui lòng nhập đầy đủ thông tin.')
@@ -344,7 +371,6 @@ export default {
     },
     performSearch() {
       if (this.searchQuery.trim()) {
-        // Navigate to the product route with the query parameter
         this.$router.push({ name: 'product', query: { keyword: this.searchQuery.trim() } });
       }
     },
@@ -353,9 +379,11 @@ export default {
         notificationService.info('Vui lòng đăng nhập');
         return;
       }
+      this.isNoticationOpen = false
       this.isCartModalOpen = !this.isCartModalOpen;
     },
     toggleMenu() {
+      this.isNoticationOpen = false
       this.isProfileOpen = !this.isProfileOpen;
     },
     OpenMenu() {

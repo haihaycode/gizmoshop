@@ -28,9 +28,9 @@
       </swiper>
     </div>
     <div class="flex justify-end px-3">
-      <span class="font-semibold cursor-pointer text-base text-red-500 transition">
+      <!-- <span class="font-semibold cursor-pointer text-base text-red-500 transition">
         Xem tất cả
-      </span>
+      </span> -->
     </div>
   </div>
 </template>
