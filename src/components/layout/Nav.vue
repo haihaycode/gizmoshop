@@ -34,11 +34,16 @@
 
         <!-- User icon and notification icon (hiển thị trên màn hình từ tablet trở lên) -->
         <div class="hidden sm:flex items-center justify-centergap-4 pr-4">
-          <button type="button" @click="() => { isProfileOpen = false, isNoticationOpen = !isNoticationOpen }"
-            :class="isNoticationOpen ? 'text-red-500 bg-gray-50' : ''"
-            class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100">
-            <span class="sr-only">notifications user</span>
-            <i class="bx bx-bell bx-tada bx-rotate-280"></i>
+          <button type="button"
+            @click="() => { isProfileOpen = false, isNoticationOpen = !isNoticationOpen, handleGetNotificationFromLocalStorage() }"
+            :class="isNoticationOpen ? 'text-red-500 bg-gray-100' : 'text-gray-800 bg-white'"
+            class="relative flex items-center justify-center text-2xl rounded-full  p-2 hover:bg-gray-200 transition-all duration-300 ease-in-out">
+            <span class="sr-only">Notifications</span>
+            <i class="bx bx-bell"></i>
+            <div
+              class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-red-500 -mt-2 -mr-2">
+              {{ notifications.length >= 10 ? '10+' : notifications.length }}
+            </div>
           </button>
           <button type="button" :class="isProfileOpen ? 'text-red-500 bg-gray-50' : ''"
             class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100"
@@ -122,7 +127,7 @@
               </router-link>
 
               <p @click="modalSearchOrderIsOpen = !modalSearchOrderIsOpen"
-                class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
+                class="rounded-none cursor-pointer px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i v-if="!modalSearchOrderIsOpen" class="bx bx-search-alt mr-2"></i>
                 <i v-else class="bx bx-x mr-2"></i>
                 <span class="hidden lg:inline"> {{ !modalSearchOrderIsOpen ? 'Tra cứu đơn hàng' : 'Đóng tra cứu '
@@ -281,7 +286,7 @@
 
     <transition name="fade">
       <div v-if="isNoticationOpen"
-        class="absolute top-20  bg-gray-50 p-4 rounded-sm shadow-lg w-full sm:w-64 md:w-full z-30">
+        class="absolute top-15  bg-gray-50 p-4 rounded-sm shadow-lg w-full sm:w-full md:w-full z-30">
         <div v-if="notifications.length === 0" class="text-center text-gray-500">
           Không có thông báo
         </div>
@@ -337,7 +342,7 @@ export default {
     try {
       const response = await getCategories();
       this.categories = response.data;
-      this.handleGetNotificationFromLocalStorage()
+      this.handleGetNotificationFromLocalStorage();
     } catch (error) {
       console.error("Lỗi khi lấy danh mục:", error.message);
     }
