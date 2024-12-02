@@ -230,7 +230,7 @@ export default {
                 voucherId: null,
                 imgOrder: data.image ? data.image : null,
                 oderAcreage: data.products.reduce(
-                    (total, item) => total + item.productWidth * item.productLength,
+                    (total, item) => total + (item.productWidth * item.productLength) * item.quantity,
                     0
                 ),
                 totalPrice: data.products.reduce(
@@ -238,7 +238,7 @@ export default {
                     0
                 ),
                 totalWeight: data.products.reduce(
-                    (total, item) => total + item.productWeight || 0,
+                    (total, item) => total + item.productWeight * item.quantity || 0,
                     0
                 ),
                 contractDate: data.duration,
@@ -248,6 +248,7 @@ export default {
                 quantity: 0
             }
 
+            console.log(dataOrder)
             //tạo order
             const resOrder = await createOrderBySupplier(dataOrder)
             await this.handleCreateProduct(resOrder.data, data);
