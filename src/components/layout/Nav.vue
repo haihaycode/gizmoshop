@@ -286,7 +286,7 @@
 
     <transition name="fade">
       <div v-if="isNoticationOpen"
-        class="absolute top-15  bg-gray-50 p-4 rounded-sm shadow-lg w-full sm:w-full md:w-full z-30">
+        class="absolute top-15  bg-gray-50 p-4 rounded-sm shadow-lg w-full sm:w-full md:w-full z-50">
         <div v-if="notifications.length === 0" class="text-center text-gray-500">
           Không có thông báo
         </div>
@@ -294,10 +294,17 @@
           <ul>
             <li v-for="(notification, index) in notifications" :key="index"
               class="p-2 border-b flex flex-col sm:flex-row sm:items-center">
-              <p class="text-sm text-gray-500 sm:w-1/3 sm:text-left">Thời gian : {{ formatDate(notification.timestamp)
-                }}
+              <p class="text-sm text-gray-500 sm:w-1/3 sm:text-left">
+                Thời gian: {{ formatDate(notification.timestamp) }}
               </p>
-              <p class="font-semibold text-gray-800 sm:w-2/3 sm:text-right">{{ notification.note }}</p>
+              <p class="font-semibold text-gray-800 sm:w-2/3 sm:text-right">
+                {{ notification.note }}
+              </p>
+              <!-- Icon để xóa thông báo -->
+              <button @click="deleteNotificationById(notification.id), handleGetNotificationFromLocalStorage()"
+                class="text-gray-500 hover:text-red-500 ml-2 sm:ml-4">
+                <i class="bx bx-x text-lg"></i>
+              </button>
             </li>
           </ul>
         </div>
@@ -313,7 +320,7 @@ import { getCategories } from "@/api/categoryApi";
 import notificationService from "@/services/notificationService";
 import { mapGetters, mapActions } from 'vuex';
 import ListProductComponent from "../cart/cartNavHomeComponent.vue";
-import { getNotifications } from "@/services/notiServiceC";
+import { deleteNotificationById, getNotifications } from "@/services/notiServiceC";
 
 
 export default {
@@ -353,6 +360,7 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    deleteNotificationById,
     formatDate(timestamp) {
       const date = new Date(timestamp);
       return date.toLocaleString();
