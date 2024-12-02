@@ -38,5 +38,3 @@ Ngoài máy tính và phụ kiện, **GizmoShop** còn cung cấp nhiều sản 
 
 - **💻 Tablet & Laptop**: Đáp ứng nhu cầu công việc và giải trí với các dòng tablet và laptop cao cấp.
 - **⌚ Thiết Bị Thông Minh**: Các sản phẩm như smartwatch, thiết bị nhà thông minh và nhiều loại thiết bị IoT khác.
-
----
