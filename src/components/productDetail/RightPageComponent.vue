@@ -73,21 +73,22 @@
               <i class="bx bx-plus"></i>
             </button>
           </div>
-          <button
+          <button :disabled="isLoading" :class="isLoading ? 'bg-gray-200' : ''"
             class="bg-red-500 text-white flex items-center justify-center px-3 py-1 md:px-4 md:py-1 rounded hover:bg-red-600 w-full md:w-auto"
             @click="handleAddToCart">
-            <i class="bx bx-cart-add mr-1"></i>
-            <span class="hidden lg:inline">Thêm Vào Giỏ Hàng</span>
-            <span class="inline lg:hidden">Thêm</span>
+            <i v-if="!isLoading" class="bx bx-cart-add mr-1"></i>
+            <span class="hidden lg:inline"> <i v-if="isLoading" class='bx bx-loader bx-spin'></i> Thêm Vào Giỏ
+              Hàng</span>
+            <span class="inline lg:hidden"><i v-if="isLoading" class='bx bx-loader bx-spin'></i> Thêm</span>
           </button>
 
-          <button @click="toggleWishlist"
+          <button @click="toggleWishlist" :disabled="isLoading" :class="isLoading ? 'bg-gray-200' : ''"
             class="bg-gray-300 text-gray-700 flex items-center justify-center px-3 py-1 md:px-4 md:py-1 rounded hover:bg-gray-400 w-full md:w-auto">
-            <i :class="isInWishlist ? 'bx bxs-heart' : 'bx bx-heart'"></i>
-            <span class="hidden lg:inline ml-1">{{
+            <i v-if="!isLoading" :class="isInWishlist ? 'bx bxs-heart' : 'bx bx-heart'"></i>
+            <span class="hidden lg:inline ml-1"> <i v-if="isLoading" class='bx bx-loader bx-spin'></i> {{
               isInWishlist ? "Đã Yêu Thích" : "Thêm vào Yêu Thích"
             }}</span>
-            <span class="inline lg:hidden ml-1">{{
+            <span class="inline lg:hidden ml-1"><i v-if="isLoading" class='bx bx-loader bx-spin'></i>{{
               isInWishlist ? "Đã Yêu Thích" : "Thêm"
             }}</span>
           </button>
@@ -121,6 +122,7 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["token", "user", "name", "role"]),
+    ...mapGetters('loading', ['isLoading'])
   },
   methods: {
     increaseQuantity() {
@@ -140,6 +142,7 @@ export default {
       }).format(value);
     },
     async toggleFavorite() {
+      this.$emit("loading");
       if (!this.token) {
         notificationService.info("Vui lòng đăng nhập");
         return;
@@ -156,6 +159,7 @@ export default {
       }
     },
     async handleAddToCart() {
+      this.$emit("loading");
       if (!this.token) {
         notificationService.info("Vui lòng đăng nhập");
         return;
@@ -170,6 +174,7 @@ export default {
         notificationService.success("Sản phẩm đã được thêm vào giỏ hàng!");
         saveNotifications('Thêm (' + this.quantity + ')' + this.product.productName + ' Vào giỏ hàng')
         console.log("Kết quả giỏ hàng:", result);
+
         this.$emit("cart-updated", result);
       } catch (error) {
         console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
