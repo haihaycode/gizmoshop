@@ -104,7 +104,7 @@
                     <ul class="py-1">
                       <li v-for="category in categories" :key="category.id">
                         <div
-                          @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); }"
+                          @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); isDropdownOpen = false }"
                           href="#" class="block px-4 py-2 text-black hover:bg-gray-100 transition-all cursor-pointer">
                           {{ category.name }}
                         </div>
