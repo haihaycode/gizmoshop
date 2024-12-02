@@ -114,7 +114,7 @@
                     <button @click="sendOrder(order)" :disabled="!order.products.length"
                         :class="!order.products.length ? 'bg-gray-500 cursor-not-allowed' : ''"
                         class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-sm ">
-                        <span v-if="isLoadingSendOrder"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                        <span v-if="isLoadingSendOrder"><i class='bx bx-loader-circle bx-rotate-90 bx-spin text-white'
                                 style='color:#1257c0'></i></span>
                         Gửi Đơn Hàng
                     </button>
