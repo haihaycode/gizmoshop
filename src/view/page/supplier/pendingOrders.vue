@@ -178,9 +178,10 @@ export default {
             this.isLoadingSendOrder = !this.isLoadingSendOrder
             try {
                 const orderToSend = this.orders.find((order) => order.id === orderId);
+                console.log(orderToSend)
                 await this.sendOrderFinalToShop(orderToSend)
                 this.orders = this.orders.filter((order) => order.id !== orderId);
-                localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
+                localStorage.setItem("orders", JSON.stringify(this.orders));
             } catch (error) {
                 console.error(error)
             } finally {
@@ -216,7 +217,7 @@ export default {
                 const area =
                     (product.productWidth / 100) *
                     (product.productLength / 100); // cm² -> m²
-                return total + (area * (product.quantity || 1)); // Nhân với số lượng
+                return total + (area * (product.quantity || 1));
             }, 0);
             return totalArea.toFixed(2); // Làm tròn 2 chữ số thập phân
         },
@@ -229,22 +230,21 @@ export default {
                 voucherId: null,
                 imgOrder: data.image ? data.image : null,
                 oderAcreage: data.products.reduce(
-                    (total, item) => total + parseFloat(item.productWidth) * parseFloat(item.productLength),
+                    (total, item) => total + item.productWidth * item.productLength,
                     0
                 ),
                 totalPrice: data.products.reduce(
-                    (total, item) => total + parseFloat(item.productPrice),
+                    (total, item) => total + item.productPrice,
                     0
                 ),
                 totalWeight: data.products.reduce(
-                    (total, item) => total + parseFloat(item.productWeight || 0),
+                    (total, item) => total + item.productWeight || 0,
                     0
                 ),
-                contractDate: data.duration,//thoi gian duy tri
+                contractDate: data.duration,
                 contractMaintenanceFee: Math.round(
                     this.calculateStorageCost(this.calculateTotalSizeM2(data), data.duration) * 1000
                 ),
-
                 quantity: 0
             }
 
@@ -274,7 +274,7 @@ export default {
                         productLongDescription: item.productLongDescription,
                         productShortDescription: item.productShortDescription + "\n\n[[[\n" + JSON.stringify(transformedSpecifications, null, 2) + "\n]]]",
                         productWeight: item.productWeight,
-                        productArea: parseFloat(item.productWidth) * parseFloat(item.productLength),
+                        productArea: item.productWidth * item.productLength,
                         productVolume: 0,
                         Width: item.productWidth,
                         productHeight: item.productHeight,
@@ -284,14 +284,19 @@ export default {
                     orderRequest: null
                 }
                 const res = await createProductBySupplier(data, resDataOrder.id);
+                console.log(item.selectedImages)
                 if (item.selectedImages && Array.isArray(item.selectedImages)) {
-                    let listImage = item.selectedImages.map((img) => convertBase64ToFile(img.base64));
-                    console.log(listImage)
-                    const dataUpdateImage = {
-                        productId: res.data.id,
-                        files: listImage
-                    };
-                    await this.addImageProduct(dataUpdateImage);
+                    try {
+                        const listImage = await item.selectedImages.map((img) => convertBase64ToFile(img.base64));
+                        const dataUpdateImage = {
+                            productId: res.data.id,
+                            files: listImage
+                        };
+                        await this.addImageProduct(dataUpdateImage);
+                    } catch (error) {
+                        console.log(error)
+                    }
+
                 }
             })
         },

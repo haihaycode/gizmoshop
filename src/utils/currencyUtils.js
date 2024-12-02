@@ -62,12 +62,14 @@ export const formatDateToYYYYMMDD = (date) => {
 }
 
 export const convertBase64ToFile = (base64String) => {
-    // Ensure the base64 string has both metadata and data
-    if (!base64String.includes(',')) {
-        throw new Error('Invalid Base64 string format.');
+    // Ensure the base64 string is defined and contains a comma separator
+    if (!base64String || typeof base64String !== 'string' || !base64String.includes(',')) {
+        throw new Error('Invalid or empty Base64 string format.');
     }
 
     const [metadata, base64Data] = base64String.split(',');
+
+    // Extract MIME type from the metadata part
     const mimeTypeMatch = metadata.match(/:(.*?);/);
 
     if (!mimeTypeMatch) {
@@ -82,17 +84,21 @@ export const convertBase64ToFile = (base64String) => {
     const randomString = Math.random().toString(36).substring(2, 8);
     const fileName = `file_${timestamp}_${randomString}.${extension}`;
 
-    // Decode Base64 data
-    const byteString = atob(base64Data); // Decode Base64 into a binary string
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const uint8Array = new Uint8Array(arrayBuffer);
+    // Decode Base64 data with a safe check for correct data format
+    try {
+        const byteString = atob(base64Data); // Decode Base64 into a binary string
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const uint8Array = new Uint8Array(arrayBuffer);
 
-    for (let i = 0; i < byteString.length; i++) {
-        uint8Array[i] = byteString.charCodeAt(i);
+        for (let i = 0; i < byteString.length; i++) {
+            uint8Array[i] = byteString.charCodeAt(i);
+        }
+
+        // Create and return a File object
+        return new File([uint8Array], fileName, { type: mimeType });
+    } catch (error) {
+        throw new Error('Failed to decode Base64 data: ' + error.message);
     }
-
-    // Create and return a File object
-    return new File([uint8Array], fileName, { type: mimeType });
 };
 
 
