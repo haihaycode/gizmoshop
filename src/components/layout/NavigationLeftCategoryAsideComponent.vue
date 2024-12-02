@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-1/2 left-0 ml-2.5 w-[56px] max-h-[75vh] bg-white shadow-lg z-50 transform -translate-y-1/2 rounded-lg border border-gray-200 overflow-hidden hidden sm:block lg:block">
+    class="fixed top-1/2 left-0 ml-2.5 w-[56px] max-h-[75vh] bg-white shadow-lg z-50 transform -translate-y-1/2 rounded-lg border border-gray-200 overflow-hidden hidden  sm:hidden md:hidden lg:block">
     <ul :class="['flex flex-col items-center p-2', dynamicHeightClass]">
       <li v-for="item in menuItems.slice(0, 12)" :key="item.id"
         @click="() => { this.$router.push({ name: 'product', query: { idThuongHieu: item.id } }); }"
@@ -12,6 +12,20 @@
         </span>
       </li>
     </ul>
+  </div>
+
+
+  <div>
+    <!-- Fixed Phone Icon -->
+    <div class="fixed bottom-20 right-6  z-50  hidden md:block">
+      <router-link :to="{ name: 'contactUs' }"
+        class="rounded-full hover:shadow-lg w-10 h-10 flex items-center justify-center">
+        <i class='bx bx-phone-call bx-tada text-4xl text-blue-700'></i>
+      </router-link>
+      <div class="rounded-full hover:shadow-lg w-10 h-10 flex items-center justify-center">
+        <i class='bx bx-gift bx-tada text-4xl text-red-700'></i>
+      </div>
+    </div>
   </div>
 </template>
 

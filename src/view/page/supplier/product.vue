@@ -23,20 +23,18 @@
             <p>Hiện tại bạn chưa có sản phẩm yêu thích nào.</p>
         </div>
         <!-- Display products if available -->
-        <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <div v-for="n in limit - 2" :key="n" class="bg-gray-200 rounded-lg p-4 animate-pulse">
-                <div class="h-40 bg-gray-300 rounded mb-4"></div>
-                <div class="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
-                <div class="h-4 bg-gray-300 rounded w-1/2"></div>
-            </div>
-        </div>
+        <div v-if="isLoading" class="text-blue-500 text-center"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                style='color:#1257c0'></i> Đang tải dữ liệu...</div>
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <ProductCard v-for="product in products" :key="product.id" :product="product"
                 :hiddenButtonFavotite="false" />
+
         </div>
-        <Pagination :total-items="pagination?.totalElements || 0" :items-per-page="limit" :current-page="page + 1"
-            @page-changed="handlePageChange" @limit-changed="handleLimitChange">
+        <Pagination v-if="!isLoading && products.length > 0" :total-items="pagination?.totalElements || 0"
+            :items-per-page="limit" :current-page="page + 1" @page-changed="handlePageChange"
+            @limit-changed="handleLimitChange">
         </Pagination>
+
     </div>
 </template>
 

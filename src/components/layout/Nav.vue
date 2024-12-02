@@ -34,19 +34,21 @@
 
         <!-- User icon and notification icon (hiển thị trên màn hình từ tablet trở lên) -->
         <div class="hidden sm:flex items-center justify-centergap-4 pr-4">
-          <!-- Notification icon -->
-          <!-- Notification icon button -->
           <button type="button"
-            class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100">
-            <span class="sr-only">View notifications</span>
-            <i class="bx bx-bell bx-tada bx-rotate-280"></i>
+            @click="() => { isProfileOpen = false, isNoticationOpen = !isNoticationOpen, handleGetNotificationFromLocalStorage() }"
+            :class="isNoticationOpen ? 'text-red-500 bg-gray-100' : 'text-gray-800 bg-white'"
+            class="relative flex items-center justify-center text-2xl rounded-full  p-2 hover:bg-gray-200 transition-all duration-300 ease-in-out">
+            <span class="sr-only">Notifications</span>
+            <i class="bx bx-bell"></i>
+            <div
+              class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-red-500 -mt-2 -mr-2">
+              {{ notifications.length >= 10 ? '10+' : notifications.length }}
+            </div>
           </button>
-
-          <!-- User menu icon button -->
-          <button type="button"
+          <button type="button" :class="isProfileOpen ? 'text-red-500 bg-gray-50' : ''"
             class="relative flex items-center justify-center text-2xl text-black rounded-full border-gray-300 p-2 hover:bg-gray-100"
             @click="toggleMenu">
-            <span class="sr-only">Open user menu</span>
+            <span class="sr-only">menu user</span>
             <i class="bx bx-user"></i>
           </button>
         </div>
@@ -74,7 +76,7 @@
             <div class="relative w-full">
               <input type="text" v-model="searchQuery" @input="handleInput" @keyup.enter="performSearch"
                 placeholder="Tìm kiếm sản phẩm..."
-                class="w-full px-4 py-2 pr-10 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" />
+                class="w-full px-4 py-2 pr-10 rounded-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500" />
               <!-- Search icon -->
               <span @click="performSearch"
                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500">
@@ -107,7 +109,7 @@
                     <ul class="py-1">
                       <li v-for="category in categories" :key="category.id">
                         <div
-                          @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); }"
+                          @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); isDropdownOpen = false }"
                           href="#" class="block px-4 py-2 text-black hover:bg-gray-100 transition-all cursor-pointer">
                           {{ category.name }}
                         </div>
@@ -125,7 +127,7 @@
               </router-link>
 
               <p @click="modalSearchOrderIsOpen = !modalSearchOrderIsOpen"
-                class="rounded-none px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
+                class="rounded-none cursor-pointer px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i v-if="!modalSearchOrderIsOpen" class="bx bx-search-alt mr-2"></i>
                 <i v-else class="bx bx-x mr-2"></i>
                 <span class="hidden lg:inline"> {{ !modalSearchOrderIsOpen ? 'Tra cứu đơn hàng' : 'Đóng tra cứu '
@@ -157,26 +159,47 @@
       </div>
     </div>
 
-    <!-- Mobile menu, show/hide based on menu state. -->
+    <!-- Mobile menu -->
     <div class="sm:hidden" id="mobile-menu" v-if="isMenuOpen">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Doanh
-          mục</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Ưu
-          đãi</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Liên
-          hệ</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Tra
-          cứu</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black">Giỏ
-          hàng</a>
+        <!-- Personal Information Link with Icon -->
+        <router-link :to="{ name: 'builder' }"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-menu"></i> <!-- Personal Information Icon -->
+          <span>Xây dựng cấu hình</span>
+        </router-link>
+
+        <!-- Offers Link with Icon -->
+        <router-link :to="{ name: 'searchOrder' }"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-search"></i> <!-- Offers Icon -->
+          <span>Tra cứu đơn hàng</span>
+        </router-link>
+
+        <!-- Contact Link with Icon -->
+        <router-link :to="{ name: 'contactUs' }"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-phone"></i> <!-- Contact Icon -->
+          <span>Liên hệ</span>
+        </router-link>
+
+        <!-- Track Order Link with Icon -->
+        <a href="/forgotpassword"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-search"></i> <!-- Track Order Icon -->
+          <span>Quên mật khẩu</span>
+        </a>
+
+        <!-- Cart Link with Icon -->
+        <router-link :to="{ name: 'yourCart' }"
+          class="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-gray-100 hover:text-black flex items-center space-x-3">
+          <i class="bx bx-cart"></i> <!-- Cart Icon -->
+          <span>Giỏ hàng</span>
+        </router-link>
       </div>
+
     </div>
+
     <transition name="fade">
       <div v-if="isCartModalOpen" v-show="isVisible"
         class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-30">
@@ -261,6 +284,33 @@
       </div>
     </transition>
 
+    <transition name="fade">
+      <div v-if="isNoticationOpen"
+        class="absolute top-15  bg-gray-50 p-4 rounded-sm shadow-lg w-full sm:w-full md:w-full z-50">
+        <div v-if="notifications.length === 0" class="text-center text-gray-500">
+          Không có thông báo
+        </div>
+        <div v-else>
+          <ul>
+            <li v-for="(notification, index) in notifications" :key="index"
+              class="p-2 border-b flex flex-col sm:flex-row sm:items-center">
+              <p class="text-sm text-gray-500 sm:w-1/3 sm:text-left">
+                Thời gian: {{ formatDate(notification.timestamp) }}
+              </p>
+              <p class="font-semibold text-gray-800 sm:w-2/3 sm:text-right">
+                {{ notification.note }}
+              </p>
+              <!-- Icon để xóa thông báo -->
+              <button @click="deleteNotificationById(notification.id), handleGetNotificationFromLocalStorage()"
+                class="text-gray-500 hover:text-red-500 ml-2 sm:ml-4">
+                <i class="bx bx-x text-lg"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </transition>
+
 
   </nav>
 </template>
@@ -270,6 +320,7 @@ import { getCategories } from "@/api/categoryApi";
 import notificationService from "@/services/notificationService";
 import { mapGetters, mapActions } from 'vuex';
 import ListProductComponent from "../cart/cartNavHomeComponent.vue";
+import { deleteNotificationById, getNotifications } from "@/services/notiServiceC";
 
 
 export default {
@@ -287,16 +338,18 @@ export default {
       modalSearchOrderIsOpen: false,
       searchQuery: "",
       isCartModalOpen: false,
+      isNoticationOpen: false,
+      notifications: [],
     };
   },
   components: {
-    ListProductComponent, // Khai báo component
+    ListProductComponent,
   },
   async mounted() {
     try {
       const response = await getCategories();
       this.categories = response.data;
-      console.log(this.categories);
+      this.handleGetNotificationFromLocalStorage();
     } catch (error) {
       console.error("Lỗi khi lấy danh mục:", error.message);
     }
@@ -307,6 +360,14 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    deleteNotificationById,
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleString();
+    },
+    handleGetNotificationFromLocalStorage() {
+      this.notifications = getNotifications();
+    },
     searchOrder() {
       if (!this.searchOrderObject.phoneNumber || !this.searchOrderObject.orderCode) {
         notificationService.warning('Vui lòng nhập đầy đủ thông tin.')
@@ -323,7 +384,6 @@ export default {
     },
     performSearch() {
       if (this.searchQuery.trim()) {
-        // Navigate to the product route with the query parameter
         this.$router.push({ name: 'product', query: { keyword: this.searchQuery.trim() } });
       }
     },
@@ -332,9 +392,11 @@ export default {
         notificationService.info('Vui lòng đăng nhập');
         return;
       }
+      this.isNoticationOpen = false
       this.isCartModalOpen = !this.isCartModalOpen;
     },
     toggleMenu() {
+      this.isNoticationOpen = false
       this.isProfileOpen = !this.isProfileOpen;
     },
     OpenMenu() {

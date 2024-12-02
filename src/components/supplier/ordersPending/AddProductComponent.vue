@@ -5,12 +5,18 @@
             :message="errors.productName" />
 
         <!-- Giá sản phẩm -->
-        <CustomInputComponent v-model="form.productPrice" label="Giá Sản Phẩm" type="number"
+
+
+        <CustomInputComponent v-model="form.productPrice"
+            :label="'Giá gốc ~ ' + handleCaculatorVND(form.productPrice ? form.productPrice : 0)" type="number"
             :error="!!errors.productPrice" :message="errors.productPrice" />
 
+
         <!-- Giảm giá -->
-        <CustomInputComponent v-model="form.discountProduct" label="Giảm Giá (%)" type="number"
+        <CustomInputComponent v-model="form.discountProduct" :label="'Giảm Giá (%) '" type="number"
             :error="!!errors.discountProduct" :message="errors.discountProduct" />
+
+
 
 
         <CustomInputComponent v-model="form.quantity" label="Số lượng" type="number" :error="!!errors.quantity"
@@ -125,6 +131,7 @@ export default {
             type: Array,
             required: true,
         },
+
         product: {
             type: Object,
             default: () => ({
@@ -155,6 +162,12 @@ export default {
     },
 
     methods: {
+        handleCaculatorVND(amount) {
+            return new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+            }).format(amount);
+        },
         onEditorChange(event, editor) {
             this.form.productLongDescription = editor.getData();
         },

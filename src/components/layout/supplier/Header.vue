@@ -46,39 +46,28 @@
 
         <!-- mobile header  -->
         <nav
-            class="fixed inset-x-0 bottom-0 bg-white border-t shadow-lg md:hidden flex justify-around py-3 items-center">
+            class="fixed inset-x-0 bottom-0 z-50 bg-white border-t shadow-lg md:hidden flex justify-around py-3 items-center">
             <router-link :to="{ name: 'SupplierHome' }" :class="{ 'text-blue-600 ': $route.name === 'SupplierHome' }"
                 class="flex flex-col items-center ">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18M3 6h18" />
-                </svg>
-                <span class="text-xs">Home</span>
+                <i class="bx bx-home"></i>
+                <span class="text-xs">Trang chủ</span>
             </router-link>
-            <a href="#" class="flex flex-col items-center text-gray-500 hover:text-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5.121 17.804A6 6 0 1118.878 6.196a6 6 0 01-13.757 0z" />
-                </svg>
-                <span class="text-xs">Search</span>
-            </a>
-            <a href="#" class="flex flex-col items-center text-gray-500 hover:text-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 10l4.553 7.599L9 17M4 6h16m-8 8l-4.553-7.599" />
-                </svg>
-                <span class="text-xs">Notifications</span>
-            </a>
-            <a href="#" class="flex flex-col items-center text-gray-500 hover:text-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 14l2-2-2-2m0 0l-2 2m2-2v8m0 4v-4m0-8V4m0-2v2m0-2V2" />
-                </svg>
-                <span class="text-xs">Profile</span>
-            </a>
+            <router-link :to="{ name: 'OrdersSupplier' }"
+                :class="{ 'text-blue-600 ': $route.name === 'OrdersSupplier' }" class="flex flex-col items-center ">
+                <i class="bx bx-package"></i>
+                <span class="text-xs">Đơn hàng</span>
+            </router-link>
+            <router-link :to="{ name: 'OrdersPendingSupplier' }"
+                :class="{ 'text-blue-600 ': $route.name === 'OrdersPendingSupplier' }"
+                class="flex flex-col items-center ">
+                <i class="bx bx-package"></i>
+                <span class="text-xs">Tạo đơn hàng</span>
+            </router-link>
+            <router-link :to="{ name: 'walletSupplier' }"
+                :class="{ 'text-blue-600 ': $route.name === 'walletSupplier' }" class="flex flex-col items-center ">
+                <i class="bx bx-user"></i>
+                <span class="text-xs">Tài khoản</span>
+            </router-link>
         </nav>
     </div>
 

@@ -39,7 +39,7 @@
             </router-link>
             <router-link :to="{ name: 'walletSupplier' }" :class="{ 'text-red-500 ': $route.name === 'walletSupplier' }"
                 class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                <span>Quản lý ví</span>
+                <span>Thông tin và Ví </span>
             </router-link>
             <router-link :to="{ name: 'TransactionsHistory' }"
                 :class="{ 'text-red-500 ': $route.name === 'TransactionsHistory' }" class=" flex items-center px-4 py-2 text-gray-600

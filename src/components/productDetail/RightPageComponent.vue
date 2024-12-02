@@ -102,6 +102,7 @@ import { toggleProductFavorite } from "@/api/auth/favoriteApi";
 import notificationService from "@/services/notificationService";
 import { mapGetters } from "vuex";
 import { addProductToCart } from "@/api/CartApi";
+import { saveNotifications } from "@/services/notiServiceC";
 
 export default {
   name: "ProductDetail",
@@ -146,6 +147,7 @@ export default {
         try {
           notificationService.success("Thành công");
           await toggleProductFavorite(this.product.id);
+          saveNotifications('' + this.product.productName + ' Vừa được thêm vào yêu thích')
         } catch (error) {
           console.error("Failed to toggle favorite:", error);
         } finally {
@@ -166,6 +168,7 @@ export default {
       try {
         const result = await addProductToCart(this.product.id, this.quantity);
         notificationService.success("Sản phẩm đã được thêm vào giỏ hàng!");
+        saveNotifications('Thêm (' + this.quantity + ')' + this.product.productName + ' Vào giỏ hàng')
         console.log("Kết quả giỏ hàng:", result);
         this.$emit("cart-updated", result);
       } catch (error) {

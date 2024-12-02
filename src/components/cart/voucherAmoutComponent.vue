@@ -199,6 +199,7 @@ import { placeOrder } from "@/api/orderForCustomerApi";
 import notificationService from "@/services/notificationService";
 import { createPaymentForOrderCustumer } from "@/api/vnpayApi";
 import { mapGetters } from "vuex";
+import { saveNotifications } from "@/services/notiServiceC";
 export default {
   props: {
     totalPrice: {
@@ -283,6 +284,7 @@ export default {
       try {
         const res = await placeOrder(orderRequest);
         notificationService.success(res.message);
+        saveNotifications('Đặt hàng thành công')
         this.$emit("load-cart");
       } catch (error) {
         console.error(error);
@@ -308,8 +310,9 @@ export default {
         );
         if (res && res.data.paymentUrl) {
           window.location.href = res.data.paymentUrl;
+          saveNotifications('Tiến hành thanh toán đơn hàng' + orderRequest.amount)
         } else {
-          console.error("Không tìm thấy URL thanh toán trong phản hồi .");
+          console.error("URL NOT FOUNT");
         }
       } catch (error) {
         console.error(error);
@@ -338,32 +341,26 @@ export default {
     async handleFetchVoucher() {
       try {
         const response = await getVoucherForUser();
-        // Lọc các voucher
+        console.log(response)
         this.vouchers = response.data.filter((voucher) => {
           let isValid = false;
           const totalPrice = this.totalPrice;
-          if (voucher.discountAmount > 0) {
-            if (totalPrice >= voucher.minimumOrderValue) {
-              isValid = true;
-            }
-          } else if (voucher.discountPercent > 0) {
-            const discount = (voucher.discountPercent / 100) * totalPrice;
-            if (discount <= voucher.maxDiscountAmount) {
-              isValid = true;
-            }
+          if (totalPrice >= voucher.minimumOrderValue) {
+            isValid = true;
           }
-
           return isValid;
-        });
+        }
+        );
       } catch (error) {
         console.error("Failed to load vouchers:", error?.message || error);
       }
+
     },
     async handleFetchWallet() {
       try {
         const response = await getWallet();
 
-        this.userBanks = response.data; // Gán dữ liệu vào userBanks
+        this.userBanks = response.data;
       } catch (error) {
         console.error("Failed to load wallets:", error?.message || error);
       }
@@ -373,7 +370,7 @@ export default {
         const response = await getAddressUser();
         this.userAddresses = response.data;
         if (response.length > 0) {
-          this.selectedAddress = response[0]; // Mặc định chọn địa chỉ đầu tiên
+          this.selectedAddress = response[0];
         }
       } catch (error) {
         console.error("Failed to fetch addresses:", error);

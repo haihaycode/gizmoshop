@@ -167,17 +167,17 @@ export default {
         calculateTotalPrice(orderDetails) {
             if (!orderDetails || orderDetails.length === 0) return 0;
             return orderDetails.reduce((total, item) => {
-                const price = item.price || 0;
-                const quantity = item.quantity || 0;
-                const discount = item.product?.discountProduct || 0; // Giảm giá theo %
-                // Tính tổng giá trị của sản phẩm trước giảm giá
-                const originalTotal = price * quantity;
-                // Tính giá trị sau giảm giá
-                const discountedTotal = originalTotal * (1 - discount / 100);
-                // Cộng dồn vào tổng
-                return total + discountedTotal;
+                if (item.product.productStatusResponse?.id !== 3) {
+                    const price = item.product.productPrice || 0;
+                    const quantity = item.quantity || 0;
+                    const discount = item.product?.discountProduct || 0;
+                    const originalTotal = price * quantity;
+                    const discountedTotal = originalTotal * (1 - discount / 100);
+                    return total + discountedTotal;
+                }
+                return total;
             }, 0);
-        },
+        }
     },
 };
 </script>

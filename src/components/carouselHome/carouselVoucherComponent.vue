@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <ImageCarouselComponent :items="voucher"></ImageCarouselComponent>
   </div>
 </template>

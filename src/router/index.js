@@ -54,8 +54,11 @@ router.beforeEach((to, from, next) => {
 router.beforeEach(async (to, from, next) => {
     const isAuthenticated = store.getters['auth/token'];
 
-    // Chuyển đến đăng nhập nếu chưa đăng nhập mà truy cập các route /account
-    if (!isAuthenticated && to.path.includes('/account') && to.path.includes('/cart')) {
+
+    if (!isAuthenticated && to.path.includes('/cart')) {
+        return next('/login');
+    }
+    if (!isAuthenticated && to.path.includes('/account')) {
         return next('/login');
     }
 

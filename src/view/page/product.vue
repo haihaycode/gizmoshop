@@ -1,18 +1,24 @@
 <template>
-    <div class="container mx-auto p-4 flex mt-[130px]">
+
+
+    <div class="container mx-auto p-4 flex flex-col md:flex-row">
+        <button @click="toggleSidebar" class="md:hidden  text-gray-800 p-3 rounded-full text-end">
+            <i :class="sidebarVisible ? 'bx bx-x' : 'bx bx-menu'"></i> {{ sidebarVisible ? 'Đóng bộ lọc' : 'Bộ lọc' }}
+        </button>
         <!-- Left Sidebar Filter -->
-        <aside class="w-1/4">
+        <aside :class="{ 'w-full md:w-1/4': true, 'hidden': !sidebarVisible }"
+            class="md:block mb-4 md:mb-0 transition-all duration-300">
             <SideFilterComponent @filterProducts="updateFilter" />
         </aside>
 
         <!-- Main  -->
-        <div class="w-3/4 px-2">
-            <BreadcrumbComponent :items="breakCrumb"></BreadcrumbComponent>
+        <div class="w-full md:w-3/4 px-2">
+            <BreadcrumbComponent class="hidden sm:block md:block" :items="breakCrumb"></BreadcrumbComponent>
             <SortOptionsComponent @sortSelected="updateSort" :initialSort="filter.sort"></SortOptionsComponent>
             <div v-if="!isLoading && products.length === 0" class="text-center text-gray-500">
                 <p>không có sản phẩm nào</p>
             </div>
-            <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 ">
+            <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                 <ProductCard v-for="product in products" :key="product.id" :product="product" />
             </div>
             <div v-if="isLoading" class="flex justify-center items-center py-10 text-red-500">
@@ -46,6 +52,7 @@ export default {
 
     data() {
         return {
+            sidebarVisible: true,
             breakCrumb: [
                 { text: 'Trang chủ', name: 'home' },
                 { text: 'Sản phẩm', name: 'product' },
@@ -71,6 +78,9 @@ export default {
         this.filteredProducts = this.products;
     },
     methods: {
+        toggleSidebar() {
+            this.sidebarVisible = !this.sidebarVisible;
+        },
         async handleFetchProducts() {
             try {
                 const res = await getProduct(this.filter);

@@ -14,26 +14,27 @@
 </template>
 
 <script>
-import { orderSummary } from '@/api/orderForCustomerApi';
 import { formatCurrencyVN } from '@/utils/currencyUtils';
+
 export default {
     name: 'OrderStats',
+    props: {
+        orderCount: {
+            type: String,
+            default: ''
+        },
+        totalPoints: {
+            type: [Number, String],
+            default: 0
+        }
+    },
     data() {
         return {
-            orderCount: 0,
-            totalPoints: 0,
+            // Không cần khai báo orderCount ở đây, vì nó đã được truyền qua props
         };
     },
     methods: {
-        formatCurrencyVN,
-        async fetchOrderSummary() {
-            const response = await orderSummary();
-            this.orderCount = response.data.totalQuantityOrder;
-            this.totalPoints = response.data.totalAmountOrder;
-        }
+        formatCurrencyVN
     },
-    mounted() {
-        this.fetchOrderSummary();
-    }
 };
 </script>

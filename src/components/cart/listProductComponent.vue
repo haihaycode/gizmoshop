@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-red-500 " v-if="isLoading">
-      <p class="text-red-500"><i class='bx bx-loader bx-spin'></i> &nbsp;Đang tải dữ liệu ...</p>
+      <p class="text-red-500 text-center"><i class='bx bx-loader bx-spin'></i> &nbsp;Đang tải dữ liệu ...</p>
       <img class="w-[400px] mx-auto" :src="require('@/assets/gizmoImageLoading/gizmo.gif')" alt="">
     </div>
 
@@ -32,17 +32,16 @@
           </button>
         </div>
         <div v-for="(product, index) in cartItems" :key="product.id"
-          class="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center justify-between border border-gray-200 hover:shadow-lg transition duration-200">
-          <!-- Chi tiết sản phẩm -->
-          <div class="flex items-center space-x-4">
+          class="bg-white rounded-lg shadow-md p-4 mb-4 flex flex-col md:flex-row items-center justify-between border border-gray-200 hover:shadow-lg transition duration-200">
+          <div class="flex items-center space-x-4 w-full md:w-auto  ">
             <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" v-model="product.selected" />
             <img :src="product.productId.thumbnail
               ? loadImage(product.productId.thumbnail, 'product')
               : 'https://i.pinimg.com/736x/01/7c/44/017c44c97a38c1c4999681e28c39271d.jpg'
               " alt="Product Image" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg border border-gray-300" />
             <div>
-              <p class="text-gray-800 font-semibold text-sm md:text-base">
-                {{ product.productId.productName }}
+              <p class="text-gray-800 font-semibold text-sm md:text-base ">
+                {{ truncateText(product.productId.productName, 1000) }}
               </p>
               <p class="text-gray-600 text-sm">
                 {{ truncateText(product.productId.productShortDescription, 100) }}
@@ -62,8 +61,7 @@
               </div>
             </div>
           </div>
-
-          <div class="flex items-center space-x-2">
+          <div class="flex justify-center items-center ">
             <button
               class="text-gray-500 border border-gray-300 rounded-full w-8 h-8 items-center justify-center hover:bg-gray-100 transition duration-200"
               @click="updateQuantity(index, -1)" :disabled="isLoading || product.quantity <= 1">
@@ -162,7 +160,7 @@
       </div>
     </div>
     <div v-if="cartItems.length <= 0 && !isLoading" class="flex justify-center  ">
-      <p>Không có sản phẩm nào trong giỏ hàng
+      <p class="px-2">Không có sản phẩm nào trong giỏ hàng
         <router-link :to="{ name: 'product' }">
           <span class="text-red-500 underline hover:text-blue-500">Tiếp tục mua sắm</span>
         </router-link>

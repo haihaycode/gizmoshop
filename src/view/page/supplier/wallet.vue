@@ -1,14 +1,23 @@
 <template>
     <div class="min-h-screen flex flex-wrap py-10 mx-auto justify-center">
-        <div class="max-w-md w-full md:w-1/2">
-            <WalletActions @deposit="handleDeposit" @withdraw="handleWithdraw" />
-            <WalletBalance :walletData="wallet" />
-        </div>
-        <div class="w-full md:w-1/2 flex  justify-center">
-            <img src="https://omisell.com/vi-vn/wp-content/uploads/sites/2/2021/12/Screenshot_2.jpg" alt="Mô tả ảnh"
-                class="w-full h-[450px]" />
-        </div>
+        <div>
+            <div class="flex" v-if="!isLoading">
+                <div class="max-w-md w-full md:w-1/2">
+                    <WalletActions @deposit="handleDeposit" @withdraw="handleWithdraw" />
+                    <WalletBalance :walletData="wallet" :bankAccounts="bankAccounts" :addresses="addresses" />
+                </div>
+                <div class="hidden md:flex w-full md:w-1/2   justify-center">
+                    <img src="https://omisell.com/vi-vn/wp-content/uploads/sites/2/2021/12/Screenshot_2.jpg"
+                        alt="Mô tả ảnh" class="w-full h-[450px]" />
+                </div>
+            </div>
+            <div v-else>
+                <div v-if="isLoading" class="text-blue-500 text-center"><i
+                        class='bx bx-loader-circle bx-rotate-90 bx-spin' style='color:#1257c0'></i> Đang tải dữ liệu...
+                </div>
+            </div>
 
+        </div>
         <!-- modal rút tiền  -->
         <ModalBox :isOpen="isModalOpen" :header="'Rút tiền'" :loading="isLoading"
             :closeModal="() => { isModalOpen = false }">
@@ -80,6 +89,7 @@ import { withdrawSupplierFunds } from '@/api/supplierApi';
 import notificationService from "@/services/notificationService";
 import { mapGetters } from "vuex";
 import { createPaymentForOrderCustumer } from '@/api/vnpayApi';
+import { getAddress } from '@/api/auth/addressApi';
 export default {
     name: "WalletPage",
     components: {
@@ -94,6 +104,8 @@ export default {
             amountVietNamDong: '',
             wallet: {},
             banks: [],
+            addresses: [],
+            bankAccounts: [],
             isModalOpen: false,//nút
             isDepositModalOpen: false,//nạp
             withdrawData: {
@@ -122,7 +134,16 @@ export default {
                 currency: "VND",
             }).format(amount);
         },
-
+        async handleFetchAll() {
+            try {
+                const resAddress = await getAddress();
+                const resWallet = await getWallet();
+                this.addresses = resAddress.data;
+                this.bankAccounts = resWallet.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async handleFetchWallet() {
             try {
                 const resWallet = await getInfoSuplier();
@@ -131,6 +152,8 @@ export default {
                 this.banks = resBank.data;
             } catch (error) {
                 console.error(error);
+            } finally {
+                this.handleFetchAll();
             }
         },
         handleDeposit() {

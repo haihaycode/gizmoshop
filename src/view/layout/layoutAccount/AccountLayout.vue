@@ -114,6 +114,7 @@ import LoadingSkeletionComponent from '@/components/containers/loading/LoadingSk
 
 import { mapGetters } from 'vuex';
 import BackComponent from '@/components/containers/breadcrumb/backComponent.vue';
+
 export default {
     name: 'App',
     components: {
@@ -131,6 +132,7 @@ export default {
     },
     computed: {
         ...mapGetters('loading', ['isLoading']),
+        ...mapGetters('auth', ['token', 'user', 'name', 'role']),
     },
     methods: {
         loadImage,

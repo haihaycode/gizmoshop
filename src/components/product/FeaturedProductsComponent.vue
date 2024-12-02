@@ -80,11 +80,23 @@
                     </Button>
                 </div>
             </div>
-            <div v-if="products.length <= 0 && !isLoading">
-                Không có dữ liệu
-            </div>
+
             <div v-if="isLoading" class="text-blue-500 font-thin px-2">
-                Đang tải dữ liệu ...
+                <div v-if="!isLoading">
+                    <div class="max-w-md w-full md:w-1/2">
+                        <WalletActions @deposit="handleDeposit" @withdraw="handleWithdraw" />
+                        <WalletBalance :walletData="wallet" />
+                    </div>
+                    <div class="w-full md:w-1/2 flex  justify-center">
+                        <img src="https://omisell.com/vi-vn/wp-content/uploads/sites/2/2021/12/Screenshot_2.jpg"
+                            alt="Mô tả ảnh" class="w-full h-[450px]" />
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="text-red-500 text-center"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                            style='color:red'></i> Đang tải dữ
+                        liệu...</div>
+                </div>
             </div>
         </div>
 

@@ -1,31 +1,38 @@
 <template>
-    <div v-if="infoSupplier">
-        <div v-if="!infoSupplier.deleted" class="min-h-screen ">
-            <!-- Tạo đơn hàng -->
-            <CreateOrder @add-order="addOrder" :addresses="addresses" :bank-accounts="bankAccounts"
-                :inventories="inventories" />
-
-            <!-- Danh sách đơn hàng -->
-            <OrderList :orders="orders" @open-modal="openProductModal" @update-order="updateOrder"
-                @edit-product="editProduct" @remove-order="removeOrder" @send-order="sendOrder" />
-
-
-
-            <!-- Modal Thêm Sản Phẩm -->
-            <ModalBox :isOpen="showModal" :closeModal="closeProductModal" header="Thêm Sản Phẩm">
-                <template #body>
-                    <AddProduct :order="selectedOrder" :product="selectedProduct ? selectedProduct : {}"
-                        @add-product="addProductToOrder" @close="closeProductModal" :brands="brands"
-                        :categories="categories" />
-                </template>
-            </ModalBox>
+    <div>
+        <div v-if="isLoadingComponent">
+            <span v-if="isLoadingSendOrder"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                    style='color:#1257c0'></i>&nbsp; Đang tải dữ liệu ...</span>
         </div>
-        <div v-else class="min-h-screen flex items-center justify-center">
-            <div class="text-center">
-                <!-- SVG Icon -->
-                <i class='bx bxs-lock bx-tada text-2xl md:text-4xl text-blue-700'></i>
-                <!-- Message -->
-                <p class="text-lg font-light text-blue-700">Đơn đăng ký của bạn vẫn chưa được xét duyệt </p>
+        <div v-if="infoSupplier && !isLoadingComponent">
+            <div v-if="!infoSupplier.deleted" class="min-h-screen ">
+                <!-- Tạo đơn hàng -->
+                <CreateOrder @add-order="addOrder" :addresses="addresses" :bank-accounts="bankAccounts"
+                    :inventories="inventories" />
+
+                <!-- Danh sách đơn hàng -->
+                <OrderList :orders="orders" @open-modal="openProductModal" @update-order="updateOrder"
+                    @edit-product="editProduct" @remove-order="removeOrder" @send-order="sendOrder"
+                    :isLoadingSendOrder="isLoadingSendOrder" />
+
+
+
+                <!-- Modal Thêm Sản Phẩm -->
+                <ModalBox :isOpen="showModal" :closeModal="closeProductModal" header="Thêm Sản Phẩm">
+                    <template #body>
+                        <AddProduct :order="selectedOrder" :product="selectedProduct ? selectedProduct : {}"
+                            @add-product="addProductToOrder" @close="closeProductModal" :brands="brands"
+                            :categories="categories" />
+                    </template>
+                </ModalBox>
+            </div>
+            <div v-else class="min-h-screen flex items-center justify-center">
+                <div class="text-center">
+                    <!-- SVG Icon -->
+                    <i class='bx bxs-lock bx-tada text-2xl md:text-4xl text-blue-700'></i>
+                    <!-- Message -->
+                    <p class="text-lg font-light text-blue-700">Đơn đăng ký của bạn vẫn chưa được xét duyệt </p>
+                </div>
             </div>
         </div>
     </div>
@@ -70,11 +77,18 @@ export default {
             selectedProduct: null,
             showModal: false,
             isEditingProduct: false,
+            isLoadingSendOrder: false,
+            isLoadingComponent: false
+
         };
     },
     mounted() {
+        this.isLoadingComponent = true
+
         this.fetchInfoSupplier();
         this.handleFetchAll();
+
+        this.isLoadingComponent = false
     },
     methods: {
         async fetchInfoSupplier() {
@@ -161,11 +175,17 @@ export default {
             localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
         },
         async sendOrder(orderId) {
-            const orderToSend = this.orders.find((order) => order.id === orderId);
-            await this.sendOrderFinalToShop(orderToSend)
-            // thực hiện logic trước khi xóas đơn hàng
-            this.orders = this.orders.filter((order) => order.id !== orderId);
-            localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
+            this.isLoadingSendOrder = !this.isLoadingSendOrder
+            try {
+                const orderToSend = this.orders.find((order) => order.id === orderId);
+                await this.sendOrderFinalToShop(orderToSend)
+                this.orders = this.orders.filter((order) => order.id !== orderId);
+                localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
+            } catch (error) {
+                console.error(error)
+            } finally {
+                this.isLoadingSendOrder = !this.isLoadingSendOrder
+            }
         },
         async convertBase64ToBlobs(base64Strings) {
             const blobPromises = base64Strings.map(async (base64) => {

@@ -12,32 +12,34 @@
         </h1>
 
         <!-- Tabs -->
-        <div class="flex border-b border-gray-200 mb-6">
-            <button class="px-4 py-2 border-b-2 hover:bg-blue-200 "
+        <div class="flex flex-wrap border-b border-gray-200 mb-6">
+            <button class="px-4 py-2 border-b-2 bg-gray-50 hover:bg-blue-200 w-full sm:w-auto"
                 :class="currentTab === 'inProgress' ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-600'"
                 @click="setTab('inProgress')">
                 Đơn hàng gần đây (mới)
             </button>
-            <button class="px-4 py-2 border-b-2 hover:bg-green-200 "
+            <button class="px-4 py-2 border-b-2 bg-gray-50 hover:bg-green-200 w-full sm:w-auto"
                 :class="currentTab === 'completed' ? 'border-green-500 text-green-500' : 'border-transparent text-gray-600'"
                 @click="setTab('completed')">
                 Đơn hàng đã hoàn tất
             </button>
-            <button class="px-4 py-2 border-b-2 hover:bg-red-200 "
+            <button class="px-4 py-2 border-b-2 bg-gray-50 hover:bg-red-200 w-full sm:w-auto"
                 :class="currentTab === 'rejectedBySupplier' ? 'border-red-500 text-red-500' : 'border-transparent text-gray-600'"
                 @click="setTab('rejectedBySupplier')">
                 Bị từ chối bởi nhà cung cấp
             </button>
-            <button class="px-4 py-2 border-b-2 hover:bg-yellow-200 "
+            <button class="px-4 py-2 border-b-2 bg-gray-50 hover:bg-yellow-200 w-full sm:w-auto"
                 :class="currentTab === 'rejectedByStore' ? 'border-yellow-500 text-yellow-500' : 'border-transparent text-gray-600'"
                 @click="setTab('rejectedByStore')">
                 Bị từ chối bởi cửa hàng
             </button>
         </div>
 
+
         <!-- Nội dung Tab -->
         <div v-if="currentTab === 'inProgress'">
-            <div v-if="isLoading" class="text-blue-500">Đang tải dữ liệu...</div>
+            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersInProgress.length" class="space-y-4">
@@ -53,7 +55,8 @@
         </div>
 
         <div v-else-if="currentTab === 'completed'">
-            <div v-if="isLoading" class="text-blue-500">Đang tải dữ liệu...</div>
+            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersCompleted.length" class="space-y-4">
@@ -70,7 +73,8 @@
 
         <!-- Tab Bị từ chối bởi nhà cung cấp -->
         <div v-else-if="currentTab === 'rejectedBySupplier'">
-            <div v-if="isLoading" class="text-blue-500">Đang tải dữ liệu...</div>
+            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersRejectedBySupplier.length" class="space-y-4">
@@ -88,7 +92,8 @@
 
         <!-- Tab Bị từ chối bởi cửa hàng -->
         <div v-else-if="currentTab === 'rejectedByStore'">
-            <div v-if="isLoading" class="text-blue-500">Đang tải dữ liệu...</div>
+            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersRejectedByStore.length" class="space-y-4">
