@@ -27,7 +27,7 @@
 
       <!-- Thành phần tổng kết giỏ hàng chiếm 3 phần -->
       <div class="w-full lg:w-3/10 md:w-1/3 p-4">
-        <VoucherAmountComponent :totalPrice="finalPrice" @load-cart="getViewCart" />
+        <VoucherAmountComponent :totalPrice="finalPrice" @load-cart="getViewCart" :cartItems="cartItems" />
       </div>
     </div>
     <div v-if="cartItems.length <= 0 && !isLoading" class="flex justify-center  ">

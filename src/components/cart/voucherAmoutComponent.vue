@@ -206,6 +206,9 @@ export default {
       type: Number,
       required: true,
     },
+    cartItems: {
+      type: Array,
+    }
   },
   data() {
     return {
@@ -291,7 +294,7 @@ export default {
       }
     },
     async handleOnlinePayment() {
-      const orderRequest = {
+      var orderRequest = {
         addressId: this.selectedAddress.id,
         paymentMethod: false, //false for online payment
         walletId: this.selectedBank.id, // No wallet ID required for cash
@@ -301,6 +304,16 @@ export default {
         type: "order_payment",
       };
       try {
+        // tính phí vận chuyển (totalweight * 3000) , phí duy trì , phí cố định +  orderRequest.amount
+        var totalWeight = 0;
+        const fixedCost = 20000;
+        const phiduytri = 10000;
+
+        this.cartItems.map(cart => {
+          totalWeight += cart.productId?.productWeight * cart.quantity
+        })
+        orderRequest.amount = orderRequest.amount + (totalWeight * 3000) + fixedCost + phiduytri;
+
         const res = await createPaymentForOrderCustumer(
           orderRequest.amount,
           orderRequest.walletId,
