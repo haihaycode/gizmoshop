@@ -242,12 +242,12 @@ export default {
                     0
                 ),
                 contractDate: data.duration,
-                contractMaintenanceFee: Math.round(
-                    this.calculateStorageCost(this.calculateTotalSizeM2(data), data.duration) * 1000
-                ),
+                contractMaintenanceFee: this.calculateStorageCost(this.calculateTotalSizeM2(data), data.duration) * 1000
+                ,
                 quantity: 0
             }
 
+            console.log("//////////////////////////// order send final")
             console.log(dataOrder)
             //tạo order
             const resOrder = await createOrderBySupplier(dataOrder)
