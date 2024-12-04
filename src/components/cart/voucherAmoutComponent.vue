@@ -81,13 +81,24 @@
         {{ formatCurrency(discountAmount) }}
       </p>
     </div>
+    <div class="flex justify-between items-center mb-4">
+      <p class="text-gray-600">Phí duy trì & phí cố định :</p>
+      <span class="font-semibold text-red-500">
+        {{ formatCurrency(30000) }}
+      </span>
+    </div>
+    <div class="flex justify-between items-center mb-4">
+      <p class="text-gray-600">Phí vận chuyển</p>
+      <p class="font-semibold text-red-500">
+        {{ formatCurrency(totalShippingCost) }}
+      </p>
+    </div>
     <div class="flex justify-between items-center border-t pt-4">
       <p class="text-lg font-bold">Tổng cộng:</p>
       <p class="text-lg font-bold text-green-600">
-        {{ formatCurrency(finalPrice) }}
+        {{ formatCurrency(totalPriceF) }}
       </p>
     </div>
-
     <div class="mt-2">
       <label class="block text-gray-700 font-medium mb-2">
         Chọn địa chỉ giao hàng
@@ -235,6 +246,23 @@ export default {
         this.selectedPaymentMethod !== null
       );
     },
+    totalPriceF() {
+      var totalWeight = 0;
+      const fixedCost = 20000;
+      const phiduytri = 10000;
+      this.cartItems.map(cart => {
+        totalWeight += cart.productId?.productWeight * cart.quantity
+      })
+      return (this.totalPrice - this.discountAmount) + (totalWeight * 3000) + fixedCost + phiduytri;
+    },
+    totalShippingCost() {
+      let totalWeight = 0;
+      this.cartItems.forEach(cart => {
+        totalWeight += (cart.productId?.productWeight || 0) * cart.quantity;
+      });
+
+      return totalWeight * 3000; // Ví dụ: 3000 đồng/kg
+    },
     discountAmount() {
       if (this.selectedVoucher) {
 
@@ -294,25 +322,24 @@ export default {
       }
     },
     async handleOnlinePayment() {
+      var totalWeight = 0;
+      const fixedCost = 20000;
+      const phiduytri = 10000;
+      this.cartItems.map(cart => {
+        totalWeight += cart.productId?.productWeight * cart.quantity
+      })
       var orderRequest = {
         addressId: this.selectedAddress.id,
         paymentMethod: false, //false for online payment
         walletId: this.selectedBank.id, // No wallet ID required for cash
         note: this.orderNote,
         voucherId: this.selectedVoucher ? this.selectedVoucher.id : null,
-        amount: this.finalPrice,
+        amount: (this.totalPrice - this.discountAmount) + (totalWeight * 3000) + fixedCost + phiduytri,
         type: "order_payment",
       };
       try {
         // tính phí vận chuyển (totalweight * 3000) , phí duy trì , phí cố định +  orderRequest.amount
-        var totalWeight = 0;
-        const fixedCost = 20000;
-        const phiduytri = 10000;
 
-        this.cartItems.map(cart => {
-          totalWeight += cart.productId?.productWeight * cart.quantity
-        })
-        orderRequest.amount = orderRequest.amount + (totalWeight * 3000) + fixedCost + phiduytri;
 
         const res = await createPaymentForOrderCustumer(
           orderRequest.amount,
