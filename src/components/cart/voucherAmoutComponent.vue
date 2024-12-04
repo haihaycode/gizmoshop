@@ -78,7 +78,7 @@
     <div class="flex justify-between items-center mb-4">
       <p class="text-gray-600">Giảm giá (voucher):</p>
       <p class="font-semibold text-red-500">
-        {{ formatCurrency(discountAmount) }}
+        - {{ formatCurrency(discountAmount) }}
       </p>
     </div>
     <div class="flex justify-between items-center mb-4">
@@ -312,6 +312,8 @@ export default {
         note: this.orderNote,
         voucherId: this.selectedVoucher ? this.selectedVoucher.id : null,
       };
+      console.log("handleCashPayment")
+      console.log(orderRequest)
       try {
         const res = await placeOrder(orderRequest);
         notificationService.success(res.message);
@@ -337,10 +339,10 @@ export default {
         amount: (this.totalPrice - this.discountAmount) + (totalWeight * 3000) + fixedCost + phiduytri,
         type: "order_payment",
       };
+      console.log("handleOnlinePayment")
+      console.log(orderRequest)
+
       try {
-        // tính phí vận chuyển (totalweight * 3000) , phí duy trì , phí cố định +  orderRequest.amount
-
-
         const res = await createPaymentForOrderCustumer(
           orderRequest.amount,
           orderRequest.walletId,
