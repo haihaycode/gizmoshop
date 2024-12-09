@@ -143,7 +143,6 @@ export default {
             }
         },
         async fetchRevenueData() {
-            this.isLoadingComponent = true
             try {
                 const statusIds = ['13'];
                 const today = new Date();
@@ -167,6 +166,7 @@ export default {
                 const weeklyRevenueResponse = await getOrderTotalPriceBySupplier(statusIds, firstDayStr, lastDayStr);
                 this.revenue.thisWeek = weeklyRevenueResponse.data.totalPriceOrder;
 
+
                 // Gọi API để lấy doanh thu tháng này
                 const monthlyRevenueResponse = await getOrderTotalPriceBySupplier(statusIds, firstDayMonthStr, lastDayMonthStr);
                 this.revenue.thisMonth = monthlyRevenueResponse.data.totalPriceOrder;
@@ -174,8 +174,6 @@ export default {
 
             } catch (error) {
                 console.error('Lỗi khi lấy dữ liệu doanh thu:', error);
-            } finally {
-                this.isLoadingComponent = false
             }
         },
         async fetchLastSixMonthsRevenue() {

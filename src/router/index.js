@@ -9,6 +9,7 @@ import ErrorRoutes from '@/router/modules/errorRoutes';
 import paymentRoutes from './modules/paymentRoutes';
 import SupplierRoutes from './modules/SupplierRoutes';
 
+
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -95,13 +96,16 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.beforeEach((to, from, next) => {
-    NProgress.start()
-    next()
-})
+    NProgress.start();
+    next();
+});
 
 router.afterEach(() => {
-    NProgress.done()
-})
-
+    // Kiểm tra trạng thái loading trong Vuex store
+    const loading = store.getters['loading/isLoading'];
+    if (!loading) {
+        NProgress.done();
+    }
+});
 
 export default router;
