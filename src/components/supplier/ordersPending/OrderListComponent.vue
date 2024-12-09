@@ -224,7 +224,8 @@ export default {
             this.$emit("remove-order", order.id);
         },
         sendOrder(order) {
-            this.$emit("send-order", order.id);
+
+            this.$emit("send-order", order.id, this.calculateStorageCost(this.calculateTotalSizeM2(order), order.duration));
         }
     },
 };

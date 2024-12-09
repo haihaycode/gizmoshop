@@ -174,12 +174,12 @@ export default {
             this.orders = this.orders.filter((order) => order.id !== orderId);
             localStorage.setItem("orders", JSON.stringify(this.orders)); // Cập nhật localStorage
         },
-        async sendOrder(orderId) {
+        async sendOrder(orderId, contractMaintenanceFeeOrder) {
             this.isLoadingSendOrder = !this.isLoadingSendOrder
             try {
                 const orderToSend = this.orders.find((order) => order.id === orderId);
                 console.log(orderToSend)
-                await this.sendOrderFinalToShop(orderToSend)
+                await this.sendOrderFinalToShop(orderToSend, contractMaintenanceFeeOrder)
                 this.orders = this.orders.filter((order) => order.id !== orderId);
                 localStorage.setItem("orders", JSON.stringify(this.orders));
             } catch (error) {
@@ -221,7 +221,7 @@ export default {
             }, 0);
             return totalArea.toFixed(2); // Làm tròn 2 chữ số thập phân
         },
-        async sendOrderFinalToShop(data) {
+        async sendOrderFinalToShop(data, contractMaintenanceFeeOrder) {
             let dataOrder = {
                 addressId: data.address.id,
                 paymentMethod: 0,  //0: Payment //1 : COD
@@ -242,7 +242,7 @@ export default {
                     0
                 ),
                 contractDate: data.duration,
-                contractMaintenanceFee: this.calculateStorageCost(this.calculateTotalSizeM2(data), data.duration) * 1000
+                contractMaintenanceFee: contractMaintenanceFeeOrder
                 ,
                 quantity: 0
             }
