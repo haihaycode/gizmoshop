@@ -101,11 +101,9 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(() => {
-    // Kiểm tra trạng thái loading trong Vuex store
-    const loading = store.getters['loading/isLoading'];
-    if (!loading) {
-        NProgress.done();
-    }
+
+    NProgress.done();
+
 });
 
 export default router;

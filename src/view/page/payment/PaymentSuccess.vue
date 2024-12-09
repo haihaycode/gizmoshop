@@ -5,6 +5,9 @@
             <div class="mb-4">
                 <i class='bx bxs-badge-check bx-tada text-blue-600 text-4xl mb-2'></i>
                 <h1 class="text-3xl font-bold text-blue-600">Thanh toán thành công !</h1>
+                <p v-if="type === 'pendingsupplier'">
+                    {{ type === 'pendingsupplier' ? 'Đăng ký trở thành cung cấp thành công đang đợi xét duyệt' : '' }}
+                </p>
             </div>
             <router-link to="/"
                 class="mt-6 inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Về
@@ -17,7 +20,10 @@
 </template>
 
 <script>
+import notificationService from '@/services/notificationService';
+import { saveNotifications } from '@/services/notiServiceC';
 import { formatCurrencyVN } from '@/utils/currencyUtils';
+import { mapActions } from 'vuex';
 
 export default {
     name: "PaymentSuccess",
@@ -25,11 +31,26 @@ export default {
         return {
             status: this.$route.query.status,
             txnRef: this.$route.query.txnRef,
-            amount: this.$route.query.amount
+            amount: this.$route.query.amount,
+            type: this.$route.query.type
         };
     },
+    mounted() {
+        this.handleCheckLogoutRegSupplier();
+    },
     methods: {
-        formatCurrencyVN
+        formatCurrencyVN,
+        ...mapActions('auth', ['logout']),
+        handleCheckLogoutRegSupplier() {
+            notificationService.info("Đang đăng xuất....")
+            if (this.type === 'pendingsupplier') {
+                setTimeout(() => {
+                    this.logout();
+                    saveNotifications("Đang đăng xuất ....")
+                    this.$router.push("/login");
+                }, 2000);
+            }
+        }
     }
 };
 </script>

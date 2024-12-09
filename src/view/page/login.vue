@@ -6,7 +6,7 @@
     ">
     <div class="w-5/6 h-5/6 flex items-center justify-center mx-auto my-auto rounded-sm ">
       <div
-        class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg bg-opacity-35">
+        class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg ">
         <h1 class="text-5xl font-extrabold mb-6 text-red-600">Gizmo</h1>
         <p class="text-lg text-gray-700 mb-8">
           Chào mừng trở lại! Nhập thông tin để tiếp tục.

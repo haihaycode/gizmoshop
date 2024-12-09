@@ -9,7 +9,7 @@
             </div>
             <div v-if="addresses.length" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <AddressBoxComponent v-for="address in addresses.filter(address => !address.deleted)" :key="address?.id"
-                    :address="address" @edit="openEditModal(address)" />
+                    :address="address" @edit="openEditModal(address)" @save="handleGetAddresses" />
                 <div class="flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:bg-gray-100 transition duration-200"
                     @click="openAddModal">
                     <span class="text-4xl text-gray-500">+</span>
@@ -73,7 +73,6 @@ export default {
         openEditModal(address) {
             this.toggleNav(false);
             this.selectedAddress = { ...address };
-            console.log(this.selectedAddress)
             this.isModalOpen = true;
         },
         closeModal() {
