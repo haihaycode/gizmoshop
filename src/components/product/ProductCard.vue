@@ -26,9 +26,11 @@
       </h3>
 
       <div class="flex items-center space-x-2">
-        <span class="text-base md:text-lg font-bold text-red-600">{{ formatCurrency(product.productPrice) }}</span>
+        <span class="text-base md:text-lg font-bold text-red-600">{{
+          formatCurrency(calculateOldPrice(product?.productPrice, product?.discountProduct)) }}
+        </span>
         <span v-if="product?.discountProduct" class="text-xs md:text-sm line-through text-gray-400">
-          {{ formatCurrency(calculateOldPrice(product.productPrice, product.discountProduct)) }}
+          {{ formatCurrency(product.productPrice) }}
         </span>
       </div>
 
@@ -106,10 +108,11 @@ export default {
     },
     calculateOldPrice(productPrice, discountProduct) {
       if (discountProduct && productPrice) {
-        return productPrice * (1 + discountProduct / 100);
+        return productPrice * (1 - discountProduct / 100);
       }
       return productPrice;
-    },
+    }
+    ,
     formatCurrency(value) {
       return new Intl.NumberFormat("vi-VN", {
         style: "currency",

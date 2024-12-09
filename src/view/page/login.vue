@@ -1,12 +1,12 @@
 <template>
-  <div class="flex h-screen bg-gray-100" style="
+  <div class="flex h-screen " style="
       background-image: url('https://i.pinimg.com/736x/41/60/7d/41607d7cc517513f13d335087de68d71.jpg');
       background-size: cover;
       background-position: center;
     ">
-    <div class="w-5/6 h-5/6 flex items-center justify-center mx-auto my-auto rounded-lg">
+    <div class="w-5/6 h-5/6 flex items-center justify-center mx-auto my-auto rounded-sm ">
       <div
-        class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg">
+        class="w-full md:w-2/3 lg:w-1/2 h-full flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg ">
         <h1 class="text-5xl font-extrabold mb-6 text-red-600">Gizmo</h1>
         <p class="text-lg text-gray-700 mb-8">
           Chào mừng trở lại! Nhập thông tin để tiếp tục.

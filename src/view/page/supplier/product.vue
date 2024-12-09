@@ -20,7 +20,7 @@
         </div>
 
         <div v-if="products.length === 0 && !isLoading" class="text-center text-gray-500">
-            <p>Hiện tại bạn chưa có sản phẩm yêu thích nào.</p>
+            <p>Hiện tại bạn chưa có sản phẩm nào.</p>
         </div>
         <!-- Display products if available -->
         <div v-if="isLoading" class="text-blue-500 text-center"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'

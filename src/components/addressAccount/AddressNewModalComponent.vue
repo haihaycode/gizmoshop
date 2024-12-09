@@ -78,6 +78,7 @@ import CustomInputComponent from '@/components/containers/input/CustomInputCompo
 import * as yup from 'yup';
 import Button from '../containers/buttons/button.vue';
 import { mapGetters } from 'vuex';
+import notificationService from '@/services/notificationService';
 export default {
     name: 'AddressFormModal',
     components: {
@@ -202,8 +203,9 @@ export default {
                     this.errors = {};
                     err.inner.forEach((validationError) => {
                         this.errors[validationError.path] = validationError.message;
+                        notificationService.error(validationError.message)
                     });
-                    console.log("Lỗi xác thực:", err);
+
                 });
         },
         save() {
@@ -215,8 +217,6 @@ export default {
                 lat: this.localAddress.lat,
                 lon: this.localAddress.lon,
             };
-
-            console.log("Thông tin lưu:", savedData);
             this.$emit('save', savedData);
             this.closeModal();
         },

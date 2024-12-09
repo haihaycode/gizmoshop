@@ -1,19 +1,7 @@
 <template>
-    <div v-if="isLoading"
+    <div v-if="isLoading && isOpen"
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 bg-opacity-75 backdrop-blur-md">
         <div class="animate-pulse  rounded-lg p-6 max-w-md w-full space-y-6">
-            <!-- <div :class="`h-8 ${titleWidth} bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-md`"></div>
-
-            <div class="space-y-3 mt-4">
-                <div v-for="index in textLines" :key="index"
-                    :class="`h-4 ${getTextWidth(index)} bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-md`">
-                </div>
-            </div>
-
-            <div class="flex space-x-4 mt-4 justify-center">
-                <div v-for="index in circles" :key="index"
-                    class="w-12 h-12 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-full"></div>
-            </div> -->
             <img class="w-[400px]  mx-auto" :src="require('@/assets/gizmoImageLoading/gizmo.png')" alt="">
         </div>
     </div>
@@ -23,26 +11,29 @@
 export default {
     name: 'SkeletonLoading',
     props: {
+        isOpen: {
+            type: Boolean,
+            default: true,
+        },
         isLoading: {
             type: Boolean,
             default: true,
         },
         titleWidth: {
             type: String,
-            default: 'w-3/4', // Customizable width for the title
+            default: 'w-3/4',
         },
         textLines: {
             type: Number,
-            default: 4, // Default to 4 lines of text
+            default: 4,
         },
         circles: {
             type: Number,
-            default: 3, // Default to 3 circular placeholders
+            default: 3,
         },
     },
     methods: {
         getTextWidth(index) {
-            // Cycle through widths for text lines to create a varied, natural look
             const widths = ['w-full', 'w-5/6', 'w-4/5', 'w-3/4'];
             return widths[index % widths.length];
         },

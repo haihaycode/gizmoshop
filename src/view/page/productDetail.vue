@@ -1,5 +1,6 @@
 <template>
-  <LoadingSkeletionComponent :isLoading="isLoading" titleWidth="w-3/4" :textLines="4" :circles="2">
+  <LoadingSkeletionComponent :isLoading="isLoading" :isOpen="checkLoading" titleWidth="w-3/4" :textLines="4"
+    :circles="2">
   </LoadingSkeletionComponent>
 
   <BreadcrumbComponent class="hidden sm:block px-4 md:px-4 mt-[140px]" :items="breadCrumItems"></BreadcrumbComponent>
@@ -8,7 +9,7 @@
       <leftpageComponent :images="productDetail?.productImageMappingResponse"></leftpageComponent>
     </div>
     <div class="w-full sm:w-1/2 p-2">
-      <rightpageComponent :product="productDetail"></rightpageComponent>
+      <rightpageComponent :product="productDetail" @loading="checkLoading = false"></rightpageComponent>
     </div>
   </div>
   <SettingProductVue :product="productDetail"></SettingProductVue>
@@ -51,6 +52,7 @@ export default {
   },
   data() {
     return {
+      checkLoading: true,
       breadCrumItems: [],
       productDetail: null,
     };
