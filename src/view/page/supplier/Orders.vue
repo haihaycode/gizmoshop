@@ -354,7 +354,7 @@ export default {
         async approveOrder(order) {
             const result = await Swal.fire({
                 title: "Xác nhận chấp nhận đơn hàng (*)?",
-                text: "Khi xác nhận đơn hàng bạn sẽ bị trừ phí duy trì là" + this.currencyFormat(order.contractresponse?.contractMaintenanceFee) + '- Hãy chắc chắn rằng bạn đã nạp tiền để chuẩn bị thanh toán cho lần giao dịch này ! (sau khi chấp nhận nhân viên bên cửa hàng sẽ nhanh chóng đến lấy hàng bạn hãy đóng gói chuẩn bị hàng)',
+                text: "Khi xác nhận đơn hàng bạn sẽ bị trừ phí duy trì là  " + this.currencyFormat(order.contractresponse?.contractMaintenanceFee) + '- Hãy chắc chắn rằng bạn đã nạp tiền để chuẩn bị thanh toán cho lần giao dịch này ! (sau khi chấp nhận nhân viên bên cửa hàng sẽ nhanh chóng đến lấy hàng bạn hãy đóng gói chuẩn bị hàng)',
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonText: "Xác nhận giao dịch",
