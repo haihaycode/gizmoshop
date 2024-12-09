@@ -53,7 +53,6 @@ import { createOrderBySupplier, createProductBySupplier } from '@/api/orderForSu
 import { convertBase64ToFile } from "@/utils/currencyUtils";
 import { updataImage } from '@/api/productApi';
 import notificationService from "@/services/notificationService";
-import { number } from "yup";
 // import { mapGetters } from "vuex";
 export default {
     components: {
@@ -243,7 +242,7 @@ export default {
                     0
                 ),
                 contractDate: data.duration,
-                contractMaintenanceFee: number(contractMaintenanceFeeOrder)
+                contractMaintenanceFee: this.convertContractMaintenanceFee(contractMaintenanceFeeOrder)
                 ,
                 quantity: 0
             }
@@ -254,6 +253,13 @@ export default {
             const resOrder = await createOrderBySupplier(dataOrder)
             await this.handleCreateProduct(resOrder.data, data);
             notificationService.success("Gửi đơn hàng Thành công tiến hàng giao dịch ");
+        },
+        convertContractMaintenanceFee(contractMaintenanceFeeOrder) {
+            // Loại bỏ dấu chấm trong chuỗi
+            var formattedFee = contractMaintenanceFeeOrder.replace(/\./g, '');
+            // Chuyển chuỗi thành kiểu số
+            var contractMaintenanceFee = parseInt(formattedFee);
+            return contractMaintenanceFee;
         },
         async handleCreateProduct(resDataOrder, reqData) {
             await reqData.products.map(async (item) => {
