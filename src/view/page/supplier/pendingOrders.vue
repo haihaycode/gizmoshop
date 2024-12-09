@@ -53,6 +53,7 @@ import { createOrderBySupplier, createProductBySupplier } from '@/api/orderForSu
 import { convertBase64ToFile } from "@/utils/currencyUtils";
 import { updataImage } from '@/api/productApi';
 import notificationService from "@/services/notificationService";
+import { number } from "yup";
 // import { mapGetters } from "vuex";
 export default {
     components: {
@@ -242,7 +243,7 @@ export default {
                     0
                 ),
                 contractDate: data.duration,
-                contractMaintenanceFee: contractMaintenanceFeeOrder
+                contractMaintenanceFee: number(contractMaintenanceFeeOrder)
                 ,
                 quantity: 0
             }
