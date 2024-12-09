@@ -9,6 +9,9 @@ import ErrorRoutes from '@/router/modules/errorRoutes';
 import paymentRoutes from './modules/paymentRoutes';
 import SupplierRoutes from './modules/SupplierRoutes';
 
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 
 export const routes = [
     ...AuthRoutes,
@@ -17,9 +20,8 @@ export const routes = [
     ...paymentRoutes,
     ...SupplierRoutes,
     { path: '/:pathMatch(.*)*', redirect: { name: 'NotFound' } }
+
 ];
-
-
 
 
 const router = createRouter({
@@ -53,7 +55,6 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach(async (to, from, next) => {
     const isAuthenticated = store.getters['auth/token'];
-
 
     if (!isAuthenticated && to.path.includes('/cart')) {
         return next('/login');
@@ -92,6 +93,15 @@ router.beforeEach(async (to, from, next) => {
     // Mặc định cho phép đi tiếp
     return next();
 });
+
+router.beforeEach((to, from, next) => {
+    NProgress.start()
+    next()
+})
+
+router.afterEach(() => {
+    NProgress.done()
+})
 
 
 export default router;

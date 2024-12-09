@@ -217,11 +217,11 @@ export default {
                     .min(5000, "Số tiền phải lớn hơn >=5.000VND")
                     .transform((value) => parseFloat(value))
                     .required("Giá sản phẩm là bắt buộc")
-                    .min(1, "Giá phải lớn hơn 0"),
+                    .min(5000, "Giá phải lớn >= 5.000 VND"),
                 discountProduct: yup
                     .number()
                     .required("Số lượng sản phẩm là bắt buộc")
-                    .min(0, "Giảm giá không hợp lệ")
+                    .min(0, "Giảm giá phải >= 0")
                     .max(100, "Giảm giá không được vượt quá 100%"),
                 productCategory: yup
                     .number()
