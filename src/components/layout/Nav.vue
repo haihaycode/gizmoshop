@@ -384,7 +384,7 @@ export default {
     },
     performSearch() {
       if (this.searchQuery.trim()) {
-        this.$router.push({ name: 'product', query: { keyword: this.searchQuery.trim() } });
+        window.location.href = `/product?keyword=${this.searchQuery.trim()}`;
       }
     },
     toggleCartModal() {
