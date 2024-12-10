@@ -1,5 +1,5 @@
 <template>
-    <aside id="sidebar"
+    <aside id="sidebar" @click="toggleMenu"
         class="fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transform -translate-x-full md:translate-x-0 md:static flex flex-col transition-transform duration-300 ease-in-out">
         <div class="px-6 py-4 border-b">
             <h2 class="text-2xl font-semibold text-blue-600">Đối tác Gizmo</h2>
@@ -59,6 +59,11 @@ export default {
     name: "SidebarComponent",
     methods: {
         ...mapActions('auth', ['logout']),
+        toggleMenu() {
+            this.isMenuOpen = !this.isMenuOpen;
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("-translate-x-full");
+        },
     }
 };
 </script>

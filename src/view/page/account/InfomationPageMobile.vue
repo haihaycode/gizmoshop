@@ -72,6 +72,14 @@
                         <span>Lịch sử Giao dịch</span>
                     </router-link>
                 </li>
+                <li>
+                    <span @click="logout"
+                        class="flex items-center space-x-2 text-gray-700 hover:text-red-500 transition duration-300"
+                        active-class="text-red-500 font-semibold">
+                        <i class="bx bx-log-out text-lg"></i>
+                        <span>Đăng xuất</span>
+                    </span>
+                </li>
             </ul>
         </section>
     </div>
@@ -80,7 +88,7 @@
 <script>
 import { getinfo } from '@/api/auth/meApi';
 import { loadImage } from '@/services/imageService';
-
+import { mapActions } from 'vuex';
 export default {
     data() {
         return {
@@ -92,6 +100,7 @@ export default {
     },
     methods: {
         loadImage,
+        ...mapActions('auth', ['logout']),
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
         },

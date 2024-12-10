@@ -1,5 +1,5 @@
 <template>
-    <div class="p-2 sm:p-6 min-h-screen flex flex-col items-center mt-[120px]">
+    <div class="p-2 sm:p-6 min-h-screen flex flex-col items-center ">
         <h2 class="text-3xl font-semibold text-gray-800 mb-4">Tra cứu thông tin đơn hàng của bạn</h2>
         <p class="text-gray-600 text-center max-w-lg mb-8">
             Nhập số điện thoại và mã đơn hàng của bạn để tra cứu tình trạng vận chuyển. Hãy chắc chắn rằng bạn nhập đúng
@@ -28,7 +28,7 @@
                     <p><strong class="text-gray-700">Số điện thoại:</strong> {{ searchResult.addressAccount.sdt }}</p>
                     <p><strong class="text-gray-700">Địa chỉ giao hàng :</strong> {{
                         searchResult.addressAccount.specificAddress
-                    }} -
+                        }} -
                         {{ searchResult.addressAccount.city }}
                         -
                         {{ searchResult.addressAccount.district }} - {{ searchResult.addressAccount.commune }} - VN </p>
@@ -96,7 +96,7 @@ import * as yup from 'yup';
 import { getOrderByCodeAndPhone } from '@/api/orderForCustomerApi';
 import { mapGetters } from 'vuex';
 import Button from '@/components/containers/buttons/button.vue';
-
+import { Domain } from '@/api/config';
 export default {
     name: 'SearchOrder',
     components: {
@@ -107,7 +107,7 @@ export default {
         const url = window.location.href;
         const urlParts = url.split('/');
 
-        if (urlParts[urlParts.length - 2].includes('localhost:8083') && urlParts[urlParts.length - 1].includes('search-order')) {
+        if (urlParts[urlParts.length - 2].includes(Domain) && urlParts[urlParts.length - 1].includes('search-order')) {
             this.phoneNumber = '0';
             this.orderCode = 'ORD_';
         } else {

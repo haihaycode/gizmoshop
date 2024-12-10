@@ -18,7 +18,7 @@
             <div v-if="!isLoading && products.length === 0" class="text-center text-gray-500">
                 <p>không có sản phẩm nào</p>
             </div>
-            <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            <div v-else class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                 <ProductCard v-for="product in products" :key="product.id" :product="product" />
             </div>
             <div v-if="isLoading" class="flex justify-center items-center py-10 text-red-500">
@@ -52,7 +52,7 @@ export default {
 
     data() {
         return {
-            sidebarVisible: true,
+            sidebarVisible: false,
             breakCrumb: [
                 { text: 'Trang chủ', name: 'home' },
                 { text: 'Sản phẩm', name: 'product' },

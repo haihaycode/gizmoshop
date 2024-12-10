@@ -59,9 +59,9 @@
             </div>
 
             <!-- Product Details Table -->
-            <div class="mt-6">
+            <div class="mt-6 ">
                 <h4 class="text-lg font-semibold text-gray-700 mb-2">Chi tiết sản phẩm</h4>
-                <table class="min-w-full border-collapse overflow-auto">
+                <table class="min-w-full border-collapse overflow-auto hidden md:table">
                     <thead>
                         <tr class="bg-gray-100">
                             <th class="p-2 text-left text-gray-600 font-semibold border-b">Sản phẩm</th>
@@ -91,6 +91,35 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="md:hidden">
+                    <div v-for="item in order.orderDetails" :key="item.id"
+                        class="bg-white shadow-md rounded-lg mb-4 p-4">
+                        <img :src="loadImage(item.product.thumbnail, 'product')" alt="product image"
+                            class="w-12 h-12 object-cover rounded-md" @error="handleImageError">
+                        <div class="flex justify-between">
+                            <span class="font-semibold text-gray-700">Sản phẩm:</span>
+                            <span class="text-gray-600">{{ item.product.productName || 'không có tên' }}</span>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                            <span class="font-semibold text-gray-700">Số lượng:</span>
+                            <span class="text-gray-600">{{ item.quantity }}</span>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                            <span class="font-semibold text-gray-700">Giá:</span>
+                            <span class="text-gray-600">{{ formatCurrencyVN(item.price) || '0' }}</span>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                            <span class="font-semibold text-gray-700">Giảm:</span>
+                            <span class="text-gray-600">{{ item.product.discountProduct || '0' }} %</span>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                            <span class="font-semibold text-gray-700">Tổng:</span>
+                            <span class="text-gray-600">{{ formatCurrencyVN(item.price * (1 -
+                                item.product.discountProduct / 100) * (item.quantity || 1)) || '0' }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Order Total Section -->

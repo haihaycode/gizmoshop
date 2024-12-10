@@ -1,8 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <nav v-if="isNavOpen" class="bg-white shadow-xl z-30 fixed w-full top-0 left-0 rounded-sm">
+  <nav v-if="isNavOpen" class="bg-white shadow-xl z-30 sticky w-full top-0 left-0 rounded-sm">
     <div class="mx-auto">
-      <div class="relative max-w-7xl flex items-center mx-auto justify-between h-16">
+      <div class="relative max-w-7xl flex items-center mx-auto justify-between h-auto py-2">
         <!-- Logo (hiển thị trên màn hình từ tablet trở lên) -->
         <div class="hidden md:flex items-center justify-center flex-shrink-0">
           <a href="/" class="text-black font-serif font-bold text-2xl ml-1">Gizmo<span class="text-red-500 underline">
@@ -69,10 +69,10 @@
         </div>
       </div>
 
-      <div class="w-full h-16 max-w-7xl block lg:hidden" v-show="isVisible">
+      <div class="w-full pb-1 max-w-7xl block md:hidden" v-show="!isVisible">
         <div class="flex items-center justify-between h-full">
           <!-- Đảm bảo phần tử bao bọc chiếm toàn bộ chiều rộng -->
-          <div class="w-full px-4">
+          <div class="w-full px-1">
             <div class="relative w-full">
               <input type="text" v-model="searchQuery" @input="handleInput" @keyup.enter="performSearch"
                 placeholder="Tìm kiếm sản phẩm..."
@@ -87,7 +87,7 @@
         </div>
       </div>
 
-      <div class="w-full h-12 hidden sm:block bg-slate-800 pl-12" v-show="isVisible">
+      <div class="w-full h-12 hidden sm:block bg-slate-800 pl-12" v-if="!isVisible">
         <div class="flex flex-col items-center justify-center sm:items-stretch sm:justify-center mx-auto">
           <div class="hidden sm:ml-6 max-w-7xl justify-center sm:block">
             <div class="flex justify-around">
@@ -160,7 +160,7 @@
     </div>
 
     <!-- Mobile menu -->
-    <div class="sm:hidden" id="mobile-menu" v-if="isMenuOpen">
+    <div class="sm:hidden" id="mobile-menu" v-if="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
       <div class="space-y-1 px-2 pb-3 pt-2">
         <!-- Personal Information Link with Icon -->
         <router-link :to="{ name: 'builder' }"
@@ -201,8 +201,7 @@
     </div>
 
     <transition name="fade">
-      <div v-if="isCartModalOpen" v-show="isVisible"
-        class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-30">
+      <div v-if="isCartModalOpen" class="absolute top-28 right-4 bg-white p-4 rounded-sm shadow-lg w-80 z-30">
         <ListProductComponent></ListProductComponent>
       </div>
     </transition>
@@ -406,7 +405,7 @@ export default {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
     handleScroll() {
-      this.isVisible = window.scrollY < window.innerHeight / 2;
+      this.isVisible = window.scrollY > 1500;
     },
     ...mapActions('auth', ['logout']),
   },

@@ -1,14 +1,13 @@
 <template>
   <div>
     <!-- Carousel container -->
-    <div
-      class="relative w-full mx-auto overflow-hidden rounded-none sm:rounded-md md:rounded-md lg:rounded-md mt-[130px]"
-      @touchstart="startSwipe" @touchmove="swiping" @touchend="endSwipe">
+    <div class="relative w-full mx-auto overflow-hidden rounded-none " @touchstart="startSwipe" @touchmove="swiping"
+      @touchend="endSwipe">
 
       <!-- Info bar -->
       <div class="text-white">
         <p
-          class="text-sm font-semibold transition-colors duration-300 ease-in-out transform tracking-wider shadow-md p-4 rounded-sm bg-red-500">
+          class="text-sm font-semibold transition-colors duration-300 ease-in-out transform tracking-wider shadow-md p-4 bg-red-500">
           <i class='bx bx-trip bx-tada'></i> Cơ sở chính: <span class="text-white">137 Nguyễn Thị Thập, Thanh Khê Tây,
             Liên Chiểu, Đà Nẵng</span>
           <br />
