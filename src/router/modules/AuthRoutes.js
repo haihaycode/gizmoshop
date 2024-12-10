@@ -134,7 +134,7 @@ const guestRoutesAuth = [
                         path: 'withdrawalHistory',
                         name: 'withdrawalHistory',
                         meta: {
-                            title: "Lịch sử rút tiền",
+                            title: "Lịch sử Giao Dịch",
                             description: "Gizmo"
                         },
                         components: {
