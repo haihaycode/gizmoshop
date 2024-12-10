@@ -53,7 +53,7 @@
 
                 <div class="flex flex-col items-center">
                     <img :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/100'"
-                        alt="User avatar" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4" />
+                        alt="User avatar" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4" @error="onImageError" />
                     <Button @click="() => { modalUpdateImageIsOpen = true, toggleNav(false) }" type="button"
                         :text="'Chọn Ảnh '"
                         class="bg-red-500 font-semibold px-4 py-2 rounded-sm hover:bg-gray-300 focus:outline-none">
@@ -125,6 +125,9 @@ export default {
         ...mapGetters('loading', ['isLoading']),
     },
     methods: {
+        onImageError(event) {
+            event.target.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcbE6u36DvNqhRgUJtDR3MQDBcPkC3n83uXw&s';
+        },
         loadImage,
         ...mapActions('nav', ['setNavMenuOpen']),
         toggleNav(isOpen) {

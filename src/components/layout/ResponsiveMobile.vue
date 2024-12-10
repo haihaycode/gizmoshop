@@ -25,10 +25,10 @@
     </router-link>
 
     <!-- Categories Icon -->
-    <router-link :to="{ name: 'contactUs' }"
+    <router-link :to="{ name: 'yourCart' }"
       class="icon w-12 h-12 flex items-center justify-center transition-all duration-200 hover:bg-gray-100">
-      <i class="bx bx-phone-call text-2xl md:text-3xl hover:text-red-600"></i>
-      <span v-if="$route.path.includes('contact')" class="absolute bottom-0 left-0 right-0 h-[2px] bg-[#ab1616]"></span>
+      <i class="bx bx-cart text-2xl md:text-3xl hover:text-red-600"></i>
+      <span v-if="$route.path.includes('cart')" class="absolute bottom-0 left-0 right-0 h-[2px] bg-[#ab1616]"></span>
     </router-link>
 
     <router-link :to="{ name: 'mobilePage' }"

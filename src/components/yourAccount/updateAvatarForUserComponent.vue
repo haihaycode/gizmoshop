@@ -13,7 +13,7 @@
                             <img :src="newImagePreview ? newImagePreview : loadImage(currentImage, 'account')"
                                 alt="Current Image"
                                 class="w-full h-full rounded-full object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300"
-                                @click="triggerFileInput" />
+                                @click="triggerFileInput" @error="onImageError" />
                             <!-- Camera Icon Overlay -->
                             <div class="absolute bottom-2 right-2 bg-white bg-opacity-75 rounded-full p-1 cursor-pointer hover:bg-opacity-100 transition-opacity duration-300"
                                 @click="triggerFileInput">
@@ -72,6 +72,9 @@ export default {
         };
     },
     methods: {
+        onImageError(event) {
+            event.target.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcbE6u36DvNqhRgUJtDR3MQDBcPkC3n83uXw&s';
+        },
         loadImage,
         triggerFileInput() {
             this.$refs.fileInput.click();
