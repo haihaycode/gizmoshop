@@ -108,9 +108,8 @@
                     class="absolute top-12 left-0 bg-white border border-gray-200 shadow-lg z-10 w-full rounded-b-lg">
                     <ul class="py-1">
                       <li v-for="category in categories" :key="category.id">
-                        <div
-                          @click="() => { this.$router.push({ name: 'product', query: { idDanhMuc: category.id } }); isDropdownOpen = false }"
-                          href="#" class="block px-4 py-2 text-black hover:bg-gray-100 transition-all cursor-pointer">
+                        <div @click="() => { searchByCategory(category.id); isDropdownOpen = false }" href="#"
+                          class="block px-4 py-2 text-black hover:bg-gray-100 transition-all cursor-pointer">
                           {{ category.name }}
                         </div>
                       </li>
@@ -380,6 +379,9 @@ export default {
           orderCode: this.searchOrderObject.orderCode,
         },
       });
+    },
+    searchByCategory(id) {
+      window.location.href = '/product?idDanhMuc=' + id
     },
     performSearch() {
       if (this.searchQuery.trim()) {
