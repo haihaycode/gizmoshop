@@ -1,5 +1,5 @@
 <template>
-    <div class="payment-container mt-[200px]">
+    <div class="payment-container">
         <!-- Nút Thanh Toán -->
         <button @click="handlePayment" class="payment-button">Thanh toán với VNPay</button>
     </div>

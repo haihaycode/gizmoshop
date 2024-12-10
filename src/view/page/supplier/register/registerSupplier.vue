@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto p-4 mt-[150px]">
+    <div class="mx-auto p-4 ">
         <h1 class="text-3xl font-bold text-center mb-6">Đăng ký nhà cung cấp</h1>
 
         <!-- Các bước -->

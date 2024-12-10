@@ -69,14 +69,22 @@ router.beforeEach(async (to, from, next) => {
         return next('/login');
     }
 
+
     // Nếu đã đăng nhập và đang ở /supplier/register
-    if (isAuthenticated && to.path === '/supplier/register') {
-        if (!SUPPLIER()) {
-            // Chưa là nhà cung cấp -> Cho phép truy cập trang đăng ký
-            return next();
-        } else {
-            // Đã là nhà cung cấp -> Chuyển hướng
-            return next('/supplier/dashboard');
+    if (isAuthenticated) {
+        // Kiểm tra nếu người dùng chưa là nhà cung cấp và đang cố gắng truy cập trang /supplier
+        if (!SUPPLIER() && (to.path === '/supplier' || to.path == '/supplier/')) {
+            return next('/supplier/register'); // Chuyển hướng đến trang đăng ký
+        }
+
+        // Kiểm tra nếu người dùng đã là nhà cung cấp và đang cố gắng truy cập trang đăng ký
+        if (SUPPLIER() && to.path === '/supplier/register') {
+            return next('/supplier/dashboard'); // Chuyển hướng đến trang Dashboard
+        }
+
+        // Nếu người dùng đã là nhà cung cấp và đang vào trang /supplier hoặc /supplier/dashboard
+        if (SUPPLIER() && (to.path === '/supplier/' || to.path == '/supplier' || to.path === '/supplier/dashboard')) {
+            return next(); // Cho phép truy cập vào trang
         }
     }
 
@@ -101,9 +109,13 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(() => {
-
+    //cuộn lên đầu trang
     NProgress.done();
-
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
 });
 
 export default router;

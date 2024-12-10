@@ -9,7 +9,7 @@
     </div>
 
     <!-- Pagination -->
-    <div v-if="totalPages > 1" class="hidden md:flex items-center justify-center">
+    <div v-if="totalPages > 1" class="md:flex items-center justify-center">
       <!-- Previous Button -->
       <button @click="prevPage" :disabled="currentPage === 1"
         class="mx-1 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-400 transition-colors duration-200"
@@ -53,7 +53,7 @@
     <!-- Pagination -->
 
     <div>
-      <div class="px-2 flex items-center">
+      <div class="hidden sm:flex px-2  items-center">
         Trang
         <input type="number" v-model.number="editablePage" @input="updatePageInstant" min="1" :max="totalPages"
           class="w-16 border mx-1 rounded-sm text-center no-spinner focus:outline-none focus:border-none border-none bg-gray-50" />

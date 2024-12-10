@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-red-500 " v-if="isLoading">
+    <div class="text-red-500 mt-2 " v-if="isLoading">
       <p class="text-red-500 text-center"><i class='bx bx-loader bx-spin'></i> &nbsp;Đang tải dữ liệu ...</p>
       <img class="w-[400px] mx-auto" :src="require('@/assets/gizmoImageLoading/gizmo.gif')" alt="">
     </div>
@@ -159,8 +159,9 @@
         </div>
       </div>
     </div>
-    <div v-if="cartItems.length <= 0 && !isLoading" class="flex justify-center  ">
-      <p class="px-2">Không có sản phẩm nào trong giỏ hàng
+    <div v-if="cartItems.length <= 0 && !isLoading" class="text-center mt-6 ">
+      <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" class="mx-auto" alt="" srcset="">
+      <p>Không có sản phẩm nào trong giỏ hàng
         <router-link :to="{ name: 'product' }">
           <span class="text-red-500 underline hover:text-blue-500">Tiếp tục mua sắm</span>
         </router-link>

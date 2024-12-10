@@ -23,7 +23,7 @@
 
         <!-- Order Table or Empty State -->
         <div>
-            <div v-if="isLoading">
+            <div v-if="isLoading" class="mt-2">
                 <!-- Hiển thị skeleton -->
                 <EmptyState message="đang tải dữ liệu..." />
             </div>

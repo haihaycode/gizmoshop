@@ -4,9 +4,9 @@
     <router-view name="header"></router-view>
 
 
-    <main class="w-full mx-auto container min-h-screen transition-all main relative mt-[80px]">
+    <main class="w-full mx-auto container min-h-screen transition-all main relative ">
       <router-view name="sidebar"></router-view>
-      <section class="main xl:max-w-7xl mx-auto mt-[155px] md:mt-[125px]">
+      <section class="main xl:max-w-7xl mx-auto ">
         <router-view></router-view>
       </section>
       <ScrollToTopComponent />

@@ -3,7 +3,7 @@
     :circles="2">
   </LoadingSkeletionComponent>
 
-  <BreadcrumbComponent class="hidden sm:block px-4 md:px-4 mt-[140px]" :items="breadCrumItems"></BreadcrumbComponent>
+  <BreadcrumbComponent class="hidden sm:block px-4 md:px-4 " :items="breadCrumItems"></BreadcrumbComponent>
   <div class="flex flex-col sm:flex-row w-full ">
     <div class="w-full sm:w-1/2 p-2">
       <leftpageComponent :images="productDetail?.productImageMappingResponse"></leftpageComponent>

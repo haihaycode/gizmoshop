@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class=" mt-[140px] sm:mt-[150px] relative">
+    <div id="app" class="relative mt-[20px]">
         <!-- Overlay Background for Sidebar on Mobile -->
         <div v-if="isSidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden" @click="toggleSidebar">
         </div>
@@ -7,7 +7,7 @@
         <div class="flex">
             <!-- Sidebar - hidden on mobile by default, visible on desktop -->
             <aside :class="[
-                'w-64  p-4 fixed inset-y-0 left-0 transform transition-transform duration-300 ease-in-out mt-[68px] md:mt-0',
+                'w-64  p-4 fixed inset-y-0 left-0 transform transition-transform duration-300 ease-in-out  md:mt-0',
                 isSidebarOpen ? 'translate-x-0 bg-white z-20' : '-translate-x-full',
                 'md:translate-x-0 md:relative'
             ]" id="sidebar">
