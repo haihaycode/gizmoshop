@@ -122,4 +122,29 @@ td {
     text-overflow: ellipsis;
     /* Thêm dấu '...' nếu văn bản quá dài */
 }
+
+
+/*(Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 8px;
+    /* Độ rộng của scrollbar */
+    height: 8px;
+    /* Chiều cao của scrollbar cho cuộn ngang */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #88888855;
+    /* Màu của thanh cuộn */
+    border-radius: 2px;
+    /* Bo tròn góc thanh cuộn */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #55555593;
+    /* Màu khi hover thanh cuộn */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
 </style>

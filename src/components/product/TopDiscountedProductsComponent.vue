@@ -3,7 +3,7 @@
     <div class="discounted-products-container my-2 mx-auto border border-gray-50 rounded-lg shadow-md">
       <!-- Header with title and view all link -->
       <div
-        class="header flex flex-col sm:flex-row justify-between items-center bg-red-600 text-white px-4 py-2 rounded-t-lg">
+        class="header flex flex-col sm:flex-row justify-between items-center bg-red-600 text-white px-4 py-2 rounded-t-md">
         <div class="flex items-center space-x-2">
           <!-- Lightning Icon (SVG) -->
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-200" fill="currentColor"

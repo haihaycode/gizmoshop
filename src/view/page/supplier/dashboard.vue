@@ -1,9 +1,13 @@
 <template>
     <div class="dashboard-page p-6  min-h-screen">
         <div>
-            <div v-if="isLoadingComponent">
+            <div v-if="isLoading">
                 <div class="text-blue-500 text-center"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
                         style='color:#1257c0'></i> Đang tải dữ liệu...
+                </div>
+                <div class="text-center w-full">
+                    <img src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-11-849_512.gif"
+                        class="w-80 mx-auto" alt="">
                 </div>
             </div>
             <div v-else>
@@ -70,7 +74,7 @@
 import RevenueChart from '@/components/supplier/dashboard/RevenueChartComponent.vue';
 import { getOrderCountByStatus, getOrderTotalPriceBySupplier } from '@/api/supplierApi';
 import { formatCurrencyVN } from '@/utils/currencyUtils';
-
+import { mapGetters } from 'vuex';
 export default {
     name: 'DashboardPage',
     components: {
@@ -95,6 +99,9 @@ export default {
             isDataLoaded: false,
             isLoadingComponent: false
         };
+    },
+    computed: {
+        ...mapGetters('loading', ['isLoading'])
     },
     mounted() {
         this.fetchOrderCounts();

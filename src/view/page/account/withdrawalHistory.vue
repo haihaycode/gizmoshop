@@ -19,7 +19,7 @@
             </Pagination>
 
         </div>
-        <p v-else class="text-gray-500 text-center italic mt-6 p-3">Không có giao dịch rút tiền nào.</p>
+        <p v-else class="text-gray-500 text-center italic mt-6 p-3">Không có giao dịch nào.</p>
 
         <!-- Withdrawal Details Modal -->
         <WithdrawalDetailsModal :isOpen="isModalOpen" :withdrawal="selectedWithdrawal"

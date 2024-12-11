@@ -18,7 +18,7 @@
             </div>
 
         </div>
-        <!-- modal rút tiền  -->
+        <!-- modal giao dịch  -->
         <ModalBox :isOpen="isModalOpen" :header="'Rút tiền'" :loading="isLoading"
             :closeModal="() => { isModalOpen = false }">
             <template #body>

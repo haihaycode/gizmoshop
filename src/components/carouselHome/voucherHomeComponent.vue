@@ -2,7 +2,7 @@
     <div class="voucher-container my-1 mx-1 sm:mx-0 md:mx-0 lg:mx-0 xl:mx-auto">
         <!-- Carousel for Mobile View -->
         <div v-if="isMobile"
-            class="voucher-ticket flex shadow-sm rounded-sm overflow-hidden bg-white relative border-1">
+            class="voucher-ticket flex shadow-sm rounded-none overflow-hidden bg-white relative border-1">
             <swiper :slides-per-view="getSlidesPerView" :space-between="5" :loop="false">
                 <swiper-slide v-for="(voucher, index) in limitedVouchers" :key="voucher.id || index"
                     class="voucher-ticket flex  rounded-sm overflow-hidden bg-white relative">
@@ -194,7 +194,7 @@ export default {
 .voucher-ticket {
     display: flex;
     position: relative;
-    border-radius: 0.5rem;
+
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
 }
