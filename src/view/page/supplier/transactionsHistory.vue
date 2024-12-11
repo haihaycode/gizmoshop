@@ -22,7 +22,7 @@
 
         </div>
         <p v-if="!isLoading && withdrawals.length <= 0" class="text-gray-500 text-center italic mt-6 p-3">Không có giao
-            dịch rút tiền nào.</p>
+            dịch nào.</p>
 
         <!-- Withdrawal Details Modal -->
         <WithdrawalDetailsModal :isOpen="isModalOpen" :withdrawal="selectedWithdrawal" @close="isModalOpen = false" />

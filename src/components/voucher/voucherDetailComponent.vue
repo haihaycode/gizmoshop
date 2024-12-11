@@ -6,12 +6,10 @@
                     voucherData.code }}</span></h2>
             </template>
             <template #body>
-                <div
-                    class="bg-white shadow-sm rounded-sm p-1 space-y-2 min-w-[600px] max-w-[1000px] mx-auto relative overflow-x">
+                <img :src="voucherData.image ? loadImage(voucherData.image, 'voucher') : imageDefault"
+                    class="w-80 mx-auto object-cover h-full" />
+                <div class="bg-white shadow-sm rounded-sm p-1 space-y-2  mx-auto ">
                     <!-- Discount Banner -->
-                    <img :src="voucherData.image ? loadImage(voucherData.image, 'voucher') : imageDefault"
-                        class="w-full h-full rounded-sm  shadow-md mb-4 transition-transform transform " />
-
 
                     <div class="border-t border-gray-300 pt-4">
                         <h3 class="text-lg font-semibold text-[#ee4d2d]">Thông tin giảm giá</h3>
