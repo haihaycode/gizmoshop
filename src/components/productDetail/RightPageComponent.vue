@@ -73,16 +73,17 @@
               <i class="bx bx-plus"></i>
             </button>
           </div>
-          <button :disabled="isLoading" :class="isLoading ? 'bg-gray-200' : ''"
+          <button v-if="showAddToCartButton" :disabled="isLoading" :class="isLoading ? 'bg-gray-200' : ''"
             class="bg-red-500 text-white flex items-center justify-center px-3 py-1 md:px-4 md:py-1 rounded hover:bg-red-600 w-full md:w-auto"
-            @click="handleAddToCart">
+            @click="() => { handleAddToCart(); showWishlistButton = false }">
             <i v-if="!isLoading" class="bx bx-cart-add mr-1"></i>
             <span class="hidden lg:inline"> <i v-if="isLoading" class='bx bx-loader bx-spin'></i> Thêm Vào Giỏ
               Hàng</span>
             <span class="inline lg:hidden"><i v-if="isLoading" class='bx bx-loader bx-spin'></i> Thêm</span>
           </button>
 
-          <button @click="toggleWishlist" :disabled="isLoading" :class="isLoading ? 'bg-gray-200' : ''"
+          <button v-if="showWishlistButton" @click="() => { toggleWishlist(); showAddToCartButton = false }"
+            :disabled="isLoading" :class="isLoading ? 'bg-gray-200' : ''"
             class="bg-gray-300 text-gray-700 flex items-center justify-center px-3 py-1 md:px-4 md:py-1 rounded hover:bg-gray-400 w-full md:w-auto">
             <i v-if="!isLoading" :class="isInWishlist ? 'bx bxs-heart' : 'bx bx-heart'"></i>
             <span class="hidden lg:inline ml-1"> <i v-if="isLoading" class='bx bx-loader bx-spin'></i> {{
@@ -116,6 +117,8 @@ export default {
   },
   data() {
     return {
+      showAddToCartButton: true,
+      showWishlistButton: true,
       quantity: 1,
       isInWishlist: false,
     };
@@ -155,6 +158,7 @@ export default {
           console.error("Failed to toggle favorite:", error);
         } finally {
           this.$emit("load-product", this.product);
+          this.showAddToCartButton = true;
         }
       }
     },
@@ -176,11 +180,14 @@ export default {
         console.log("Kết quả giỏ hàng:", result);
 
         this.$emit("cart-updated", result);
+
       } catch (error) {
         console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
         notificationService.error(
           "Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng!"
         );
+      } finally {
+        this.showWishlistButton = true;
       }
     },
   },

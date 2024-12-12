@@ -82,9 +82,18 @@ export default {
         handleFileChange(event) {
             const file = event.target.files[0];
             if (file) {
-                this.newImageFile = file; // Store the original file for saving
+                const validTypes = ['image/png', 'image/jpeg'];
+                if (!validTypes.includes(file.type)) {
+                    notificationService.info('Chỉ hỗ trợ file PNG hoặc JPEG.');
+                    return;
+                }
 
-                // Generate a base64 preview of the image
+                const maxSize = 1 * 1024 * 1024;
+                if (file.size > maxSize) {
+                    notificationService.info('Dung lượng file phải nhỏ hơn 1MB.');
+                    return;
+                }
+                this.newImageFile = file;
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     this.newImagePreview = e.target.result;
@@ -92,6 +101,7 @@ export default {
                 reader.readAsDataURL(file);
             }
         },
+
         async saveImage() {
             if (this.newImageFile) {
                 this.$emit('update-image', this.newImageFile);

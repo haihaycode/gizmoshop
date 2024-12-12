@@ -33,7 +33,7 @@
         </div>
         <div v-for="(product, index) in cartItems" :key="product.id"
           class="bg-white rounded-lg shadow-md p-4 mb-4 flex flex-col md:flex-row items-center justify-between border border-gray-200 hover:shadow-lg transition duration-200">
-          <div class="flex items-center space-x-4 w-full md:w-auto  ">
+          <div class="flex items-center space-x-4 w-full md:w-[600px]  ">
             <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" v-model="product.selected" />
             <img :src="product.productId.thumbnail
               ? loadImage(product.productId.thumbnail, 'product')
@@ -62,27 +62,24 @@
             </div>
           </div>
           <div class="flex justify-center items-center ">
-            <button
-              class="text-gray-500 border border-gray-300 rounded-full w-8 h-8 items-center justify-center hover:bg-gray-100 transition duration-200"
-              @click="updateQuantity(index, -1)" :disabled="isLoading || product.quantity <= 1">
-              -
-            </button>
-            <!-- Hiển thị số lượng -->
-            <input type="text"
-              class="w-12 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-200"
-              v-model.number="product.quantity" @blur="updateQuantity(index, 0)" :disabled="isLoading" />
-            <!-- Tăng số lượng -->
-            <button
-              class="text-gray-500 border border-gray-300 rounded-full w-8 h-8 items-center justify-center hover:bg-gray-100 transition duration-200"
-              @click="updateQuantity(index, 1)" :disabled="isLoading">
-              +
-            </button>
+            <div class="mr-1">
+              <input type="button" value="-"
+                class="text-gray-500 border border-gray-300 rounded-md w-8 h-8 items-center justify-center hover:bg-gray-100 transition duration-200"
+                @click="updateQuantity(index, -1)" :disabled="isLoading || product.quantity <= 1" />
+              <!-- Hiển thị số lượng -->
+              <input type="number"
+                class="w-12 h-full text-center py-1 px-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-200"
+                v-model.number="product.quantity" @blur="updateQuantity(index, 0)" :disabled="isLoading" />
+              <!-- Tăng số lượng -->
+              <input value="+" type="button"
+                class="text-gray-500 border border-gray-300 rounded-md w-8 h-8 items-center justify-center hover:bg-gray-100 transition duration-200"
+                @click="updateQuantity(index, 1)" :disabled="isLoading" />
+            </div>
+
             <!-- Xóa sản phẩm -->
-            <button
+            <input value="xóa" type="button"
               class="text-red-500 text-sm border border-red-500 px-2 py-1 rounded-md hover:bg-red-100 transition duration-200"
-              @click="removeProduct(index)" :disabled="isLoading">
-              Xóa
-            </button>
+              @click="removeProduct(index)" :disabled="isLoading" />
           </div>
         </div>
       </div>

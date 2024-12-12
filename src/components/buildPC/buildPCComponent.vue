@@ -3,10 +3,16 @@
     <!-- Header -->
     <header class="p-6 bg-white shadow-sm sticky top-0 z-10">
       <div class="flex justify-between items-center container mx-auto">
-        <div class="text-3xl font-extrabold text-gray-800 tracking-tight">
-          PC Builder
+        <div class="text-start">
+          <div class="text-3xl font-extrabold text-gray-800 tracking-tight">
+            Xây dựng cấu hình
+          </div>
+          <div class="text-base text-gray-600 mt-2">
+            Tạo ra chiếc PC mơ ước của bạn với hiệu năng tối ưu và phong cách độc đáo.
+          </div>
         </div>
-        <div class="w-1/3">
+
+        <div class="w-1/3 hidden">
           <input v-model="searchQuery" @input="filterComponents" type="text"
             class="w-full p-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
             placeholder="Tìm kiếm linh kiện..." />
@@ -18,10 +24,11 @@
       <!-- Sidebar -->
       <div class="w-full lg:w-1/4 bg-gray-50 p-6 rounded-xl shadow-sm">
         <div class="space-y-4">
+          <p class="font-mono">Các linh cần thiết để xây dựng 1 bộ pc cho bạn</p>
           <div v-for="(component, key) in components" :key="key">
             <h4 class="text-md font-medium mb-2">{{ component.label }}</h4>
             <button @click="openModal(component.categoryId, key)"
-              class="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition">
+              class="w-full bg-gray-800 text-white py-2 px-4 rounded-sm hover:bg-gray-700 transition">
               Chọn {{ component.label }}
             </button>
           </div>
@@ -31,7 +38,7 @@
       <!-- Config Display -->
       <div class="flex-1 space-y-6">
         <div class="bg-gray-50 p-6 rounded-xl shadow-sm">
-          <h3 class="text-lg font-semibold mb-2">Cấu hình của bạn</h3>
+          <h3 class="text-lg font-mono mb-2">Cấu hình của bạn</h3>
           <div class="space-y-2">
             <div v-for="(component, key) in components" :key="key"
               class="flex items-center justify-between p-2 rounded-lg"
@@ -52,9 +59,8 @@
             </div>
           </div>
           <button @click="finalizeBuild" :disabled="isLoading"
-            class="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 transition flex items-center justify-center">
+            class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-sm hover:bg-blue-500 transition flex items-center justify-center">
             <span v-if="isLoading" class="loader"></span>
-            <!-- Hiển thị spinner khi loading -->
             <span v-else>Hoàn tất cấu hình</span>
           </button>
         </div>
