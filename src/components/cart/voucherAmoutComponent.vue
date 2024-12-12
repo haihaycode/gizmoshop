@@ -101,7 +101,10 @@
     </div>
     <div class="mt-2">
       <label class="block text-gray-700 font-medium mb-2">
-        Chọn địa chỉ giao hàng
+        Chọn địa chỉ giao hàng <span class="" :class="selectAddress ? 'text-blue-500' : 'text-red-500'">
+          <i :class="selectAddress ? 'bx bx-check-circle' : 'bx bx-map'" class="text-lg"></i>
+        </span>
+
       </label>
       <div @click="toggleAddressList" class="border p-4 rounded-lg cursor-pointer hover:bg-gray-100">
         <p v-if="selectedAddress">
@@ -134,7 +137,7 @@
 
     <div class="mt-2">
       <div class="flex items-center justify-between">
-        <label class="text-gray-700 font-medium">Chọn ngân hàng (hoàn trả)</label>
+        <label class="text-gray-700 font-medium">Chọn ngân hàng (hoàn trả) </label>
         <button v-if="!showBankList" class="text-red-500 hover:text-red-600 font-sans text-sm" @click="toggleBankList">
           Thay đổi <i class="bx bx-edit-alt"></i>
         </button>

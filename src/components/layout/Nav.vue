@@ -204,9 +204,9 @@
         <ListProductComponent></ListProductComponent>
       </div>
     </transition>
-
+    <!-- account -->
     <transition name="fade" @click="isProfileOpen = false">
-      <div v-if="isProfileOpen" class="absolute top-20 right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-30">
+      <div v-if="isProfileOpen" class="absolute right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-30">
         <div class="flex items-center mb-4">
           <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center text-base font-bold">
             {{ token ? 'Gizmo' : 'Gizmo' }}
