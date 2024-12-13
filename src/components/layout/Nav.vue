@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <div class="w-full pb-1 max-w-7xl block md:hidden" v-show="!isVisible">
+      <div class="w-full pb-1 max-w-7xl block md:hidden">
         <div class="flex items-center justify-between h-full">
           <!-- Đảm bảo phần tử bao bọc chiếm toàn bộ chiều rộng -->
           <div class="w-full px-1">
@@ -87,7 +87,7 @@
         </div>
       </div>
 
-      <div class="w-full h-12 hidden sm:block bg-slate-800 pl-12" v-if="!isVisible">
+      <div class="w-full h-12 hidden sm:block bg-slate-800 pl-12">
         <div class="flex flex-col items-center justify-center sm:items-stretch sm:justify-center mx-auto">
           <div class="hidden sm:ml-6 max-w-7xl justify-center sm:block">
             <div class="flex justify-around">
