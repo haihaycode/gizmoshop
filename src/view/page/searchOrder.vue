@@ -28,7 +28,7 @@
                     <p><strong class="text-gray-700">Số điện thoại:</strong> {{ searchResult.addressAccount.sdt }}</p>
                     <p><strong class="text-gray-700">Địa chỉ giao hàng :</strong> {{
                         searchResult.addressAccount.specificAddress
-                        }} -
+                    }} -
                         {{ searchResult.addressAccount.city }}
                         -
                         {{ searchResult.addressAccount.district }} - {{ searchResult.addressAccount.commune }} - VN </p>
@@ -37,7 +37,8 @@
                         searchResult.orderStatus.status }}</span></p>
                     <p><strong class="text-gray-700">Ngày đặt hàng:</strong> {{ formatDate(searchResult.createOderTime)
                         }}</p>
-                    <p><strong class="text-gray-700">Phương thức thanh toán:</strong> {{ searchResult.paymentMethods ||
+                    <p><strong class="text-gray-700">Phương thức thanh toán:</strong> {{ searchResult.paymentMethods ?
+                        'Thanh toán bằng tiền mặt khi nhận hàng ' : 'Thanh toán trực tuyến' ||
                         'Không có thông tin' }}</p>
                     <p><strong class="text-gray-700">Tổng tiền:</strong> <span class="text-red-600 font-semibold">{{
                         formatCurrency(searchResult.totalPrice) }}</span></p>
