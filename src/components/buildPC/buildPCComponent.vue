@@ -159,7 +159,7 @@ export default {
             name: item.productName,
             image: item.thumbnail
               ? item.thumbnail
-              : "IMG_20241115231421_716.jpg",
+              : "noimage.jpg",
             stockQuantity:
               item.productInventoryResponse?.quantity || "Chưa có thông tin", // Đảm bảo lấy thumbnail
           }));

@@ -1,11 +1,18 @@
 <template>
-  <div class="flex h-screen w-full items-center justify-center bg-gray-100" style="
+  <div
+    class="flex h-screen w-full items-center justify-center bg-gray-100"
+    style="
       background-image: url('https://i.pinimg.com/736x/41/60/7d/41607d7cc517513f13d335087de68d71.jpg');
       background-size: cover;
       background-position: center;
-    ">
-    <div class="w-5/6 h-5/6 flex items-center justify-center mx-auto rounded-lg">
-      <div class="flex w-full h-full bg-gray-100 shadow-lg rounded-lg overflow-hidden">
+    "
+  >
+    <div
+      class="w-5/6 h-5/6 flex items-center justify-center mx-auto rounded-lg"
+    >
+      <div
+        class="flex w-full h-full bg-gray-100 shadow-lg rounded-lg overflow-hidden"
+      >
         <!-- Forgot Password Section -->
         <div
           class="hidden md:flex md:w-1/3 lg:w-1/2 h-full flex-col justify-center items-center text-white text-center p-10 relative rounded-lg overflow-hidden"
@@ -13,7 +20,8 @@
             background-image: url('https://i.pinimg.com/564x/53/91/15/539115966ea3c25b220d23ed23ee5848.jpg');
             background-size: cover;
             background-position: center;
-          ">
+          "
+        >
           <!-- Overlay -->
           <div class="absolute inset-0 bg-black opacity-50"></div>
 
@@ -26,7 +34,8 @@
             </p>
             <router-link to="/login">
               <button
-                class="py-3 px-10 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-red-600 transition duration-200 shadow-lg">
+                class="py-3 px-10 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-red-600 transition duration-200 shadow-lg"
+              >
                 Quay lại Đăng nhập
               </button>
             </router-link>
@@ -35,7 +44,8 @@
 
         <!-- Forgot Password Form Section -->
         <div
-          class="w-full md:w-2/3 lg:w-1/2 flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg">
+          class="w-full md:w-2/3 lg:w-1/2 flex flex-col justify-center items-center bg-white shadow-xl p-10 rounded-lg"
+        >
           <h1 class="text-5xl font-extrabold mb-6 text-red-600 tracking-wide">
             Đổi mật khẩu
           </h1>
@@ -43,11 +53,18 @@
           <form @submit.prevent="handleFormSubmit" class="w-full max-w-sm">
             <!-- Email -->
             <div class="mb-4 flex items-center">
-              <input v-model="email" type="email" placeholder="Email"
+              <input
+                v-model="email"
+                type="email"
+                placeholder="Email"
                 class="w-9/12 p-4 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md"
-                :class="{ 'border-red-500': errorEmail }" />
-              <button @click="sendOtp" :disabled="isLoading || email === ''"
-                class="w-3/12 py-4 ml-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 shadow-lg font-semibold">
+                :class="{ 'border-red-500': errorEmail }"
+              />
+              <button
+                @click="sendOtp"
+                :disabled="isLoading || email === ''"
+                class="w-3/12 py-4 ml-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 shadow-lg font-semibold"
+              >
                 OTP
               </button>
               <p v-if="errorEmail" class="text-sm text-red-500 ml-2">
@@ -57,44 +74,69 @@
 
             <!-- OTP -->
             <div class="mb-4 relative">
-              <!-- Input OTP -->
-              <input v-model="otp" type="text" placeholder="Nhập mã OTP"
+              <input
+                v-model="otp"
+                type="text"
+                placeholder="Nhập mã OTP"
                 class="w-full p-4 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md pr-16"
-                :class="{ 'border-red-500': errorOtp }" />
+                :class="{ 'border-red-500': errorOtp || isOtpExpired }"
+              />
               <p v-if="errorOtp" class="text-sm text-red-500">{{ errorOtp }}</p>
 
-              <!-- Thời gian đếm ngược, sử dụng position absolute để căn chỉnh vào bên trong input -->
-              <span v-if="otpSent" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+              <span
+                v-if="otpSent && !isOtpExpired"
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+              >
                 {{ otpTimer }} s
               </span>
             </div>
-
-            <!-- Passwords -->
-            <div class="mb-4">
-              <input v-model="newPassword" type="password" placeholder="Mật khẩu mới"
-                class="w-full p-4 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md"
-                :class="{ 'border-red-500': errorPassword }" />
-              <p v-if="errorPassword" class="text-sm text-red-500">
-                {{ errorPassword }}
-              </p>
+            <!-- Mật khẩu mới -->
+            <div class="mb-4 relative">
+              <input
+                v-model="newPassword"
+                :type="isNewPasswordVisible ? 'text' : 'password'"
+                placeholder="Mật khẩu mới"
+                class="w-full p-4 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md pr-12"
+                :class="{ 'border-red-500': errorPassword }"
+              />
+              <i
+                class="bx absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                :class="isNewPasswordVisible ? 'bx-show' : 'bx-hide'"
+                @click="toggleNewPasswordVisibility"
+              ></i>
+              
             </div>
-            <div class="mb-4">
-              <input v-model="confirmPassword" type="password" placeholder="Xác nhận mật khẩu"
-                class="w-full p-4 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md"
-                :class="{ 'border-red-500': errorConfirmPassword }" />
-              <p v-if="errorConfirmPassword" class="text-sm text-red-500">
-                {{ errorConfirmPassword }}
-              </p>
+
+            <!-- Xác nhận mật khẩu -->
+            <div class="mb-4 relative">
+              <input
+                v-model="confirmPassword"
+                :type="isConfirmPasswordVisible ? 'text' : 'password'"
+                placeholder="Xác nhận mật khẩu"
+                class="w-full p-4 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-200 shadow-md pr-12"
+                :class="{ 'border-red-500': errorConfirmPassword }"
+              />
+              <i
+                class="bx absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                :class="isConfirmPasswordVisible ? 'bx-show' : 'bx-hide'"
+                @click="toggleConfirmPasswordVisibility"
+              ></i>
+
             </div>
 
             <!-- Submit -->
-            <button type="submit" :disabled="isLoading || !otpSent || isOtpExpired"
-              class="w-full py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 shadow-lg font-semibold">
+            <button
+              type="submit"
+              :disabled="isLoading || !otpSent || isOtpExpired"
+              class="w-full py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 shadow-lg font-semibold"
+            >
               {{ isLoading ? "Đang xử lý..." : "Đổi mật khẩu" }}
             </button>
-            <p class=" text-xl text-gray-600 text-center mt-3">
-              <a href="/signin" class="text-red-600 underline">Đăng nhập</a> <a href="/"
-                class="text-blue-600 underline text-center">Trang chủ</a>
+            <p class="text-xl text-gray-600 text-center mt-3">
+              <a href="/signin" class="text-red-600 underline">Đăng nhập</a>
+              <a href="/" class="text-blue-600 underline text-center"
+                >Trang chủ</a
+              >
             </p>
           </form>
         </div>
@@ -128,6 +170,8 @@ export default {
       successMessage: null,
       otpTimer: 60, // 60s countdown for OTP
       timerInterval: null,
+      isNewPasswordVisible: false,
+      isConfirmPasswordVisible: false,
     };
   },
   methods: {
@@ -172,6 +216,7 @@ export default {
         notificationService.success(
           response.message || "Mật khẩu đã được thay đổi thành công!"
         );
+        this.$router.push("/login");
       } catch (err) {
         notificationService.error(
           err.response?.data?.message || "Thay đổi thất bại. Vui lòng thử lại."
@@ -218,14 +263,24 @@ export default {
     },
 
     startOtpTimer() {
+      this.isOtpExpired = false; // Reset trạng thái OTP hết hạn
+      this.otpTimer = 60; // Đặt lại thời gian
       this.timerInterval = setInterval(() => {
         if (this.otpTimer <= 0) {
           clearInterval(this.timerInterval);
-          this.isOtpExpired = true;
+          this.isOtpExpired = true; // OTP hết hạn
+          this.errorOtp = "Mã OTP đã hết hạn. Vui lòng gửi lại!";
         } else {
           this.otpTimer--;
         }
       }, 1000);
+    },
+
+    toggleNewPasswordVisibility() {
+      this.isNewPasswordVisible = !this.isNewPasswordVisible;
+    },
+    toggleConfirmPasswordVisibility() {
+      this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
     },
   },
 };
