@@ -7,14 +7,14 @@
 
 
         <div class="relative">
-            <input :id="inputId" :type="type" :value="modelValue" @input="updateValue" :class="['w-full py-2 pr-8 px-3 transition-colors duration-300', 'border-b-2 focus:outline-none',
+            <input :id="inputId" :type="type" :value="modelValue" @input="updateValue" :disabled="disable" :class="['w-full py-2 pr-8 px-3 transition-colors duration-300', 'border-b-2 focus:outline-none',
                 error ? 'border-red-500' : success ? 'border-green-500' : 'border-gray-300',
                 error ? 'bg-red-50' : success ? 'bg-green-50' : 'bg-white',
                 'rounded-t-none rounded-bl-none rounded-br-none']" :aria-invalid="error"
                 :aria-describedby="message ? messageId : null" />
 
 
-            <button v-if="modelValue" @click="clearInput"
+            <button v-if="modelValue && !disable" @click="clearInput"
                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
                 :aria-label="'Clear ' + label">
                 ✕
@@ -55,6 +55,10 @@ export default {
         type: {
             type: String,
             default: 'text'
+        },
+        disable: {
+            type: Boolean,
+            default: false
         }
     },
     data() {

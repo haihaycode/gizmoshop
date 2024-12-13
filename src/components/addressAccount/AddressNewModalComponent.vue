@@ -49,7 +49,7 @@
                         :error="!!errors.specificAddress" :message="errors.specificAddress"
                         @input="clearError('specificAddress')" @change="fetchCoordinates" required />
 
-                    <div class="mb-4 flex items-center">
+                    <div class="mb-4 items-center hidden">
                         <input type="checkbox" v-model="localAddress.deleted" id="deleted" class="mr-2">
                         <label for="deleted" class="text-gray-700">Đánh dấu là đã xóa</label>
                     </div>
@@ -63,6 +63,10 @@
 
             <!-- Save Button -->
             <div class="flex justify-end space-x-2">
+                <Button v-if="address.id" :isLoading="isLoading" :text="'Xóa địa chỉ'" type="button"
+                    @click="handleDeleteAddress(address.id)"
+                    class="px-4 py-2 text-white bg-gray-500 rounded-sm hover:bg-blue-600 focus:outline-none">
+                </Button>
                 <Button :isLoading="isLoading" :text="'Lưu địa chỉ'" type="button" @click="validateAndSave"
                     class="px-4 py-2 text-white bg-red-500 rounded-sm hover:bg-red-600 focus:outline-none">
                 </Button>
@@ -79,6 +83,8 @@ import * as yup from 'yup';
 import Button from '../containers/buttons/button.vue';
 import { mapGetters } from 'vuex';
 import notificationService from '@/services/notificationService';
+import { setDeletedAddress } from '@/api/auth/addressApi';
+import { saveNotifications } from '@/services/notiServiceC';
 export default {
     name: 'AddressFormModal',
     components: {
@@ -220,6 +226,20 @@ export default {
             this.$emit('save', savedData);
             this.closeModal();
         },
+        async handleDeleteAddress(id) {
+            if (id) {
+                try {
+                    await setDeletedAddress(id);
+                    notificationService.success("xóa địa chỉ thành công");
+                    saveNotifications("xóa địa chỉ thành công");
+                    this.closeModal();
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                notificationService.warning("không tìm thấy id để xóa");
+            }
+        }
     },
     computed: {
         ...mapGetters('loading', ['isLoading']),

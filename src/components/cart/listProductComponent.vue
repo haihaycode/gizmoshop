@@ -2,7 +2,8 @@
   <div>
     <div class="text-red-500 mt-2 " v-if="isLoading">
       <p class="text-red-500 text-center"><i class='bx bx-loader bx-spin'></i> &nbsp;Đang tải dữ liệu ...</p>
-      <img class="w-[400px] mx-auto" :src="require('@/assets/gizmoImageLoading/gizmo.gif')" alt="">
+      <img class="w-[400px] mx-auto animate-pulse opacity-75" :src="require('@/assets/gizmoImageLoading/gizmo.png')"
+        alt="">
     </div>
 
     <div v-if="cartItems.length > 0" class="flex flex-wrap w-full">

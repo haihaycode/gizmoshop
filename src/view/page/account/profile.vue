@@ -1,13 +1,20 @@
 <template>
     <div class="p-6 min-h-screen space-y-6">
+        <div class=" flex justify-center sm:hidden relative">
+            <img @click="() => { modalUpdateImageIsOpen = true, toggleNav(false) }"
+                :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/100'"
+                alt="User avatar" class="w-30 h-30 md:w-32 md:h-32 rounded-full mb-4" @error="onImageError" />
+            <i class="bx bx-camera absolute bottom-0 right-0 text-2xl"></i>
+        </div>
+
         <form @submit.prevent="handleSubmit">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="col-span-2 space-y-4">
                     <CustomInputComponent v-model="user.fullname" label="   &nbsp; Họ và tên "
                         :error="!!errors.fullname" :message="errors.fullname" />
 
-                    <CustomInputComponent v-model="user.email" label="Email" :error="!!errors.email"
-                        :message="errors.email" disabled>
+                    <CustomInputComponent :disable="true" v-model="user.email" label="Email" :error="!!errors.email"
+                        :message="errors.email" :aria-disabled="true">
                         <template #label>
                             &nbsp; Email <span @click="modalUpdateEmailIsOpen = true"
                                 class="text-blue-500 text-sm cursor-pointer hover:underline">
@@ -51,7 +58,7 @@
                 </div>
 
 
-                <div class="flex flex-col items-center">
+                <div class="hidden sm:flex flex-col items-center ">
                     <img :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/100'"
                         alt="User avatar" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4" @error="onImageError" />
                     <Button @click="() => { modalUpdateImageIsOpen = true, toggleNav(false) }" type="button"

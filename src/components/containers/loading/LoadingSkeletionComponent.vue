@@ -2,7 +2,8 @@
     <div v-if="isLoading && isOpen"
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 bg-opacity-75 backdrop-blur-md">
         <div class="animate-pulse  rounded-lg p-6 max-w-md w-full space-y-6">
-            <img class="w-[400px]  mx-auto" :src="require('@/assets/gizmoImageLoading/gizmo.png')" alt="">
+            <img class="w-[400px]  mx-auto animate-pulse opacity-30"
+                :src="require('@/assets/gizmoImageLoading/gizmo.png')" alt="">
         </div>
     </div>
 </template>
