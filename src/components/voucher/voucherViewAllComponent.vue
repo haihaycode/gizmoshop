@@ -5,7 +5,7 @@
                 <h3 class="sm:text-sm md:text-lg font-bold">Mã Giảm Giá</h3>
             </template>
             <template #body>
-                <div class="w-full max-w-[1000px] mt-2">
+                <div class=" mt-2">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
                         <div v-for="(voucher, index) in vouchers" :key="index"
                             class="voucher-ticket flex rounded-none sm:rounded-sm overflow-hidden bg-white relative">

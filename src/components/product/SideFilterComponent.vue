@@ -17,7 +17,8 @@
         <!-- Category Filter -->
         <div class="mb-6">
             <label class="block text-sm font-medium text-gray-600 mb-2">Theo Danh Mục</label>
-            <el-select v-model="selectedCategory" placeholder="Tất Cả Danh Mục" @change="applyFilter" class="w-full">
+            <el-select clearable v-model="selectedCategory" placeholder="Tất Cả Danh Mục" @change="applyFilter"
+                class="w-full">
                 <el-option v-for="category in categories" :key="category.id" :label="category.name"
                     :value="category.id" />
             </el-select>
@@ -25,14 +26,16 @@
         <!-- Brand Filter -->
         <div class="mb-6">
             <label class="block text-sm font-medium text-gray-600 mb-2">Thương Hiệu</label>
-            <el-select v-model="selectedBrand" placeholder="Tất Cả Thương Hiệu" @change="applyFilter" class="w-full">
+            <el-select clearable v-model="selectedBrand" placeholder="Tất Cả Thương Hiệu" @change="applyFilter"
+                class="w-full">
                 <el-option v-for="brand in brands" :key="brand.id" :label="brand.name" :value="brand.id" />
             </el-select>
         </div>
         <!-- Price Range Filter -->
         <div class="mb-6">
             <label class="block text-sm font-medium text-gray-600 mb-2">Khoảng Giá</label>
-            <el-select v-model="selectedPriceRange" placeholder="Tất Cả Giá" @change="applyFilter" class="w-full">
+            <el-select clearable v-model="selectedPriceRange" placeholder="Tất Cả Giá" @change="applyFilter"
+                class="w-full">
                 <el-option v-for="price in priceOptions" :key="price.id" :label="price.name" :value="price.id" />
             </el-select>
         </div>
@@ -56,7 +59,7 @@ import { ElSelect, ElOption } from 'element-plus';
 import { getCategories } from '@/api/categoryApi';
 import { getBrandWithList } from '@/api/brandApi';
 import 'element-plus/dist/index.css';
-
+import { debounce } from 'lodash';
 export default {
     name: 'SideFilter',
     components: {
@@ -126,18 +129,18 @@ export default {
             this.selectedCategory = '';
             this.selectedBrand = '';
             this.selectedPriceRange = '';
-            // Apply the cleared filters
+            // clear
             this.applyFilter();
+            this.debouncedApplyFilter();
         }
     },
     async mounted() {
         await this.handleFetchCategory();
         await this.handleFetchBrand();
         this.applyFilter();
+    },
+    created() {
+        this.debouncedApplyFilter = debounce(this.applyFilter, 300);
     }
 };
 </script>
-
-<style scoped>
-/* Additional custom styles if needed */
-</style>

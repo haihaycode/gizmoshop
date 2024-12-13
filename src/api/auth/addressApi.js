@@ -40,3 +40,13 @@ export const deleteAddress = async (addressId) => {
         throw new Error(`Error deleting address: ${error}`);
     }
 };
+
+// PATCH /api/public/Address/setDeleted/{{addressId}}
+export const setDeletedAddress = async (addressId) => {
+    try {
+        const response = await Axios.patch(`${HOST}/api/public/Address/setDeleted/${addressId}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(`Error deleting address: ${error}`);
+    }
+};
