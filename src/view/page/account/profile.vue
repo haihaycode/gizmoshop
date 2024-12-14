@@ -1,9 +1,11 @@
 <template>
     <div class="p-6 min-h-screen space-y-6">
-        <div class=" flex justify-center sm:hidden relative">
+        <div class=" flex justify-center h-30 sm:hidden relative">
             <img @click="() => { modalUpdateImageIsOpen = true, toggleNav(false) }"
                 :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/100'"
-                alt="User avatar" class="w-30 h-30 md:w-32 md:h-32 rounded-full mb-4" @error="onImageError" />
+                alt="User avatar"
+                class="w-32 h-32 rounded-full object-cover cursor-pointer hover:opacity-80 transition-opacity duration-300"
+                @error="onImageError" />
             <i class="bx bx-camera absolute bottom-0 right-0 text-2xl"></i>
         </div>
 
