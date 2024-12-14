@@ -8,6 +8,11 @@
         class="absolute inset-0 bg-black bg-opacity-20 opacity-0 hover:opacity-100 flex items-center justify-center text-white font-semibold text-xs sm:text-sm transition-opacity duration-300">
         Xem chi tiết
       </div>
+
+      <div v-if="product?.productInventoryResponse?.quantity <= 0" @click="handleForwardProductDetail"
+        class="absolute inset-0 bg-black bg-opacity-20 opacity-100 flex items-center justify-center text-white font-semibold text-xs sm:text-sm transition-opacity duration-300">
+        Hết hàng
+      </div>
       <div v-if="product?.discountProduct"
         class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-sm shadow">
         -{{ product?.discountProduct }}%
@@ -52,6 +57,7 @@
           <span v-if="!hiddenButtonFavotite" class="text-xs sm:text-sm font-thin text-gray-700">
             Tồn kho : {{ product?.productInventoryResponse?.quantity }}
           </span>
+
         </div>
         <button @click="toggleFavorite" v-if="hiddenButtonFavotite"
           class="text-gray-500 hover:text-red-500 text-sm transition duration-200 flex items-center space-x-2 relative group">

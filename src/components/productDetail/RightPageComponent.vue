@@ -36,34 +36,35 @@
 
         <div class="text-sm text-gray-600 space-y-2 mt-2">
           <p>
-            <strong>Danh mục:</strong>
-            <span class="text-blue-500 cursor-pointer hover:underline">{{
-              product?.productCategories?.name || "No Category"
+            <strong>Danh mục :</strong>
+            <span class="text-blue-500 cursor-pointer hover:underline">&nbsp;{{
+              product?.productCategories?.name || "..."
             }}</span>
           </p>
           <p>
-            <strong>Thương hiệu:</strong>
-            <span class="text-blue-500 cursor-pointer hover:underline">{{
-              product?.productBrand?.name || "Unknown"
+            <strong>Thương hiệu :</strong>
+            <span class="text-blue-500 cursor-pointer hover:underline">&nbsp;{{
+              product?.productBrand?.name || "..."
             }}</span>
           </p>
           <p>
-            <strong>Số lượng còn lại:</strong>
-            {{ product?.productInventoryResponse?.quantity || "N/A" }}
+            <strong>Số lượng :</strong>
+            <span class="text-red-500">&nbsp;{{ product?.productInventoryResponse?.quantity || "Hết Hàng" }}</span>
           </p>
           <p>
-            <strong>Mô tả:</strong>
+            <strong>Mô tả : &nbsp;</strong>
             {{
               product?.productShortDescription?.slice(
                 0,
                 product.productShortDescription?.indexOf("[[[")
-              ) || product?.productShortDescription
+              ) || '...'
             }}
           </p>
         </div>
 
         <div class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-4 mt-4">
-          <div class="flex items-center border border-gray-300 rounded">
+          <div v-if="product?.productInventoryResponse?.quantity > 0"
+            class="flex items-center border border-gray-300 rounded">
             <button @click="decreaseQuantity" class="px-3 py-1 md:px-4">
               <i class="bx bx-minus"></i>
             </button>
@@ -73,7 +74,10 @@
               <i class="bx bx-plus"></i>
             </button>
           </div>
-          <button v-if="showAddToCartButton" :disabled="isLoading" :class="isLoading ? 'bg-gray-200' : ''"
+
+
+          <button v-if="showAddToCartButton && product?.productInventoryResponse?.quantity" :disabled="isLoading"
+            :class="isLoading ? 'bg-gray-200' : ''"
             class="bg-red-500 text-white flex items-center justify-center px-3 py-1 md:px-4 md:py-1 rounded hover:bg-red-600 w-full md:w-auto"
             @click="() => { handleAddToCart(); showWishlistButton = false }">
             <i v-if="!isLoading" class="bx bx-cart-add mr-1"></i>
@@ -81,6 +85,7 @@
               Hàng</span>
             <span class="inline lg:hidden"><i v-if="isLoading" class='bx bx-loader bx-spin'></i> Thêm</span>
           </button>
+
 
           <button v-if="showWishlistButton" @click="() => { toggleWishlist(); showAddToCartButton = false }"
             :disabled="isLoading" :class="isLoading ? 'bg-gray-200' : ''"

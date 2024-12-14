@@ -5,6 +5,7 @@
       <img :src="loadImage(displayedImage, 'product')" alt="image"
         class="w-full max-h-[400px] md:h-full rounded-md object-cover border-2" @error="handleImageError" />
       <div class="absolute inset-0 flex items-center justify-between p-4">
+
         <!-- Previous Image Button -->
         <button @click="previousImage" @click.stop class=" text-gray-700 p-2 rounded-full hover:bg-gray-400"
           :class="{ 'opacity-50 cursor-not-allowed': currentImageIndex === 0 }" :disabled="currentImageIndex === 0">
