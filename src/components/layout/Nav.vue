@@ -125,7 +125,7 @@
                 <span class="hidden lg:inline">Xây dựng cấu hình</span>
               </router-link>
 
-              <p @click="modalSearchOrderIsOpen = !modalSearchOrderIsOpen"
+              <p @click="modalSearchOrderIsOpen = !modalSearchOrderIsOpen; isCartModalOpen = false; isProfileOpen = false"
                 class="rounded-none cursor-pointer px-4 py-2 text-base font-medium text-white hover:bg-gray-100 hover:text-black flex items-center transition-all">
                 <i v-if="!modalSearchOrderIsOpen" class="bx bx-search-alt mr-2"></i>
                 <i v-else class="bx bx-x mr-2"></i>
@@ -205,7 +205,7 @@
       </div>
     </transition>
     <!-- account -->
-    <transition name="fade" @click="isProfileOpen = false">
+    <transition name="fade" @click="isProfileOpen = false; isCartModalOpen = false">
       <div v-if="isProfileOpen" class="absolute right-8 bg-gray-50 p-4 rounded-sm shadow-lg w-72 z-30">
         <div class="flex items-center mb-4">
           <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center text-base font-bold">
@@ -395,10 +395,14 @@ export default {
       }
       this.isNoticationOpen = false
       this.isCartModalOpen = !this.isCartModalOpen;
+      this.isProfileOpen = false
+      this.modalSearchOrderIsOpen = false
     },
     toggleMenu() {
       this.isNoticationOpen = false
       this.isProfileOpen = !this.isProfileOpen;
+      this.isCartModalOpen = false
+      this.modalSearchOrderIsOpen = false
     },
     OpenMenu() {
       this.isMenuOpen = !this.isMenuOpen;

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-4 pt-3 px-2">
-            <div class="flex mb-4 md:mb-0">
+            <div class="flex items-center mb-4 md:mb-0">
                 <div class="w-3 h-10 bg-red-600 mr-1"></div>
                 <p class="text-xl font-bold text-gray-800 uppercase">Sản phẩm nổi bật</p>
             </div>

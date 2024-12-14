@@ -8,6 +8,7 @@
                 @error="onImageError" />
             <i class="bx bx-camera absolute bottom-0 right-0 text-2xl"></i>
         </div>
+        <h2 class="text-xl sm:text-2xl mt-0 ml-1 font-semibold mb-2 border-l-8 border-red-500">&nbsp; HỒ SƠ CÁ NHÂN</h2>
 
         <form @submit.prevent="handleSubmit">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -62,7 +63,8 @@
 
                 <div class="hidden sm:flex flex-col items-center ">
                     <img :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/100'"
-                        alt="User avatar" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4" @error="onImageError" />
+                        alt="User avatar" class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full mb-4"
+                        @error="onImageError" />
                     <Button @click="() => { modalUpdateImageIsOpen = true, toggleNav(false) }" type="button"
                         :text="'Chọn Ảnh '"
                         class="bg-red-500 font-semibold px-4 py-2 rounded-sm hover:bg-gray-300 focus:outline-none">

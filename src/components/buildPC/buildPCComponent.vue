@@ -1,12 +1,11 @@
 <template>
   <div class="min-h-screen bg-white text-gray-800">
     <!-- Header -->
-    <header class="p-6 bg-white shadow-sm sticky top-0 z-10">
+    <header class="p-6 bg-white shadow-sm  ">
       <div class="flex justify-between items-center container mx-auto">
         <div class="text-start">
-          <div class="text-3xl font-extrabold text-gray-800 tracking-tight">
-            Xây dựng cấu hình
-          </div>
+          <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-extrabold  mb-2 border-l-8 border-red-500">&nbsp; XÂY DỰNG CẤU
+            HÌNH</h2>
           <div class="text-base text-gray-600 mt-2">
             Tạo ra chiếc PC mơ ước của bạn với hiệu năng tối ưu và phong cách độc đáo.
           </div>

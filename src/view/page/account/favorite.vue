@@ -1,7 +1,8 @@
 <template>
     <div class="p-6 min-h-screen space-y-6">
         <div>
-            <h2 class="text-xl font-semibold text-gray-600 mb-4">Sản phẩm đã yêu thích</h2>
+            <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-8 border-red-500">&nbsp; SẢN PHẨM YÊU
+                THÍCH</h2>
         </div>
         <!-- Check if there are no products and show a message -->
         <div v-if="products.length === 0" class="text-center text-gray-500">

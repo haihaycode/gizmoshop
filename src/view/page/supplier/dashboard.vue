@@ -13,7 +13,8 @@
             <div v-else>
                 <!-- Tổng quan doanh thu -->
                 <section class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4">Tổng quan doanh thu</h2>
+                    <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-4 border-blue-500">&nbsp; TỔNG
+                        QUAN DOANH THU</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="stat-card bg-white p-6 rounded-lg shadow">
                             <p class="text-gray-600">Doanh thu tuần này </p>
@@ -36,7 +37,8 @@
 
                 <!-- Số lượng đơn hàng -->
                 <section class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4">Đơn hàng</h2>
+                    <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-4 border-blue-500">&nbsp; ĐƠN
+                        HÀNG</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="stat-card bg-white p-6 rounded-lg shadow">
                             <p class="text-gray-600">Đơn hàng đang tạo (chưa giao dịch)</p>

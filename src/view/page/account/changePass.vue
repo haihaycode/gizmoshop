@@ -2,7 +2,8 @@
     <div class="p-6 min-h-screen space-y-6">
         <!-- Page Title -->
         <div>
-            <h2 class="text-xl font-semibold text-gray-600 mb-4">Thay đổi mật khẩu cho tài khoản</h2>
+            <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-8 border-red-500">&nbsp; ĐỔI MẬT KHẨU
+            </h2>
         </div>
 
         <!-- Form Container -->

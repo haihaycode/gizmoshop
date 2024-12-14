@@ -1,14 +1,10 @@
 <template>
   <div class="bg-white rounded-lg shadow-xl mt-6 p-6 w-full lg:w-3/10 md:w-1/3">
-    <h2 class="text-xl font-semibold mb-6 text-gray-800">Tổng kết giỏ hàng</h2>
+    <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-8 border-red-500">&nbsp; TỔNG KẾT GIỎ HÀNG</h2>
 
     <div class="mb-6">
       <p class="font-semibold text-gray-800 mb-2">Sản phẩm đã chọn:</p>
-      <div
-        v-for="(item, index) in cartItems"
-        :key="index"
-        class="flex justify-between items-center mb-3"
-      >
+      <div v-for="(item, index) in cartItems" :key="index" class="flex justify-between items-center mb-3">
         <p class="text-gray-700">{{ item.productId.productName }}</p>
         <p class="text-gray-700">
           {{ item.quantity }} x
@@ -37,8 +33,7 @@
     <div class="mt-6">
       <button
         class="w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition duration-200 shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300"
-        @click="proceedToCheckout"
-      >
+        @click="proceedToCheckout">
         Tiến hành đặt hàng
       </button>
     </div>

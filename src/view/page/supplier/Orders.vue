@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto p-6">
         <h1 class="text-3xl font-bold mb-8 flex items-center">
-            Quản lý Đơn hàng
+            <p class="text-2xl font-semibold  border-l-4 border-blue-500">&nbsp; QUẢN LÝ ĐƠN HÀNG </p>
             <button @click="openProcessDiagram" class="ml-2 text-gray-500 hover:text-red-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
