@@ -1,8 +1,9 @@
 <template>
     <div class="p-6 min-h-screen space-y-6">
         <div class="flex justify-between">
-            <h2 class="text-xl font-semibold text-gray-600 mb-4">Thông tin tài khoản ngân hàng</h2>
-            <span class="text-sm font-semibold text-gray-600 mb-4 cursor-pointer" @click="openEditModal(account)"> +Thêm
+            <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-8 border-red-500">&nbsp; NGÂN HÀNG</h2>
+            <span class="text-sm font-semibold text-gray-600 mb-4 cursor-pointer" @click="openEditModal(account)"> +
+                Thêm
                 ngân hàng
             </span>
         </div>

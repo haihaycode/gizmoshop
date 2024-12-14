@@ -2,7 +2,9 @@
     <div class="min-h-screen space-y-1">
         <!-- Page Title -->
         <div>
-            <h2 class="text-xl font-semibold text-gray-600 mb-1 p-3">Lịch sử Giao dịch</h2>
+            <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-4 border-blue-500"> &nbsp; Lịch sử Giao
+                dịch
+            </h2>
         </div>
 
         <!-- Date Range Filters -->

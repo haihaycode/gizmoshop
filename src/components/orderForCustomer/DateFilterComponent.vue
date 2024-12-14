@@ -1,5 +1,5 @@
 <template>
-    <div class="relative bg-white p-2 sm:p-3 rounded-sm shadow-sm mb-1 transition-all hover:shadow-xl">
+    <div class="relative bg-white p-2 sm:p-3  mb-1 transition-all hover:shadow-xl">
         <label class="text-gray-700 font-medium text-sm mb-2 block">Thời gian đặt hàng</label>
 
         <!-- Datepicker Component -->

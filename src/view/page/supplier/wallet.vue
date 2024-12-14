@@ -1,5 +1,9 @@
 <template>
+    <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-4 border-blue-500 text-left sm:text-center">
+        &nbsp; THÔNG TIN & VÍ CỦA
+        BẠN </h2>
     <div class="min-h-screen flex flex-wrap py-10 mx-auto justify-center">
+
         <div>
             <div class="flex" v-if="!isLoading">
                 <div class="max-w-md w-full md:w-1/2">

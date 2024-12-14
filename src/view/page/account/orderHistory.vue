@@ -1,5 +1,6 @@
 <template>
     <div class="p-6 min-h-screen space-y-2 bg-gray-50">
+        <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-8 border-red-500">&nbsp; ĐƠN HÀNG</h2>
         <!-- User Order Stats -->
         <OrderStats :orderCount="orderCount" :totalPoints="totalPoints" />
 

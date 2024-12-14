@@ -1,8 +1,9 @@
 <template>
-    <div class="min-h-screen space-y-1">
+    <div class="p-6 min-h-screen space-y-1">
         <!-- Page Title -->
         <div>
-            <h2 class="text-xl font-semibold text-gray-600 mb-1 p-3">Lịch sử Giao dịch</h2>
+            <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-1 border-l-8 border-red-500">&nbsp; LỊCH SỬ GIAO
+                DỊCH</h2>
         </div>
 
         <!-- Date Range Filters -->

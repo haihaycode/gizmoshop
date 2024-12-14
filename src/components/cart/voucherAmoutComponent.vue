@@ -1,6 +1,8 @@
 <template>
   <div class="bg-white w-full p-4 rounded-lg shadow-lg border border-gray-200">
-    <h2 class="text-lg font-bold mb-4">Tổng kết giỏ hàng</h2>
+    <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-3 border-l-8 border-red-500">&nbsp; TIẾN HÀNH ĐẶT HÀNG
+    </h2>
+
     <div class="mb-4">
       <div class="border p-4 rounded-lg cursor-pointer bg-orange-50 border-orange-500 text-orange-800">
         <div class="flex items-center">
@@ -100,28 +102,27 @@
       </p>
     </div>
     <div class="mt-2">
-      <label class="block text-gray-700 font-medium mb-2">
-        Chọn địa chỉ giao hàng <router-link :to="{ name: 'address' }"
-          class="text-blue-500 underline text-sm font-thin hover:text-red-600">Thêm
-          địa
-          chỉ
-          +</router-link>
-
+      <label class="text-gray-700 font-medium border-l-4  border-red-500"> &nbsp;
+        Địa chỉ giao hàng
       </label>
       <div @click="toggleAddressList" class="border p-4 rounded-lg cursor-pointer hover:bg-gray-100">
         <p v-if="selectedAddress">
           {{ selectedAddress.city }} - {{ selectedAddress.specificAddress }}
         </p>
-        <p v-else>Chọn địa chỉ giao hàng (*) </p>
+        <p v-else> -- Chọn địa chỉ giao hàng (*) --</p>
       </div>
 
       <div v-if="userAddresses.length === 0" class="mt-0 text-red-500">
         Bạn chưa thêm địa chỉ nhận hàng
+        <router-link :to="{ name: 'address' }" class="text-blue-500 text-sm font-bold hover:text-red-600">Thêm
+          địa
+          chỉ
+        </router-link>
       </div>
 
-      <div v-if="showAddressList && userAddresses.length > 0" class="mt-4 max-h-60 overflow-y-auto">
+      <div v-if="showAddressList && userAddresses.length > 0" class="mt-3  overflow-y-auto ">
         <div v-for="address in userAddresses" :key="address.id" @click="selectAddress(address)"
-          class="border p-4 rounded-lg mb-2 cursor-pointer hover:bg-orange-50" :class="{
+          class="border p-4 rounded-sm mb-2 cursor-pointer hover:bg-orange-50" :class="{
             'bg-orange-50 border-orange-500':
               selectedAddress && selectedAddress.id === address.id,
             'bg-white border-gray-300': !(
@@ -138,13 +139,11 @@
     </div>
 
     <div class="mt-2">
-      <div class="flex items-center justify-between">
-        <label class="text-gray-700 font-medium">Chọn ngân hàng <router-link :to="{ name: 'bank' }"
-            class="text-blue-500 underline text-sm font-thin hover:text-red-600">Thêm
-            ngân hàng
-            +</router-link></label>
-        <button v-if="!showBankList" class="text-red-500 hover:text-red-600 font-sans text-sm" @click="toggleBankList">
-          Chọn <i class="bx bxs-bank"></i>
+      <div class="flex items-center justify-between my-1">
+        <label class="text-gray-700 font-medium border-l-4 border-red-500"> &nbsp; Ngân hàng </label>
+        <button v-if="!showBankList" class="text-white bg-red-500 hover:bg-red-600 p-2 rounded-sm font-bold text-sm"
+          @click="toggleBankList">
+          chọn ngân hàng <i class="bx bxs-bank"></i>
         </button>
       </div>
 
@@ -162,6 +161,8 @@
       </div>
       <div v-if="userBanks.length === 0" class="mt-1 text-red-500">
         Bạn chưa liên kết ngân hàng nào.
+        <router-link :to="{ name: 'bank' }" class="text-blue-500 text-sm font-bold hover:text-red-600">Thêm mới
+        </router-link>
       </div>
       <div v-if="showBankList && userBanks.length > 0" class="grid gap-4 mt-4">
         <div v-for="(bank, index) in userBanks" :key="index"
@@ -178,7 +179,7 @@
         </div>
       </div>
       <div class="mt-2">
-        <label class="block text-gray-700 font-medium mb-2">
+        <label class="block text-gray-700 font-medium mb-2 border-l-4 border-red-500"> &nbsp;
           Chọn phương thức thanh toán
         </label>
         <div class="grid grid-cols-2 gap-4">

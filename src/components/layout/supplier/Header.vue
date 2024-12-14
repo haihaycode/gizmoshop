@@ -24,6 +24,9 @@
 
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex space-x-4">
+                    <router-link :to="{ name: 'home' }" :class="{ 'underline ': $route.name === 'AboutUs' }"
+                        class="hover:underline "> về GizmoShop</router-link>
+
                     <router-link :to="{ name: 'SupplierHome' }"
                         :class="{ 'underline ': $route.name === 'SupplierHome' }" class="hover:underline">Trang
                         chủ</router-link>

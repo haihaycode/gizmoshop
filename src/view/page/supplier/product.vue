@@ -1,23 +1,28 @@
 <template>
     <div>
-
-        <div class="flex justify-between items-center mb-4">
-            <div class="p-2">
+        <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-4 border-blue-500">&nbsp; DANH SÁCH SẢN
+            PHẨM ĐÃ
+            CUNG
+            CẤP </h2>
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+            <div class="p-2 w-full sm:w-auto">
                 <DateFilter @date-range-selected="setDateRange" />
             </div>
-            <div class="p-2 flex items-center space-x-2">
+            <div
+                class="p-2 flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
                 <!-- Ô nhập từ khóa -->
-                <div class="flex">
+                <div class="flex w-full sm:w-auto">
                     <input type="text" v-model="keyword" placeholder="Nhập từ khóa tìm kiếm"
-                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500" />
+                        class="w-full border rounded-sm px-4 py-2 focus:outline-none focus:border-blue-500" />
                 </div>
                 <!-- Nút tìm kiếm -->
                 <button @click="fetchProducts"
-                    class="bg-blue-600 text-white h-auto px-4 py-2 rounded-md hover:bg-blue-700">
+                    class="bg-blue-600 text-white h-auto px-4 py-2 rounded-sm hover:bg-blue-700 w-full sm:w-auto">
                     Tìm kiếm
                 </button>
             </div>
         </div>
+
 
         <div v-if="products.length === 0 && !isLoading" class="text-center text-gray-500">
             <p>Hiện tại bạn chưa có sản phẩm nào.</p>
@@ -25,7 +30,7 @@
         <!-- Display products if available -->
         <div v-if="isLoading" class="text-blue-500 text-center"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
                 style='color:#1257c0'></i> Đang tải dữ liệu...</div>
-        <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div v-else class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <ProductCard v-for="product in products" :key="product.id" :product="product"
                 :hiddenButtonFavotite="false" />
 

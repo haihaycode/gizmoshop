@@ -9,7 +9,9 @@
     <div v-if="cartItems.length > 0" class="flex flex-wrap w-full">
       <div class="rounded-md w-full lg:w-7/10 md:w-2/3 p-4">
         <div class="flex items-center mb-6 border-b pb-2">
-          <button class="text-red-600 font-bold text-lg">Giỏ hàng của bạn</button>
+          <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-8 border-red-500">&nbsp;GIỎ HÀNG CỦA BẠN
+          </h2>
+
         </div>
         <div v-if="isLoading" class="fixed inset-0 flex justify-center items-center z-50 bg-opacity-50 bg-gray-800">
           <div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-red-500"></div>
@@ -85,14 +87,14 @@
         </div>
       </div>
       <div class="bg-white rounded-lg shadow-xl mt-6 p-6 w-full lg:w-3/10 md:w-1/3 border-1 border-gray-100">
-        <h2 class="text-xl font-semibold mb-6 text-gray-800">
-          Tổng kết giỏ hàng
+        <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-8 border-red-500">&nbsp; TỔNG KẾT GIỎ HÀNG
         </h2>
+
 
         <div class="mb-6">
           <!-- Tiêu đề -->
           <p class="font-semibold text-gray-800 mb-4 text-lg">
-            Sản phẩm đã chọn:
+            Sản phẩm đã chọn :
           </p>
           <!-- Danh sách sản phẩm -->
           <div v-for="(item, index) in cartItems" :key="index"

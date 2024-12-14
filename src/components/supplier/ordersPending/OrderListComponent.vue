@@ -1,7 +1,8 @@
 <template>
     <div class="bg-white rounded-sm p-6 mt-2">
-        <h2 class="text-xl font-semibold mb-1"> Danh Sách Đơn Hàng đã tạo </h2>
-        <p class="text-xl font-normal mb-4">Lưu ý : Mỗi đơn hàng chỉ được gửi tối đa 3 mặt hàng </p>
+        <h2 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-4 border-blue-500">&nbsp; DANH SÁCH ĐƠN
+            HÀNG ĐÃ TẠO </h2>
+        <p class="text-sm font-mono mb-4">&nbsp;(*) Lưu ý : Mỗi đơn hàng chỉ được gửi tối đa 3 mặt hàng </p>
         <div v-if="orders.length > 0" class="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
             <div v-for="(order) in orders" :key="order.id"
                 class="bg-white shadow-md rounded-sm p-4 border border-gray-200 flex flex-col justify-between">
@@ -74,7 +75,7 @@
                         <div class="mt-4 text-gray-700 text-sm">
                             <p><span class="font-semibold">Tổng kích thước (m3/ m2):</span> {{
                                 calculateTotalSizeM3(order)
-                            }}m3 / {{ calculateTotalSizeM2(order) }}m2
+                                }}m3 / {{ calculateTotalSizeM2(order) }}m2
                             </p>
                             <p><span class="font-semibold">Tổng cân nặng:</span> {{ calculateTotalWeight(order) }} kg
                             </p>
@@ -92,7 +93,7 @@
                                 <span class="font-semibold">Chi phí lưu trữ (ước tính - tính đến hiện tại) : </span>
                                 <i class="text-red-500"> {{
                                     formatCurrencyVN(calculateStorageCost(calculateTotalSizeM2(order), order.duration))
-                                }} (VNĐ/{{ order.duration }} ngày)</i>
+                                    }} (VNĐ/{{ order.duration }} ngày)</i>
 
                             </p>
 

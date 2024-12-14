@@ -14,7 +14,7 @@
                 <!-- User Profile Section -->
                 <div class="flex items-center space-x-3 p-4 border-b border-gray-200">
                     <img :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/40'"
-                        @error="onImageError" alt="User avatar" class="w-10 h-10 rounded-full" />
+                        @error="onImageError" alt="User avatar" class="w-10 h-10 object-cover rounded-full" />
                     <div>
                         <p class="text-gray-700 font-semibold">{{ user.fullname ? user.fullname : 'Người dùng Gizmo'
                             }}

@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white rounded-sm p-6">
-        <h1 class="text-2xl font-semibold mb-4 flex items-center ">Tạo Đơn Hàng &nbsp; <i
-                class='bx bxs-info-circle text-gray-400 hover:text-gray-600 transition-all '
+        <h1 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-4 border-blue-500">&nbsp; TẠO ĐƠN HÀNG
+            &nbsp; <i class='bx bxs-info-circle text-gray-400 hover:text-gray-600 transition-all '
                 @click="showModal = true"></i></h1>
         <form @submit.prevent="submitOrder" class="space-y-4">
             <!-- Chọn ngân hàng -->
