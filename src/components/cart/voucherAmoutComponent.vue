@@ -102,7 +102,7 @@
       </p>
     </div>
     <div class="mt-2">
-      <label class="text-gray-700 font-medium border-l-4  border-red-500"> &nbsp;
+      <label class="text-gray-700 font-medium "> &nbsp;
         Địa chỉ giao hàng
       </label>
       <div @click="toggleAddressList" class="border p-4 rounded-lg cursor-pointer hover:bg-gray-100">
@@ -140,7 +140,7 @@
 
     <div class="mt-2">
       <div class="flex items-center justify-between my-1">
-        <label class="text-gray-700 font-medium border-l-4 border-red-500"> &nbsp; Ngân hàng </label>
+        <label class="text-gray-700 font-medium "> &nbsp; Ngân hàng </label>
         <button v-if="!showBankList" class="text-white bg-red-500 hover:bg-red-600 p-2 rounded-sm font-bold text-sm"
           @click="toggleBankList">
           chọn ngân hàng <i class="bx bxs-bank"></i>
@@ -179,7 +179,7 @@
         </div>
       </div>
       <div class="mt-2">
-        <label class="block text-gray-700 font-medium mb-2 border-l-4 border-red-500"> &nbsp;
+        <label class="block text-gray-700 font-medium mb-2 "> &nbsp;
           Chọn phương thức thanh toán
         </label>
         <div class="grid grid-cols-2 gap-4">

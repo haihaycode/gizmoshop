@@ -6,19 +6,12 @@
                 <h1 class="text-2xl font-mono">GizmoShop - Trang Nhà cung cấp</h1>
 
                 <!-- Mobile Menu Button -->
-                <button @click="toggleMenu" class="block md:hidden text-white focus:outline-none">
+                <button @click="toggleMenu" class="block md:hidden text-white hover:text-red-500 focus:outline-none">
                     <!-- Hiển thị SVG "Menu" khi isMenuOpen = false -->
-                    <svg v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-
-                    <!-- Hiển thị SVG "X" khi isMenuOpen = true -->
-                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
+                            d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>
                 </button>
 
@@ -55,16 +48,21 @@
                 <i class="bx bx-home"></i>
                 <span class="text-xs">Trang chủ</span>
             </router-link>
-            <router-link :to="{ name: 'OrdersSupplier' }"
-                :class="{ 'text-blue-600 ': $route.name === 'OrdersSupplier' }" class="flex flex-col items-center ">
-                <i class="bx bx-package"></i>
-                <span class="text-xs">Đơn hàng</span>
-            </router-link>
             <router-link :to="{ name: 'OrdersPendingSupplier' }"
                 :class="{ 'text-blue-600 ': $route.name === 'OrdersPendingSupplier' }"
                 class="flex flex-col items-center ">
                 <i class="bx bx-package"></i>
                 <span class="text-xs">Tạo đơn hàng</span>
+            </router-link>
+            <router-link :to="{ name: 'OrdersSupplier' }"
+                :class="{ 'text-blue-600 ': $route.name === 'OrdersSupplier' }" class="flex flex-col items-center ">
+                <i class="bx bx-package"></i>
+                <span class="text-xs">Đơn hàng</span>
+            </router-link>
+            <router-link :to="{ name: 'AboutUs' }" :class="{ 'text-blue-600 ': $route.name === 'AboutUs' }"
+                class="flex flex-col items-center ">
+                <i class="bx bx-run"></i>
+                <span class="text-xs">Giới thiệu</span>
             </router-link>
             <router-link :to="{ name: 'walletSupplier' }"
                 :class="{ 'text-blue-600 ': $route.name === 'walletSupplier' }" class="flex flex-col items-center ">
