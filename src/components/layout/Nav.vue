@@ -23,7 +23,7 @@
           <div class="relative w-full">
             <input type="text" v-model="searchQuery" @input="handleInput" @keyup.enter="performSearch"
               placeholder="Tìm kiếm sản phẩm..."
-              class="w-full px-4 py-2 pr-10 rounded-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" />
+              class="w-full px-4 py-2 pr-10 rounded-sm border border-gray-300 shadow-sm focus:outline-none ring-0 ring-red-500 focus:ring-1 focus:ring-red-500" />
             <!-- Search icon -->
             <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-red-500 cursor-pointer"
               @click="performSearch">
@@ -76,7 +76,7 @@
             <div class="relative w-full">
               <input type="text" v-model="searchQuery" @input="handleInput" @keyup.enter="performSearch"
                 placeholder="Tìm kiếm sản phẩm..."
-                class="w-full px-4 py-2 pr-10 rounded-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500" />
+                class="w-full px-4 py-2 pr-10 rounded-sm border border-gray-300 shadow-sm focus:outline-none ring-0 ring-red-500 focus:ring-1 focus:ring-red-500" />
               <!-- Search icon -->
               <span @click="performSearch"
                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500">

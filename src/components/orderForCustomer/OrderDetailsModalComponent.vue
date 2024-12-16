@@ -22,7 +22,7 @@
                 </p>
                 <p><strong>Ghi chú :</strong>
                     <span class="px-3 py-1 rounded-full text-sm">
-                        {{ order.note || 'không có' }}
+                        {{ order.note.replace(/Giá ban đầu[^,]*,/, '') || 'không có' }}
                     </span>
                 </p>
                 <!-- <p><strong>Tổng tiền:</strong> <span class="text-red-500 text-xl">{{ formatCurrencyVN(order.totalPrice)
@@ -34,7 +34,7 @@
                     <p v-if="order.vouchers[0].voucher.discountAmount !== 0">
                         <strong>Giảm :</strong> <span class="text-red-500 text-xl"> {{
                             formatCurrencyVN(order.vouchers[0].voucher.discountAmount)
-                            }}</span>
+                        }}</span>
                     </p>
 
                     <!-- Check if discount is a percentage, and display max discount if applicable -->

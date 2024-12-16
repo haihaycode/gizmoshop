@@ -20,7 +20,7 @@
                         :message="errors.email" :aria-disabled="true">
                         <template #label>
                             &nbsp; Email <span @click="modalUpdateEmailIsOpen = true"
-                                class="text-blue-500 text-sm cursor-pointer hover:underline">
+                                class="text-blue-500 text-sm font-mono cursor-pointer hover:underline">
                                 (Chỉnh sửa)
                             </span>
                         </template>
@@ -50,14 +50,19 @@
                         </div>
                     </div>
 
-                    <CustomInputComponent v-model="user.extraInfo" label="   &nbsp; Thông tin thêm"
+                    <CustomInputComponent class="hidden" v-model="user.extraInfo" label="   &nbsp; Thông tin thêm"
                         :error="!!errors.extraInfo" :message="errors.extraInfo" type="textarea" />
+                    <br>
+                    <router-link :to="{ path: '/forgotpassword' }" :text="'Quên mật khẩu ? '"
+                        class=" py-2 text-sm  px-4 mt-6 text-blue-500 font-mono hover:underline rounded-sm">
+                    </router-link>
 
+                    <div class="flex justify-end space-x-2 items-end">
 
-                    <Button :text="'Lưu hồ sơ'" :isLoading="isLoading"
-                        class="w-full md:w-auto mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-sm">
-
-                    </Button>
+                        <Button :text="'Lưu hồ sơ'" :isLoading="isLoading"
+                            class="w-full md:w-auto  mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-sm">
+                        </Button>
+                    </div>
                 </div>
 
 
