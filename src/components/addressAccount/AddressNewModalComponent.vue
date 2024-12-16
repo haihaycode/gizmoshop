@@ -8,7 +8,7 @@
         <template #body>
             <div class="sm:w-full md:w-[600px] mx-auto p-4">
                 <form @submit.prevent="validateAndSave">
-                    <CustomInputComponent v-model="localAddress.fullname" label="Tên người nhận"
+                    <CustomInputComponent v-model="localAddress.fullname" label="Tên người nhận (IN HOA KHÔNG DẤU)"
                         :error="!!errors.fullname" :message="errors.fullname" @input="clearError('fullname')"
                         required />
 
