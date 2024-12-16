@@ -22,7 +22,7 @@
                 </p>
                 <p><strong>Ghi chú :</strong>
                     <span class="px-3 py-1 rounded-full text-sm">
-                        {{ order.note.replace(/Giá ban đầu[^,]*,/, '') || 'không có' }}
+                        {{ order.note.replace(/Giá ban đầu[^,]*,/, '').replace('null', 'không có') || 'không có' }}
                     </span>
                 </p>
                 <!-- <p><strong>Tổng tiền:</strong> <span class="text-red-500 text-xl">{{ formatCurrencyVN(order.totalPrice)
