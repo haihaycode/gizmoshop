@@ -8,7 +8,7 @@
 
         <template #body>
             <form @submit.prevent="validateAndSave" class="w-full sm:w-full md:w-[600px] mx-auto p-4">
-                <CustomInputComponent v-model="localAccount.bankName" label="Họ và tên ( In ra không dấu )"
+                <CustomInputComponent v-model="localAccount.bankName" label="Họ và tên ( IN HOA KHÔNG DẤU )"
                     :error="!!errors.bankName" :message="errors.bankName" />
 
                 <CustomInputComponent v-model="localAccount.accountNumber" label="Số tài khoản"

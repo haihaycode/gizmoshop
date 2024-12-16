@@ -1,17 +1,15 @@
 <template>
     <div id="app" class="relative mt-[20px]">
-        <!-- Overlay Background for Sidebar on Mobile -->
         <div v-if="isSidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden" @click="toggleSidebar">
         </div>
-
         <div class="flex">
-            <!-- Sidebar - hidden on mobile by default, visible on desktop -->
+            <!-- Sidebar -  -->
             <aside :class="[
                 'w-64  p-4 fixed inset-y-0 left-0 transform transition-transform duration-300 ease-in-out  md:mt-0',
                 isSidebarOpen ? 'translate-x-0 bg-white z-20' : '-translate-x-full',
                 'md:translate-x-0 md:relative'
             ]" id="sidebar">
-                <!-- User Profile Section -->
+                <!--  Profile Section -->
                 <div class="flex items-center space-x-3 p-4 border-b border-gray-200">
                     <img :src="user.image ? loadImage(user.image, 'account') : 'https://via.placeholder.com/40'"
                         @error="onImageError" alt="User avatar" class="w-10 h-10 object-cover rounded-full" />
@@ -24,7 +22,7 @@
                     </div>
                 </div>
 
-                <!-- Menu Items -->
+                <!-- Sidebar -->
                 <ul class="space-y-4 mt-6">
                     <li>
                         <router-link :to="{ name: 'profile' }"
@@ -94,13 +92,20 @@
                 'flex-grow transition-all duration-300 relative z-0  shadow-none bg-white sm:bg-gray-200 sm:bg-opacity-5 sm:rounded-4xl',
                 isSidebarOpen ? 'md:ml-64' : 'ml-0'
             ]">
+                <!-- breadcrums  -->
                 <div class="px-6">
                     <BackComponent></BackComponent>
                 </div>
+
+                <!-- loader  -->
                 <LoadingSkeletionComponent :isLoading="isLoading" titleWidth="w-3/4" :textLines="4" :circles="2">
                 </LoadingSkeletionComponent>
-                <router-view @load="fetchUserInfo"></router-view>
 
+                <!-- thông tin cá nhân  -->
+                <transition name="fade" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+                    <router-view @load="fetchUserInfo"></router-view>
+                </transition>
+                <!-- thông tin cá nhân  -->
             </main>
 
         </div>
@@ -152,6 +157,20 @@ export default {
             } catch (error) {
                 console.error('Error fetching user info:', error);
             }
+        },
+        beforeEnter(el) {
+            el.style.opacity = 0;
+        },
+        enter(el, done) {
+            el.offsetHeight;
+            el.style.transition = "opacity 1s ease";
+            el.style.opacity = 1;
+            done();
+        },
+        leave(el, done) {
+            el.style.transition = "opacity 1s ease";
+            el.style.opacity = 0;
+            done();
         }
     },
     mounted() {
@@ -159,3 +178,14 @@ export default {
     }
 };
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 1s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+</style>

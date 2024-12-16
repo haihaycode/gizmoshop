@@ -78,6 +78,21 @@ const SupplierRoutes = [
                     sidebar: useComponentLayout('supplier/Sidebar'),
                 }
             },
+            // Đơnn hàng cần gia hạn
+            {
+                path: 'renewal-order',
+                name: 'renewalOrder',
+                meta: {
+                    title: "Đơn hàng gia hạn ",
+                    description: " Gizmo"
+                },
+                components: {
+                    default: usePage('supplier/renewalOrder'),
+                    header: useComponentLayout('supplier/Header'),
+                    footer: useComponentLayout('supplier/Footer'),
+                    sidebar: useComponentLayout('supplier/Sidebar'),
+                }
+            },
             {
                 path: 'products-me',
                 name: 'productSupplier',

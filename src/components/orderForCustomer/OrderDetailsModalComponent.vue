@@ -9,8 +9,8 @@
             </h3>
             <!-- Order Information Section -->
             <div class="mb-4 space-y-2">
-                <p><strong>Ngày đặt:</strong> {{ formatDate(order.createOderTime) || 'null' }}</p>
-                <p><strong>Trạng thái:</strong>
+                <p><strong>Ngày đặt : </strong> {{ formatDate(order.createOderTime) || 'null' }}</p>
+                <p><strong>Trạng thái : </strong>
                     <span class="px-3 py-1 rounded-full text-sm">
                         {{ order.orderStatus?.status || 'null' }}
                     </span>
@@ -20,7 +20,7 @@
                         {{ order.paymentMethods ? 'Thanh toán khi nhận hàng' : 'Thanh toán trực tuyến' }}
                     </span>
                 </p>
-                <p><strong>Ghi chú :</strong>
+                <p><strong>Ghi chú : </strong>
                     <span class="px-3 py-1 rounded-full text-sm">
                         {{ order.note.replace(/Giá ban đầu[^,]*,/, '').replace('null', 'không có') || 'không có' }}
                     </span>
@@ -28,7 +28,7 @@
                 <!-- <p><strong>Tổng tiền:</strong> <span class="text-red-500 text-xl">{{ formatCurrencyVN(order.totalPrice)
                     || '0 đ' }}</span></p> -->
                 <div v-if="order.vouchers.length > 0" class="border-t pt-4 space-y-2">
-                    <p><strong>Voucher áp dụng :</strong> {{ order.vouchers[0].voucher.description || 'null' }}</p>
+                    <p><strong>Voucher áp dụng : </strong> {{ order.vouchers[0].voucher.description || 'null' }}</p>
 
                     <!-- Check if discount is a fixed amount -->
                     <p v-if="order.vouchers[0].voucher.discountAmount !== 0">
