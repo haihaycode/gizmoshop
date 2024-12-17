@@ -48,8 +48,9 @@
 
         <!--Tab đơn hàng mới -->
         <div v-if="currentTab === 'inProgress'">
-            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
-                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+            <div v-if="isLoading">
+                <OrdersSkeletionComponent />
+            </div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersInProgress.length" class="space-y-4">
@@ -67,8 +68,9 @@
 
         <!-- Tab đơn hàng đã hoàn thành  -->
         <div v-else-if="currentTab === 'completed'">
-            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
-                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+            <div v-if="isLoading">
+                <OrdersSkeletionComponent />
+            </div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersCompleted.length" class="space-y-4">
@@ -85,8 +87,9 @@
 
         <!-- Tab đơn hàng cần được gia hạn  -->
         <div v-else-if="currentTab === 'renewalOrder'">
-            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
-                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+            <div v-if="isLoading">
+                <OrdersSkeletionComponent />
+            </div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersRenewalOrder.length" class="space-y-4">
@@ -103,8 +106,9 @@
 
         <!-- Tab đơn hàng đã hoàn trả  -->
         <div v-else-if="currentTab === 'renewalEDOrder'">
-            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
-                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+            <div v-if="isLoading">
+                <OrdersSkeletionComponent />
+            </div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersRenewalEDOrder.length" class="space-y-4">
@@ -122,8 +126,9 @@
 
         <!-- Tab Bị từ chối bởi nhà cung cấp -->
         <div v-else-if="currentTab === 'rejectedBySupplier'">
-            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
-                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+            <div v-if="isLoading">
+                <OrdersSkeletionComponent />
+            </div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersRejectedBySupplier.length" class="space-y-4">
@@ -141,8 +146,9 @@
 
         <!-- Tab Bị từ chối bởi cửa hàng -->
         <div v-else-if="currentTab === 'rejectedByStore'">
-            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
-                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+            <div v-if="isLoading">
+                <OrdersSkeletionComponent />
+            </div>
             <div v-else-if="error" class="text-red-500">{{ error }}</div>
             <div v-else>
                 <div v-if="ordersRejectedByStore.length" class="space-y-4">
@@ -219,12 +225,14 @@ import { findAllOrderForSupplier, approveOrderBySupplier } from "@/api/orderForS
 import Pagination from "@/components/containers/pagination/Pagination.vue";
 import flowchart from "flowchart.js";
 import Swal from "sweetalert2";
+import OrdersSkeletionComponent from "@/components/containers/skeleton/ordersSkeletionComponent.vue";
 export default {
     name: "OrdersPage",
     components: {
         CardOrder,
         ModalOrderDetail,
         Pagination,
+        OrdersSkeletionComponent
     },
     data() {
         return {

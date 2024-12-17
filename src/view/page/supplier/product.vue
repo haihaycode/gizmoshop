@@ -27,9 +27,9 @@
         <div v-if="products.length === 0 && !isLoading" class="text-center text-gray-500">
             <p>Hiện tại bạn chưa có sản phẩm nào.</p>
         </div>
-        <!-- Display products if available -->
-        <div v-if="isLoading" class="text-blue-500 text-center"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
-                style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+        <div v-if="isLoading">
+            <ProductsSkeletionComponent />
+        </div>
         <div v-else class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <ProductCard v-for="product in products" :key="product.id" :product="product"
                 :hiddenButtonFavotite="false" />
@@ -50,12 +50,14 @@ import Pagination from "@/components/containers/pagination/Pagination.vue";
 import DateFilter from '@/components/orderForCustomer/DateFilterComponent.vue';
 import { formatDateToYYYYMMDD } from '@/utils/currencyUtils';
 import { mapGetters } from "vuex";
+import ProductsSkeletionComponent from "@/components/containers/skeleton/productsSkeletionComponent.vue";
 export default {
     name: "SupplierProducts",
     components: {
         ProductCard,
         Pagination,
-        DateFilter
+        DateFilter,
+        ProductsSkeletionComponent
     },
     data() {
         return {

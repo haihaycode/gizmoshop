@@ -16,6 +16,7 @@ const Axios = axios.create({
 let isRefreshing = false;
 let failedQueue = [];
 
+
 const processQueue = (error, token = null) => {
     console.log("line 22")
     failedQueue.forEach(prom => {
@@ -32,18 +33,18 @@ const processQueue = (error, token = null) => {
 // Thêm interceptor cho yêu cầu
 Axios.interceptors.request.use(
     config => {
-        store.dispatch('loading/setLoading', true); // Bắt đầu hiển thị loading
+        store.dispatch('loading/setLoading', true);
         if (config.method === 'post') {
-            console.log("request : post")// Chuyển đổi dữ liệu post thành chuỗi
+            console.log("request : post")
         }
-        const token = store.getters['auth/token']; // Lấy token từ store
+        const token = store.getters['auth/token'];
         if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`; // Thêm token vào header
+            config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;
     },
     error => {
-        store.dispatch('loading/setLoading', false); // Tắt loading nếu có lỗi
+        store.dispatch('loading/setLoading', false);
         return Promise.reject(error);
     }
 );
@@ -51,11 +52,10 @@ Axios.interceptors.request.use(
 // Thêm interceptor cho phản hồi
 Axios.interceptors.response.use(
     response => {
-        store.dispatch('loading/setLoading', false); // Tắt loading sau khi nhận phản hồi
+        store.dispatch('loading/setLoading', false);
         if (response.status === SUCCESS_CODE) {
-            return response; // Trả về dữ liệu nếu mã thành công
+            return response;
         } else {
-            // Nếu mã không thành công, hiển thị thông báo lỗi
             notificationService.error(response.message || 'Có lỗi xảy ra!');
             return Promise.reject(response);
         }
@@ -63,27 +63,26 @@ Axios.interceptors.response.use(
     error => {
         console.log("line 65")
         const originalRequest = error.config;
-        store.dispatch('loading/setLoading', false); // Tắt loading khi có lỗi
+        store.dispatch('loading/setLoading', false);
 
         if (error.status === 404) {
-            notificationService.error('Không tìm thấy dữ liệu.'); // Notify the user
+            notificationService.error('Không tìm thấy dữ liệu.');
             router.push({ name: 'NotFound' });
             return Promise.reject(error);
         }
 
         if (error.message === 'Network Error') {
-            notificationService.error('Không thể kết nối mạng. Vui lòng kiểm tra kết nối internet của bạn.'); // Notify the user
-            //chuyển hướng đến trang lỗi
+            notificationService.error('Không thể kết nối mạng. Vui lòng kiểm tra kết nối internet của bạn.');
             router.push({ name: 'ServerError' });
             return Promise.reject(error);
         }
 
         // Kiểm tra xem có phải lỗi do timeout không
         if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
-            notificationService.error('Yêu cầu đã quá thời gian chờ. Vui lòng thử lại.'); // Hiển thị thông báo lỗi timeout
-            //chuyển hướng đến trang lỗi
+            notificationService.error('Yêu cầu đã quá thời gian chờ. Vui lòng thử lại.');
+
             router.push({ name: 'ServerError' });
-            return Promise.reject(error); // Từ chối lỗi timeout
+            return Promise.reject(error);
         }
 
         // Xử lý lỗi 401 - Unauthorized và kiểm tra refresh token
@@ -123,17 +122,16 @@ Axios.interceptors.response.use(
                         });
                 });
             } else {
-                notificationService.error('Phiên làm việc đã hết hạn, vui lòng đăng nhập lại.'); // Thông báo cho người dùng
-                store.dispatch('auth/logout'); // Đăng xuất người dùng
+                notificationService.error('Phiên làm việc đã hết hạn, vui lòng đăng nhập lại.');
+                store.dispatch('auth/logout'); // logout
             }
         }
 
         // Xử lý các lỗi khác
         if (error.response && error.response.data) {
-            notificationService.error(error.response.data.message || 'Có lỗi xảy ra!'); // Hiển thị thông báo lỗi
+            notificationService.error(error.response.data.message || 'Có lỗi xảy ra!');
         }
-
-        return Promise.reject(error); // Từ chối lỗi
+        return Promise.reject(error);
     }
 );
 
