@@ -9,44 +9,42 @@
     </div>
 
     <!-- Pagination -->
-    <div v-if="totalPages > 1" class="md:flex items-center justify-center">
+    <div v-if="totalPages > 1" class="flex items-center justify-center space-x-2">
       <!-- Previous Button -->
-      <button @click="prevPage" :disabled="currentPage === 1"
-        class="mx-1 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-400 transition-colors duration-200"
-        aria-label="Previous">
+      <button @click="prevPage" :disabled="currentPage === 1" v-if="currentPage !== 1"
+        class="px-4 py-2 rounded-md  text-red-500  transition duration-300 disabled:bg-gray-300" aria-label="Previous">
         <i class="bx bxs-chevron-left"></i>
       </button>
 
       <!-- First Page Button -->
       <button v-if="currentPage > 2" @click="goToPage(1)"
-        class="mx-1 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-500 transition-colors duration-200">
+        class="px-4 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-300">
         1
       </button>
 
       <!-- Left Ellipsis -->
-      <span v-if="currentPage > 3" class="mx-1">...</span>
+      <span v-if="currentPage > 3" class="text-gray-600">...</span>
 
       <!-- Middle Page Buttons -->
       <button v-for="page in pagesToShow" :key="page" @click="goToPage(page)" :class="{
-        'bg-[#ffa500] text-white border border-[#ffa500]': currentPage === page,
-        'bg-gray-200 hover:bg-gray-300 transition-colors duration-200': currentPage !== page
-      }" class="mx-1 px-3 py-1 rounded-md">
+        'bg-red-500 text-white': currentPage === page,
+        'bg-gray-200 hover:bg-gray-300': currentPage !== page
+      }" class="px-4 py-2 rounded-md transition duration-300">
         {{ page }}
       </button>
 
       <!-- Right Ellipsis -->
-      <span v-if="currentPage < totalPages - 2" class="mx-1">...</span>
+      <span v-if="currentPage < totalPages - 2" class="text-gray-600">...</span>
 
       <!-- Last Page Button -->
       <button v-if="currentPage < totalPages" @click="goToPage(totalPages)"
-        class="mx-1 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-500 transition-colors duration-200">
+        class="px-4 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-300">
         {{ totalPages }}
       </button>
 
       <!-- Next Button -->
-      <button @click="nextPage" :disabled="currentPage === totalPages"
-        class="mx-1 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-500 transition-colors duration-200"
-        aria-label="Next">
+      <button @click="nextPage" :disabled="currentPage === totalPages" v-if="currentPage !== totalPages"
+        class="px-4 py-2 rounded-md  text-red-500 transition duration-300 disabled:bg-gray-300" aria-label="Next">
         <i class="bx bxs-chevron-right"></i>
       </button>
     </div>
