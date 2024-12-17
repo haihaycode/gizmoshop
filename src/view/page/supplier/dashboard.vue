@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard-page p-6  min-h-screen">
+    <div class="dashboard-page p-2  min-h-screen">
         <div>
             <div v-if="isLoading">
                 <div class="text-blue-500 text-center"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'

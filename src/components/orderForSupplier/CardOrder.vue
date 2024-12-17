@@ -66,20 +66,38 @@
                     <span class="text-red-500 text-xl"> {{
                         currencyFormat(order.contractresponse?.contractMaintenanceFee) }}</span>
                 </p>
-                <button v-if="isExpired(order.contractresponse?.expirationDate) && order.orderStatus.id == 10"
-                    @click="renewContract(order.contractresponse?.contractId)"
-                    class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">
+                <button v-if="order.orderStatus.id == 12" @click="renewContract(order)" @click.stop
+                    class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-sm shadow hover:bg-blue-600">
                     Gia hạn hợp đồng
+                </button>
+                <span class="p-2"></span>
+                <button v-if="order.orderStatus.id == 12" @click="cancelContract(order)" @click.stop
+                    class="mt-4 px-4 py-2 bg-red-500 text-white rounded-sm shadow hover:bg-gray-600">
+                    Hủy hợp đồng
                 </button>
             </div>
         </div>
     </div>
+    <OrderCardRenewContractModal :is-extend="isExtend" :isOpen="selectedOrder ? true : false" :order="selectedOrder"
+        @close-modal="selectedOrder = null, isExtend = false" @load="$emit('load')">
+    </OrderCardRenewContractModal>
 </template>
 
 
 <script>
+import OrderCardRenewContractModal from './orderCardRenewContractModal.vue';
+
 export default {
     name: "CardOrder",
+    components: {
+        OrderCardRenewContractModal
+    },
+    data() {
+        return {
+            selectedOrder: null,
+            isExtend: false,
+        }
+    },
     props: {
         order: {
             type: Object,
@@ -121,36 +139,18 @@ export default {
         },
     },
     methods: {
+        renewContract(order) {
+            if (!order) return;
+            this.isExtend = true
+            this.selectedOrder = order
+            console.log("Gia hạn " + order);
 
-        isExpired(expirationDate) {
-            // Duyệt qua tất cả các orderDetails
-            for (let orderDetail of this.order.orderDetails) {
-                const product = orderDetail.product;
-                const quantity = product.productInventoryResponse.quantity;
-
-                if (quantity > 0 && this.isNearExpiration(expirationDate)) {
-                    return true;
-                }
-            }
-
-            return false;
         },
-        isNearExpiration(expirationDate) {
-            if (!expirationDate) return false; // Nếu không có ngày hết hạn, trả về false
-
-            const currentDate = new Date();
-            const expDate = new Date(expirationDate);
-
-            // Tính toán sự khác biệt giữa ngày hết hạn và ngày hiện tại
-            const timeDifference = expDate - currentDate;
-            const daysToExpire = timeDifference / (1000 * 3600 * 24);  // Chuyển đổi từ ms sang ngày
-
-            // Nếu ngày hiện tại cách ngày hết hạn <= 2 ngày (nghĩa là trong vòng 2 ngày nữa)
-            return daysToExpire <= 2 && daysToExpire >= 0;
-        },
-        renewContract(contractId) {
-            if (!contractId) return;
-            this.$emit("renew-contract", contractId);
+        cancelContract(order) {
+            if (!order) return;
+            this.isExtend = false
+            this.selectedOrder = order
+            console.log("Hủy Gia hạn " + order);
         },
         formatDate(date) {
             if (!date) return "Không xác định";

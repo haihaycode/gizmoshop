@@ -89,3 +89,18 @@ export const cancelSupplier = async (idWallet, idAddress) => {
         throw error;
     }
 };
+
+export const extendContract = async (idOrder, isExtend) => {
+    try {
+        const response = await Axios.patch(`${HOST}/api/public/supplier/t/extend-contract/${idOrder}`, null, {
+            params: {
+                orderId: idOrder,
+                isExtend: isExtend, // true : gia hạn, false : hủy gia hạn
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error(" Lỗi khi xử lý hợp đồng:", error);
+        throw error;
+    }
+};

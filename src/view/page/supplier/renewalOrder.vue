@@ -2,7 +2,7 @@
     <div class="container mx-auto p-2 bg-white ">
         <!-- Header -->
         <h1 class="text-xl sm:text-2xl mt-1 ml-1 font-semibold mb-2 border-l-4 border-blue-500">&nbsp; Danh Sách Đơn
-            Hàng Cần Gia Hạn</h1>
+            Hàng Cần Gia Hạn </h1>
 
         <!-- Order List -->
         <div v-if="orders.length > 0">
