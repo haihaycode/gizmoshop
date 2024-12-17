@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto p-6">
+    <div class="container mx-auto p-2">
         <h1 class="text-3xl font-bold mb-8 flex items-center">
             <p class="text-2xl font-semibold  border-l-4 border-blue-500">&nbsp; QUẢN LÝ ĐƠN HÀNG </p>
             <button @click="openProcessDiagram" class="ml-2 text-gray-500 hover:text-red-700">
@@ -23,6 +23,16 @@
                 @click="setTab('completed')">
                 Đơn hàng đã hoàn tất
             </button>
+            <button class="px-4 py-2 border-b-2 bg-gray-50 hover:bg-purple-200 w-full sm:w-auto"
+                :class="currentTab === 'renewalOrder' ? 'border-purple-500 text-purple-500' : 'border-transparent text-gray-600'"
+                @click="setTab('renewalOrder')">
+                Đơn hàng đang chờ gia hạn
+            </button>
+            <button class="px-4 py-2 border-b-2 bg-gray-50 hover:bg-slate-200 w-full sm:w-auto"
+                :class="currentTab === 'renewalEDOrder' ? 'border-slate-500 text-slate-500' : 'border-transparent text-gray-600'"
+                @click="setTab('renewalEDOrder')">
+                Đơn hàng đã hoàn trả
+            </button>
             <button class="px-4 py-2 border-b-2 bg-gray-50 hover:bg-red-200 w-full sm:w-auto"
                 :class="currentTab === 'rejectedBySupplier' ? 'border-red-500 text-red-500' : 'border-transparent text-gray-600'"
                 @click="setTab('rejectedBySupplier')">
@@ -36,7 +46,7 @@
         </div>
 
 
-        <!-- Nội dung Tab -->
+        <!--Tab đơn hàng mới -->
         <div v-if="currentTab === 'inProgress'">
             <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
                     style='color:#1257c0'></i> Đang tải dữ liệu...</div>
@@ -45,7 +55,8 @@
                 <div v-if="ordersInProgress.length" class="space-y-4">
                     <CardOrder v-for="order in ordersInProgress" :key="order.id" :order="order"
                         :getStatusText="getStatusText" :isApprovable="isApprovable" :isRejectable="isRejectable"
-                        @approve-order="approveOrder" @reject-order="rejectOrder" @view-order="viewOrder" />
+                        @approve-order="approveOrder" @reject-order="rejectOrder" @view-order="viewOrder"
+                        @load="fetchOrders('inProgress')" />
                     <Pagination :total-items="paginationInProgress?.totalElements || 0"
                         :items-per-page="limitOrdersInProgress" :current-page="pageOrdersInProgress + 1"
                         @page-changed="handlePageChangeInProgress" @limit-changed="handleLimitChangeInProgress" />
@@ -54,6 +65,7 @@
             </div>
         </div>
 
+        <!-- Tab đơn hàng đã hoàn thành  -->
         <div v-else-if="currentTab === 'completed'">
             <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
                     style='color:#1257c0'></i> Đang tải dữ liệu...</div>
@@ -68,6 +80,43 @@
                         @page-changed="handlePageChangeCompleted" @limit-changed="handleLimitChangeCompleted" />
                 </div>
                 <div v-else class="text-gray-500">Không có đơn hàng đã hoàn tất.</div>
+            </div>
+        </div>
+
+        <!-- Tab đơn hàng cần được gia hạn  -->
+        <div v-else-if="currentTab === 'renewalOrder'">
+            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+            <div v-else-if="error" class="text-red-500">{{ error }}</div>
+            <div v-else>
+                <div v-if="ordersRenewalOrder.length" class="space-y-4">
+                    <CardOrder v-for="order in ordersRenewalOrder" :key="order.id" :order="order"
+                        :getStatusText="getStatusText" :isApprovable="isApprovable" :isRejectable="isRejectable"
+                        @view-order="viewOrder" @load="fetchOrders('renewalOrder')" />
+                    <Pagination :total-items="paginationRenewalOrder?.totalElements || 0"
+                        :items-per-page="limitRenewalOrder" :current-page="pageRenewalOrder + 1"
+                        @page-changed="handlePageChangeRenewalOrder" @limit-changed="handleLimitChangeRenewalOrder" />
+                </div>
+                <div v-else class="text-gray-500">Không có đơn hàng nào cần gia hạn.</div>
+            </div>
+        </div>
+
+        <!-- Tab đơn hàng đã hoàn trả  -->
+        <div v-else-if="currentTab === 'renewalEDOrder'">
+            <div v-if="isLoading" class="text-blue-500"><i class='bx bx-loader-circle bx-rotate-90 bx-spin'
+                    style='color:#1257c0'></i> Đang tải dữ liệu...</div>
+            <div v-else-if="error" class="text-red-500">{{ error }}</div>
+            <div v-else>
+                <div v-if="ordersRenewalEDOrder.length" class="space-y-4">
+                    <CardOrder v-for="order in ordersRenewalEDOrder" :key="order.id" :order="order"
+                        :getStatusText="getStatusText" :isApprovable="isApprovable" :isRejectable="isRejectable"
+                        @view-order="viewOrder" />
+                    <Pagination :total-items="paginationRenewalEDOrder?.totalElements || 0"
+                        :items-per-page="limitRenewalEDOrder" :current-page="pageRenewalEDOrder + 1"
+                        @page-changed="handlePageChangeRenewalEDOrder"
+                        @limit-changed="handleLimitChangeRenewalEDOrder" />
+                </div>
+                <div v-else class="text-gray-500">Không có đơn hàng nào .</div>
             </div>
         </div>
 
@@ -148,10 +197,7 @@
                         </li>
                     </ol>
                 </div>
-                <!-- Diagram Section -->
                 <div id="diagramContainer" class="border p-4 bg-gray-50 rounded-sm h-96 overflow-auto"></div>
-
-                <!-- Close Button -->
                 <div class="flex justify-end mt-6">
                     <button @click="showProcessModal = false"
                         class="px-2 py-1 bg-blue-500 text-white rounded-sm hover:bg-blue-600">
@@ -183,6 +229,7 @@ export default {
     data() {
         return {
             currentTab: "inProgress",
+
             pageOrdersInProgress: 0,
             limitOrdersInProgress: 5,
             pageOrdersCompleted: 0,
@@ -191,14 +238,25 @@ export default {
             limitOrdersRejectedBySupplier: 5,
             pageOrdersRejectedByStore: 0,
             limitOrdersRejectedByStore: 5,
+            pageRenewalOrder: 0,
+            limitRenewalOrder: 5,
+            pageRenewalEDOrder: 0,
+            limitRenewalEDOrder: 5,
+
             ordersInProgress: [],
             ordersCompleted: [],
             ordersRejectedBySupplier: [],
             ordersRejectedByStore: [],
+            ordersRenewalOrder: [],
+            ordersRenewalEDOrder: [],
+
             paginationInProgress: null,
             paginationCompleted: null,
             paginationRejectedBySupplier: null,
             paginationRejectedByStore: null,
+            paginationRenewalOrder: null,
+            paginationRenewalEDOrder: null,
+
             isLoading: false,
             error: null,
             selectedOrder: null,
@@ -266,13 +324,25 @@ export default {
                     page: tab === "inProgress" ? this.pageOrdersInProgress : this.pageOrdersCompleted,
                     limit: tab === "inProgress" ? this.limitOrdersInProgress : this.limitOrdersCompleted,
                 };
+
                 if (tab === "completed") {
                     params.idStatus = 10; // Trạng thái đã hoàn tất
                 } else if (tab === "rejectedBySupplier") {
                     params.idStatus = 19; // Từ chối bởi nhà cung cấp
+                    // params.page = this.pageOrdersRejectedBySupplier
+                    // params.limit = this.limitOrdersRejectedBySupplier
                 } else if (tab === "rejectedByStore") {
                     params.idStatus = 28; // Từ chối bởi cửa hàng
+                    // params.page = this.pageOrdersRejectedByStore
+                    // params.limit = this.limitOrdersRejectedByStore
+                } else if (tab === "renewalOrder") {
+                    params.idStatus = 12; // Đơn hàng cần gia hạn
+                    // params.limit = this.limitRenewalOrder
+                    // params.page = this.pageRenewalOrder
+                } else if (tab === "renewalEDOrder") {
+                    params.idStatus = 21;//Đơn hàng đã hoàn trả
                 }
+
                 const response = await findAllOrderForSupplier(params);
                 if (tab === "inProgress") {
                     this.ordersInProgress = response.data.content;
@@ -286,6 +356,12 @@ export default {
                 } else if (tab === "rejectedByStore") {
                     this.ordersRejectedByStore = response.data.content;
                     this.paginationRejectedByStore = response.data;
+                } else if (tab === "renewalOrder") {
+                    this.ordersRenewalOrder = response.data.content;
+                    this.paginationRenewalOrder = response.data;
+                } else if (tab === "renewalEDOrder") {
+                    this.ordersRenewalEDOrder = response.data.content;
+                    this.paginationRenewalEDOrder = response.data;
                 }
             } catch (err) {
                 console.error("Error fetching orders:", err);
@@ -330,6 +406,25 @@ export default {
             this.pageOrdersRejectedByStore = 0;
             this.fetchOrders("rejectedByStore");
         },
+        handlePageChangeRenewalOrder(newPage) {
+            this.pageRenewalOrder = newPage - 1;
+            this.fetchOrders("renewalOrder");
+        },
+        handleLimitChangeRenewalOrder(newLimit) {
+            this.limitRenewalOrder = newLimit;
+            this.pageRenewalOrder = 0;
+            this.fetchOrders("renewalOrder");
+        },
+        handlePageChangeRenewalEDOrder(newPage) {
+            this.pageRenewalEDOrder = newPage - 1;
+            this.fetchOrders("renewalEDOrder");
+        },
+        handleLimitChangeRenewalEDOrder(newLimit) {
+            this.limitRenewalEDOrder = newLimit;
+            this.pageRenewalEDOrder = 0;
+            this.fetchOrders("renewalEDOrder");
+        },
+
         isApprovable(statusId) {
             const approvableStatuses = [9];
             return approvableStatuses.includes(statusId);
@@ -348,6 +443,8 @@ export default {
                 10: "Đơn hàng hoàn tất",
                 19: "Đơn hàng bị từ chối bởi nhà cung cấp",
                 28: "Đơn hàng bị từ chối bởi cửa hàng",
+                12: "Đơn hàng cần được gia hạn ",
+                21: "Đơn hàng đã được hoàn trả cho nhà cung cấp "
             };
             return statuses[statusId] || "Không xác định";
         },

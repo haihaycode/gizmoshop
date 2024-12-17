@@ -30,11 +30,7 @@
                         class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
                         Tạo Đơn hàng
                     </router-link>
-                    <router-link :to="{ name: 'renewalOrder' }"
-                        :class="{ 'text-red-500 ': $route.name === 'renewalOrder' }"
-                        class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
-                        Đơn hàng cần gia hạn
-                    </router-link>
+
                 </div>
             </div>
             <router-link :to="{ name: 'productSupplier' }"

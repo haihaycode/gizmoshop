@@ -15,11 +15,18 @@
                         <thead>
                             <tr class="bg-gray-100">
                                 <th class="border border-gray-300 px-4 py-2 text-left">Tên sản phẩm</th>
-                                <th class="border border-gray-300 px-4 py-2 text-left ">Trạng thái</th>
-                                <th class="border border-gray-300 px-4 py-2 text-right">Số lượng</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left w-14">Trạng thái</th>
+                                <th class="border border-gray-300 px-4 py-2 text-right">Sl cung cấp</th>
+                                <th class="border border-gray-300 px-4 py-2 text-right"
+                                    v-if="order.orderStatus.id === 10 || order.orderStatus.id === 12">Sl Tồn kho
+                                </th>
+                                <th class="border border-gray-300 px-4 py-2 text-right"
+                                    v-if="order.orderStatus.id === 10 || order.orderStatus.id === 12">Sl Bán ra
+                                </th>
                                 <th class="border border-gray-300 px-4 py-2 text-right">Giá</th>
                                 <th class="border border-gray-300 px-4 py-2 text-right">Giảm giá</th>
                                 <th class="border border-gray-300 px-4 py-2 text-right">Giá sau giảm</th>
+
                                 <th class="border border-gray-300 px-4 py-2 text-right">Tổng</th>
                             </tr>
                         </thead>
@@ -30,7 +37,16 @@
                                     {{ item.product.productStatusResponse?.name || "Không xác định" }}
                                 </td>
 
-                                <td class="border border-gray-300 px-4 py-2 text-right">{{ item.quantity }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-right">{{ item.quantity }} &nbsp;
+                                    &nbsp; </td>
+                                <td class="border border-gray-300 px-4 py-2 text-right"
+                                    v-if="order.orderStatus.id === 10 || order.orderStatus.id === 12">
+                                    {{ item?.product.productInventoryResponse?.quantity }} &nbsp; &nbsp;
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2 text-right"
+                                    v-if="order.orderStatus.id === 10 || order.orderStatus.id === 12">
+                                    {{ item.quantity - item?.product.productInventoryResponse?.quantity }} &nbsp; &nbsp;
+                                </td>
                                 <td class="border border-gray-300 px-4 py-2 text-right">
                                     {{ currencyFormat(item.product.productPrice) }}
                                 </td>
@@ -41,6 +57,7 @@
                                     {{ currencyFormat(calculateDiscountedPrice(item.product.productPrice,
                                         item.product.discountProduct)) }}
                                 </td>
+
                                 <td class="border border-gray-300 px-4 py-2 text-right">
                                     {{ currencyFormat(
                                         calculateDiscountedPrice(item.product.productPrice, item.product.discountProduct) *
@@ -128,7 +145,7 @@ td {
 ::-webkit-scrollbar {
     width: 8px;
     /* Độ rộng của scrollbar */
-    height: 8px;
+    height: 1px;
     /* Chiều cao của scrollbar cho cuộn ngang */
 }
 
