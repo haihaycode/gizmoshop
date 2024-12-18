@@ -2,7 +2,7 @@
   <div
     class="flex flex-col md:flex-row items-center space-x-4 bg-white rounded-lg shadow-md p-4 mb-4 hover:shadow-lg transition duration-200 border border-gray-200 overflow-hidden">
     <!-- Product Image -->
-    <img :src="product.productId.thumbnail
+    <img @error="onImageError" :src="product.productId.thumbnail
       ? loadImage(product.productId.thumbnail, 'product')
       : 'https://i.pinimg.com/736x/01/7c/44/017c44c97a38c1c4999681e28c39271d.jpg'" alt="Product Image"
       class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-md border border-gray-300" />
@@ -55,6 +55,9 @@ export default {
     removeProduct: Function,
   },
   methods: {
+    onImageError(event) {
+      event.target.src = 'https://img.freepik.com/premium-vector/no-photo-available-vector-icon-default-image-symbol-picture-coming-soon-web-site-mobile-app_87543-18055.jpg';
+    },
     truncateText(text, maxLength) {
       if (!text || typeof text !== "string") {
         return "";

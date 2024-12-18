@@ -2,8 +2,8 @@
   <div>
     <div class="text-red-500 mt-2 " v-if="isLoading">
       <p class="text-red-500 text-center"><i class='bx bx-loader bx-spin'></i> &nbsp;Đang tải dữ liệu ...</p>
-      <img class="w-[400px] mx-auto animate-pulse opacity-75" :src="require('@/assets/gizmoImageLoading/gizmo.png')"
-        alt="">
+      <img @error="onImageError" class="w-[400px] mx-auto animate-pulse opacity-75"
+        :src="require('@/assets/gizmoImageLoading/gizmo.png')" alt="">
     </div>
 
     <div v-if="cartItems.length > 0" class="flex flex-wrap w-full">
@@ -15,7 +15,7 @@
         </div>
         <div v-if="isLoading" class="fixed inset-0 flex justify-center items-center z-50 bg-opacity-50 bg-gray-800">
           <div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-red-500"></div>
-          <img src="https://i.pinimg.com/736x/93/62/f8/9362f8b574c0d01f96129bd57ba2ec3b.jpg"
+          <img @error="onImageError" src="https://i.pinimg.com/736x/93/62/f8/9362f8b574c0d01f96129bd57ba2ec3b.jpg"
             class="rounded-full h-20 w-20 opacity-80" />
         </div>
 
@@ -38,7 +38,7 @@
           class="bg-white rounded-lg shadow-md p-4 mb-4 flex flex-col md:flex-row items-center justify-between border border-gray-200 hover:shadow-lg transition duration-200">
           <div class="flex items-center space-x-4 w-full md:w-[600px]  ">
             <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600" v-model="product.selected" />
-            <img :src="product.productId.thumbnail
+            <img @error="onImageError" :src="product.productId.thumbnail
               ? loadImage(product.productId.thumbnail, 'product')
               : 'https://i.pinimg.com/736x/01/7c/44/017c44c97a38c1c4999681e28c39271d.jpg'
               " alt="Product Image" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg border border-gray-300" />
@@ -160,7 +160,8 @@
       </div>
     </div>
     <div v-if="cartItems.length <= 0 && !isLoading" class="text-center mt-6 ">
-      <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" class="mx-auto" alt="" srcset="">
+      <img @error="onImageError" src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" class="mx-auto" alt=""
+        srcset="">
       <p>Không có sản phẩm nào trong giỏ hàng
         <router-link :to="{ name: 'product' }">
           <span class="text-red-500 underline hover:text-blue-500">Tiếp tục mua sắm</span>
@@ -217,6 +218,9 @@ export default {
     this.getViewCart();
   },
   methods: {
+    onImageError(event) {
+      event.target.src = 'https://img.freepik.com/premium-vector/no-photo-available-vector-icon-default-image-symbol-picture-coming-soon-web-site-mobile-app_87543-18055.jpg';
+    },
     truncateText(text, maxLength) {
       if (!text || typeof text !== "string") {
         return "";

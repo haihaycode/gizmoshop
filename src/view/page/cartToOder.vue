@@ -8,7 +8,7 @@
     <div v-if="cartItems.length > 0" class="flex flex-wrap w-full" ref="content">
       <div v-if="isLoading" class="fixed inset-0 flex justify-center items-center z-50 bg-opacity-50 bg-gray-800">
         <div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-red-500"></div>
-        <img src="https://i.pinimg.com/736x/93/62/f8/9362f8b574c0d01f96129bd57ba2ec3b.jpg"
+        <img @error="onImageError" src="https://i.pinimg.com/736x/93/62/f8/9362f8b574c0d01f96129bd57ba2ec3b.jpg"
           class="rounded-full h-20 w-20 opacity-80" />
       </div>
       <div class="w-full lg:w-7/10 md:w-2/3 p-4">
@@ -32,7 +32,8 @@
       </div>
     </div>
     <div v-if="cartItems.length <= 0 && !isLoading" class="text-center mt-6 ">
-      <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" class="mx-auto" alt="" srcset="">
+      <img @error="onImageError" src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" class="mx-auto" alt=""
+        srcset="">
       <p>Không có sản phẩm nào trong giỏ hàng
         <router-link :to="{ name: 'product' }">
           <span class="text-red-500 underline hover:text-blue-500">Tiếp tục mua sắm</span>
@@ -88,6 +89,9 @@ export default {
     console.log(this.cartItems);
   },
   methods: {
+    onImageError(event) {
+      event.target.src = 'https://img.freepik.com/premium-vector/no-photo-available-vector-icon-default-image-symbol-picture-coming-soon-web-site-mobile-app_87543-18055.jpg';
+    },
     formatCurrency(value) {
       return value.toLocaleString("vi-VN", {
         style: "currency",
