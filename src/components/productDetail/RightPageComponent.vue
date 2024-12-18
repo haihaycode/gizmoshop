@@ -68,7 +68,7 @@
             <button @click="decreaseQuantity" class="px-3 py-1 md:px-4">
               <i class="bx bx-minus"></i>
             </button>
-            <input type="number" v-model="quantity" min="1"
+            <input type="number" v-model="quantity" min="1" disabled
               class="w-12 text-center border-l border-r border-gray-300" />
             <button @click="increaseQuantity" class="px-3 py-1 md:px-4">
               <i class="bx bx-plus"></i>
