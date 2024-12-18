@@ -292,10 +292,17 @@ export default {
                     orderRequest: null
                 }
                 const res = await createProductBySupplier(data, resDataOrder.id);
-                console.log(item.selectedImages)
+                setTimeout(async () => {
+                    console.log("Đã thực hiện các thao tác sau 1 giây sử lý sản phẩm");
+                }, 1000);
                 if (item.selectedImages && Array.isArray(item.selectedImages)) {
                     try {
-                        const listImage = await item.selectedImages.map((img) => convertBase64ToFile(img.base64));
+                        let listImage = await item.selectedImages.map((img) => convertBase64ToFile(img.base64));
+                        setTimeout(async () => {
+                            console.log("Đã thực hiện các thao tác sau 1 giây xử lý hình");
+                        }, 1000);
+                        console.log('list image');
+                        console.log(listImage)
                         const dataUpdateImage = {
                             productId: res.data.id,
                             files: listImage
